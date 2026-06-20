@@ -1,6 +1,6 @@
 **
- * Portfolio Website Script
- * Handles: Mobile Menu, Scroll Animations, Active Nav Link, Dynamic Year
+ * Portfolio Logic
+ * Handles mobile menu, scroll animations, and dynamic year
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -28,41 +28,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Scroll Reveal Animation using Intersection Observer
-    const revealElements = document.querySelectorAll('.reveal');
-
-    const revealCallback = (entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-                observer.unobserve(entry.target); // Only animate once
-            }
-        });
-    };
-
-    const revealOptions = {
-        threshold: 0.15, // Trigger when 15% visible
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const revealObserver = new IntersectionObserver(revealCallback, revealOptions);
-
-    revealElements.forEach(el => {
-        revealObserver.observe(el);
-    });
-
-    // 4. Navbar Scroll Effect (Glassmorphism enhancement)
+    // 3. Navbar Scroll Effect (Glassmorphism intensity)
     const navbar = document.getElementById('navbar');
-    
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
             navbar.classList.add('shadow-lg');
-            navbar.classList.replace('bg-darker/80', 'bg-darker/95');
+            navbar.classList.replace('bg-darker/90', 'bg-darker/95');
         } else {
             navbar.classList.remove('shadow-lg');
-            navbar.classList.replace('bg-darker/95', 'bg-darker/80');
+            navbar.classList.replace('bg-darker/95', 'bg-darker/90');
         }
     });
+
+    // 4. Scroll Reveal Animation (Intersection Observer)
+    const revealElements = document.querySelectorAll('.reveal');
+
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                // Optional: Stop observing once revealed
+                // observer.unobserve(entry.target); 
+            }
+        });
+    }, {
+        root: null,
+        threshold: 0.15, // Trigger when 15% visible
+        rootMargin: "0px"
+    });
+
+    revealElements.forEach(el => revealObserver.observe(el));
 
     // 5. Smooth Scrolling for Anchor Links (Polyfill for older browsers)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -79,16 +74,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 window.scrollTo({
                     top: offsetPosition,
-                    behavior: 'smooth'
+                    behavior: "smooth"
                 });
             }
         });
     });
 
-    // 6. Active Navigation Link Highlighter
+    // 6. Active Link Highlighting on Scroll
     const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('nav a[href^="#"]');
-
+    
     window.addEventListener('scroll', () => {
         let current = '';
         const scrollY = window.pageYOffset;
@@ -103,17 +97,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        navLinks.forEach(link => {
-            link.classList.remove('text-primary', 'bg-white/10');
-            link.classList.add('text-slate-300'); // Default color
-            
-            if (link.getAttribute('href').slice(1) === current) {
-                link.classList.remove('text-slate-300');
-                link.classList.add('text-primary');
-                // Optional: Add background for mobile menu active state
-                if (!link.classList.contains('px-4')) { 
-                   // Only style desktop links differently if needed
-                }
+        // Update Desktop Nav
+        document.querySelectorAll('.md\\:block a').forEach(link => {
+            link.classList.remove('text-primary', 'font-bold');
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('text-primary', 'font-bold');
             }
         });
     });
