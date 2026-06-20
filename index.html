@@ -1613,6 +1613,7 @@
     </section>
 
     <!-- Projects Section -->
+    <!-- Featured Projects Section -->
     <section id="projects" class="py-24 border-t border-border bg-bg2/30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="reveal-up">
@@ -1623,49 +1624,127 @@
 
                 <div class="grid md:grid-cols-2 gap-8">
                     
-                    <!-- Project 1 -->
+                    <!-- Project 1: Open-Source MLOps Platform -->
                     <div class="glass-card rounded-2xl overflow-hidden border border-border hover:border-primary/30 transition-all group reveal-up">
-                        <div class="p-8">
+                        <div class="p-8 h-full flex flex-col">
                             <div class="flex justify-between items-start mb-6">
                                 <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                                    <i class="fas fa-bolt text-2xl"></i>
+                                    <i class="fas fa-brain text-2xl"></i>
                                 </div>
                                 <div class="flex gap-4">
-                                    <a href="#" class="text-muted hover:text-white transition-colors" aria-label="View source code on GitHub (repository link coming soon)"><i class="fab fa-github text-xl" aria-hidden="true"></i></a>
+                                    <a href="#" class="text-muted hover:text-white transition-colors" aria-label="View source code on GitHub"><i class="fab fa-github text-xl" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                             
-                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors">Real-Time CDC Pipeline</h3>
+                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors">End-to-End MLOps Platform</h3>
                             <p class="text-muted text-sm mb-6 font-mono">
-                                Architected a Change Data Capture solution synchronizing on-prem SAP data to Cloud Warehouse in near real-time.
+                                Architected a production-grade, open-source MLOps pipeline automating data ingestion, model training, and low-latency serving.
                             </p>
 
                             <!-- Diagram -->
                             <div class="bg-bg border border-border rounded-xl p-4 mb-6 h-40 flex items-center justify-center overflow-hidden relative">
                                 <svg viewBox="0 0 400 150" class="w-full h-full">
                                     <defs>
-                                        <marker id="arrow" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-                                          <polygon points="0 0, 10 3.5, 0 7" fill="#FF9A5C" />
+                                        <marker id="arrow-mlops" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                        <polygon points="0 0, 10 3.5, 0 7" fill="#60A5FA" />
                                         </marker>
                                     </defs>
-                                    <rect x="20" y="55" width="70" height="40" rx="4" fill="#1F1828" stroke="#FF9A5C" stroke-width="2"/>
-                                    <text x="55" y="80" text-anchor="middle" fill="white" font-size="10" font-family="monospace">SAP</text>
                                     
-                                    <rect x="165" y="55" width="70" height="40" rx="4" fill="#1F1828" stroke="#FF6B6B" stroke-width="2"/>
-                                    <text x="200" y="80" text-anchor="middle" fill="white" font-size="10" font-family="monospace">Kafka</text>
+                                    <!-- Boxes -->
+                                    <rect x="10" y="55" width="75" height="40" rx="6" fill="#1F1828" stroke="#60A5FA" stroke-width="2"/>
+                                    <text x="47.5" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">PostgreSQL</text>
                                     
-                                    <rect x="310" y="55" width="70" height="40" rx="4" fill="#1F1828" stroke="#C96FD8" stroke-width="2"/>
-                                    <text x="345" y="80" text-anchor="middle" fill="white" font-size="10" font-family="monospace">Snowflake</text>
+                                    <rect x="115" y="55" width="75" height="40" rx="6" fill="#1F1828" stroke="#34D399" stroke-width="2"/>
+                                    <text x="152.5" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">MinIO</text>
+                                    
+                                    <rect x="220" y="55" width="75" height="40" rx="6" fill="#1F1828" stroke="#FBBF24" stroke-width="2"/>
+                                    <text x="257.5" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">MLflow</text>
+
+                                    <rect x="325" y="55" width="75" height="40" rx="6" fill="#1F1828" stroke="#F472B6" stroke-width="2"/>
+                                    <text x="362.5" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">BentoML</text>
+
+                                    <!-- Lines -->
+                                    <line x1="85" y1="75" x2="110" y2="75" stroke="#332a33" stroke-width="2" marker-end="url(#arrow-mlops)" />
+                                    <line x1="190" y1="75" x2="215" y2="75" stroke="#332a33" stroke-width="2" marker-end="url(#arrow-mlops)" />
+                                    <line x1="295" y1="75" x2="320" y2="75" stroke="#332a33" stroke-width="2" marker-end="url(#arrow-mlops)" />
+
+                                    <!-- Animated Dots -->
+                                    <circle r="3" fill="#60A5FA">
+                                        <animateMotion dur="2s" repeatCount="indefinite" path="M 85 75 L 115 75" />
+                                    </circle>
+                                    <circle r="3" fill="#34D399">
+                                        <animateMotion dur="2s" begin="0.6s" repeatCount="indefinite" path="M 190 75 L 220 75" />
+                                    </circle>
+                                    <circle r="3" fill="#FBBF24">
+                                        <animateMotion dur="2s" begin="1.2s" repeatCount="indefinite" path="M 295 75 L 325 75" />
+                                    </circle>
+                                </svg>
+                            </div>
+
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Python</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Airflow</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">dbt</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">MLflow</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">BentoML</span>
+                            </div>
+
+                            <ul class="space-y-2 mt-auto">
+                                <li class="flex items-start text-sm text-muted">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Orchestrated full ML lifecycle from batch ingestion to <strong class="text-white">REST API serving</strong>.</span>
+                                </li>
+                                <li class="flex items-start text-sm text-muted">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Monitored data drift and model metrics via <strong class="text-white">Prometheus & Grafana</strong>.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Project 2: Real-Time CDC Pipeline -->
+                    <div class="glass-card rounded-2xl overflow-hidden border border-border hover:border-secondary/30 transition-all group reveal-up">
+                        <div class="p-8 h-full flex flex-col">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary">
+                                    <i class="fas fa-bolt text-2xl"></i>
+                                </div>
+                                <div class="flex gap-4">
+                                    <a href="#" class="text-muted hover:text-white transition-colors" aria-label="View source code on GitHub"><i class="fab fa-github text-xl" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                            
+                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-secondary transition-colors">Real-Time CDC Pipeline</h3>
+                            <p class="text-muted text-sm mb-6 font-mono">
+                                Proof-of-Concept for a Change Data Capture solution synchronizing operational databases to Snowflake in near real-time.
+                            </p>
+
+                            <!-- Diagram -->
+                            <div class="bg-bg border border-border rounded-xl p-4 mb-6 h-40 flex items-center justify-center overflow-hidden relative">
+                                <svg viewBox="0 0 400 150" class="w-full h-full">
+                                    <defs>
+                                        <marker id="arrow-cdc" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                        <polygon points="0 0, 10 3.5, 0 7" fill="#FF9A5C" />
+                                        </marker>
+                                    </defs>
+                                    <rect x="20" y="55" width="80" height="40" rx="6" fill="#1F1828" stroke="#FF9A5C" stroke-width="2"/>
+                                    <text x="60" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">Source DB</text>
+                                    
+                                    <rect x="160" y="55" width="80" height="40" rx="6" fill="#1F1828" stroke="#FF6B6B" stroke-width="2"/>
+                                    <text x="200" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">Redpanda</text>
+                                    
+                                    <rect x="300" y="55" width="80" height="40" rx="6" fill="#1F1828" stroke="#C96FD8" stroke-width="2"/>
+                                    <text x="340" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">Snowflake</text>
 
                                     <circle r="3" fill="#FF9A5C">
-                                        <animateMotion dur="2s" repeatCount="indefinite" path="M 90 75 L 165 75" />
+                                        <animateMotion dur="2s" repeatCount="indefinite" path="M 100 75 L 160 75" />
                                     </circle>
                                     <circle r="3" fill="#FF6B6B">
-                                        <animateMotion dur="2s" begin="1s" repeatCount="indefinite" path="M 235 75 L 310 75" />
+                                        <animateMotion dur="2s" begin="1s" repeatCount="indefinite" path="M 240 75 L 300 75" />
                                     </circle>
 
-                                    <line x1="90" y1="75" x2="165" y2="75" stroke="#332a33" stroke-width="2" marker-end="url(#arrow)" />
-                                    <line x1="235" y1="75" x2="310" y2="75" stroke="#332a33" stroke-width="2" marker-end="url(#arrow)" />
+                                    <line x1="100" y1="75" x2="155" y2="75" stroke="#332a33" stroke-width="2" marker-end="url(#arrow-cdc)" />
+                                    <line x1="240" y1="75" x2="295" y2="75" stroke="#332a33" stroke-width="2" marker-end="url(#arrow-cdc)" />
                                 </svg>
                             </div>
 
@@ -1673,59 +1752,17 @@
                                 <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Debezium</span>
                                 <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Redpanda</span>
                                 <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Snowflake</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Python</span>
                             </div>
 
-                            <ul class="space-y-2">
+                            <ul class="space-y-2 mt-auto">
                                 <li class="flex items-start text-sm text-muted">
                                     <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
-                                    <span>Reduced latency from 24h to <strong class="text-white">&lt;5 mins</strong>.</span>
+                                    <span>Reduced batch latency from 24h to <strong class="text-white">&lt;5 mins</strong> using log-based CDC.</span>
                                 </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Project 2 -->
-                    <div class="glass-card rounded-2xl overflow-hidden border border-border hover:border-secondary/30 transition-all group reveal-up">
-                        <div class="p-8">
-                            <div class="flex justify-between items-start mb-6">
-                                <div class="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary">
-                                    <i class="fas fa-layer-group text-2xl"></i>
-                                </div>
-                                <div class="flex gap-4">
-                                    <a href="#" class="text-muted hover:text-white transition-colors" aria-label="View source code on GitHub (repository link coming soon)"><i class="fab fa-github text-xl" aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                            
-                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-secondary transition-colors">Enterprise Data Warehouse</h3>
-                            <p class="text-muted text-sm mb-6 font-mono">
-                                Designed a scalable dimensional model on Microsoft Fabric unifying 10+ sources for financial reporting.
-                            </p>
-
-                            <div class="bg-bg border border-border rounded-xl p-4 mb-6 h-40 flex items-center justify-center">
-                                <div class="grid grid-cols-3 gap-4 w-full px-4">
-                                    <div class="bg-bg2 p-2 rounded text-center border border-border">
-                                        <i class="fas fa-database text-blue-400 mb-1"></i>
-                                        <div class="text-[10px] text-muted">Sources</div>
-                                    </div>
-                                    <div class="flex items-center justify-center">
-                                        <i class="fas fa-arrow-right text-muted"></i>
-                                    </div>
-                                    <div class="bg-bg2 p-2 rounded text-center border border-secondary/50 shadow-[0_0_15px_rgba(255,107,107,0.2)]">
-                                        <i class="fas fa-cube text-secondary mb-1"></i>
-                                        <div class="text-[10px] text-white font-bold">Fabric DW</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="flex flex-wrap gap-2 mb-6">
-                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">MS Fabric</span>
-                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">DBT</span>
-                            </div>
-
-                            <ul class="space-y-2">
                                 <li class="flex items-start text-sm text-muted">
                                     <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
-                                    <span>Reduced report generation time by <strong class="text-white">40%</strong>.</span>
+                                    <span>Minimized load on production SAP systems via <strong class="text-white">event streaming</strong>.</span>
                                 </li>
                             </ul>
                         </div>
