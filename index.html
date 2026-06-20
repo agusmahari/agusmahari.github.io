@@ -454,6 +454,7 @@
     </section>
 
     <!-- Skills Section (Bento Grid) -->
+    <!-- Skills Section -->
     <section id="skills" class="py-24 border-t border-border bg-bg2/30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="reveal-up">
@@ -462,88 +463,370 @@
                     <h2 class="text-3xl font-bold text-white">Technical Arsenal</h2>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-4 grid-rows-4 md:grid-rows-2 gap-4 h-auto md:h-[500px]">
-                    <!-- Large Card: Languages -->
-                    <div class="md:col-span-2 md:row-span-2 glass-card p-6 rounded-2xl reveal-up">
+                <!-- Bento Grid Layout -->
+                <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+                    
+                    <!-- Large Card: Programming Languages -->
+                    <div class="md:col-span-3 md:row-span-2 glass-card p-8 rounded-2xl skill-card stagger-1">
                         <div class="h-full flex flex-col">
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400">
-                                    <i class="fas fa-code text-xl"></i>
+                            <div class="flex items-center gap-3 mb-6">
+                                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-500/5 flex items-center justify-center text-blue-400">
+                                    <i class="fas fa-code text-2xl"></i>
                                 </div>
-                                <h3 class="text-xl font-bold text-white">Languages</h3>
+                                <div>
+                                    <h3 class="text-2xl font-bold text-white">Programming Languages</h3>
+                                    <p class="text-xs text-muted font-mono mt-1">Core development stack</p>
+                                </div>
                             </div>
-                            <div class="flex flex-wrap gap-2 mt-auto">
-                                <span class="px-3 py-1.5 bg-bg2 text-muted text-sm rounded border border-border font-mono hover:text-primary hover:border-primary transition-colors cursor-default">Python</span>
-                                <span class="px-3 py-1.5 bg-bg2 text-muted text-sm rounded border border-border font-mono hover:text-primary hover:border-primary transition-colors cursor-default">SQL</span>
-                                <span class="px-3 py-1.5 bg-bg2 text-muted text-sm rounded border border-border font-mono hover:text-primary hover:border-primary transition-colors cursor-default">PySpark</span>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-auto">
+                                <div class="skill-badge group">
+                                    <i class="fab fa-python text-yellow-400 group-hover:scale-110 transition-transform"></i>
+                                    <span class="text-sm font-mono">Python</span>
+                                </div>
+                                <div class="skill-badge group">
+                                    <i class="fas fa-database text-blue-400 group-hover:scale-110 transition-transform"></i>
+                                    <span class="text-sm font-mono">SQL</span>
+                                </div>
+                                <div class="skill-badge group">
+                                    <i class="fas fa-bolt text-orange-400 group-hover:scale-110 transition-transform"></i>
+                                    <span class="text-sm font-mono">PySpark</span>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Medium Card: Cloud -->
-                    <div class="md:col-span-2 md:row-span-1 glass-card p-6 rounded-2xl reveal-up">
-                        <div class="flex items-center gap-3 mb-2">
-                            <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400">
-                                <i class="fas fa-cloud"></i>
-                            </div>
-                            <h3 class="text-lg font-bold text-white">Cloud Platforms</h3>
-                        </div>
-                        <div class="flex gap-4 mt-2 text-muted text-sm font-mono">
-                            <span class="flex items-center gap-2 hover:text-white transition-colors"><i class="fab fa-google"></i> GCP</span>
-                            <span class="flex items-center gap-2 hover:text-white transition-colors"><i class="fab fa-microsoft"></i> Azure</span>
-                            <span class="flex items-center gap-2 hover:text-white transition-colors"><i class="fas fa-snowflake"></i> Snowflake</span>
-                        </div>
-                    </div>
-
-                    <!-- Small Card: Orchestration -->
-                    <div class="md:col-span-1 md:row-span-1 glass-card p-6 rounded-2xl reveal-up">
-                        <div class="flex items-center gap-3 mb-2">
-                            <div class="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center text-green-400">
-                                <i class="fas fa-sync-alt"></i>
-                            </div>
-                            <h3 class="text-lg font-bold text-white">Orchestration</h3>
-                        </div>
-                        <div class="flex flex-wrap gap-2 mt-2">
-                            <span class="text-xs font-mono bg-bg2 px-2 py-1 rounded text-muted border border-border">Airflow</span>
-                            <span class="text-xs font-mono bg-bg2 px-2 py-1 rounded text-muted border border-border">DBT</span>
-                        </div>
-                    </div>
-
-                     <!-- Small Card: Data Ops -->
-                     <div class="md:col-span-1 md:row-span-1 glass-card p-6 rounded-2xl reveal-up">
-                        <div class="flex items-center gap-3 mb-2">
-                            <div class="w-8 h-8 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-400">
-                                <i class="fas fa-server"></i>
-                            </div>
-                            <h3 class="text-lg font-bold text-white">Data Ops</h3>
-                        </div>
-                        <div class="flex flex-wrap gap-2 mt-2">
-                            <span class="text-xs font-mono bg-bg2 px-2 py-1 rounded text-muted border border-border">Docker</span>
-                            <span class="text-xs font-mono bg-bg2 px-2 py-1 rounded text-muted border border-border">K8s</span>
-                        </div>
-                    </div>
-
-                    <!-- Wide Card: Concepts -->
-                    <div class="md:col-span-4 md:row-span-1 glass-card p-6 rounded-2xl reveal-up flex flex-col md:flex-row items-center justify-between gap-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center text-accent">
-                                <i class="fas fa-brain"></i>
+                    <!-- Medium Card: Cloud Platforms -->
+                    <div class="md:col-span-3 glass-card p-6 rounded-2xl skill-card stagger-2">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500/20 to-purple-500/5 flex items-center justify-center text-purple-400">
+                                <i class="fas fa-cloud text-xl"></i>
                             </div>
                             <div>
-                                <h3 class="text-lg font-bold text-white">Core Expertise</h3>
-                                <p class="text-xs text-muted font-mono">End-to-End Pipeline Architecture</p>
+                                <h3 class="text-lg font-bold text-white">Cloud Platforms</h3>
+                                <p class="text-xs text-muted font-mono mt-0.5">Multi-cloud expertise</p>
                             </div>
                         </div>
-                        <div class="flex flex-wrap justify-center gap-3">
-                            <span class="px-3 py-1 bg-bg2 text-muted text-sm rounded-full border border-border font-mono hover:border-accent hover:text-accent transition-colors">Data Warehousing</span>
-                            <span class="px-3 py-1 bg-bg2 text-muted text-sm rounded-full border border-border font-mono hover:border-accent hover:text-accent transition-colors">CDC</span>
-                            <span class="px-3 py-1 bg-bg2 text-muted text-sm rounded-full border border-border font-mono hover:border-accent hover:text-accent transition-colors">Real-time Streaming</span>
+                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                            <div class="cloud-badge">
+                                <i class="fab fa-google text-blue-400"></i>
+                                <span class="text-xs font-mono">GCP</span>
+                            </div>
+                            <div class="cloud-badge">
+                                <i class="fab fa-microsoft text-blue-500"></i>
+                                <span class="text-xs font-mono">Azure</span>
+                            </div>
+                            <div class="cloud-badge">
+                                <i class="fab fa-aws text-orange-400"></i>
+                                <span class="text-xs font-mono">AWS</span>
+                            </div>
+                            <div class="cloud-badge">
+                                <i class="fas fa-snowflake text-cyan-300"></i>
+                                <span class="text-xs font-mono">Snowflake</span>
+                            </div>
+                            <div class="cloud-badge">
+                                <i class="fas fa-cube text-purple-400"></i>
+                                <span class="text-xs font-mono">Fabric</span>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Small Card: Orchestration & ETL -->
+                    <div class="md:col-span-2 glass-card p-6 rounded-2xl skill-card stagger-3">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-green-500/20 to-green-500/5 flex items-center justify-center text-green-400">
+                                <i class="fas fa-sync-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-white">Orchestration</h3>
+                                <p class="text-xs text-muted font-mono mt-0.5">Workflow automation</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tool-tag">Apache Airflow</span>
+                            <span class="tool-tag">DBT</span>
+                            <span class="tool-tag">Talend</span>
+                            <span class="tool-tag">SSIS</span>
+                            <span class="tool-tag">Pentaho</span>
+                            <span class="tool-tag">IBM DataStage</span>
+                        </div>
+                    </div>
+
+                    <!-- Small Card: Databases -->
+                    <div class="md:col-span-1 glass-card p-6 rounded-2xl skill-card stagger-4">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500/20 to-cyan-500/5 flex items-center justify-center text-cyan-400">
+                                <i class="fas fa-database text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-white">Databases</h3>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="db-item">PostgreSQL</div>
+                            <div class="db-item">MongoDB</div>
+                            <div class="db-item">BigQuery</div>
+                            <div class="db-item">Redshift</div>
+                            <div class="db-item">Cloudera</div>
+                        </div>
+                    </div>
+
+                    <!-- Medium Card: Python Libraries -->
+                    <div class="md:col-span-2 glass-card p-6 rounded-2xl skill-card stagger-5">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-500/20 to-yellow-500/5 flex items-center justify-center text-yellow-400">
+                                <i class="fab fa-python text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-white">Python Libraries</h3>
+                                <p class="text-xs text-muted font-mono mt-0.5">Data manipulation stack</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tool-tag">Pandas</span>
+                            <span class="tool-tag">SQLAlchemy</span>
+                            <span class="tool-tag">BeautifulSoup</span>
+                            <span class="tool-tag">Requests</span>
+                            <span class="tool-tag">Spark</span>
+                            <span class="tool-tag">Scikit-learn</span>
+                            <span class="tool-tag">Matplotlib</span>
+                        </div>
+                    </div>
+
+                    <!-- Small Card: BI & Visualization -->
+                    <div class="md:col-span-1 glass-card p-6 rounded-2xl skill-card stagger-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-pink-500/20 to-pink-500/5 flex items-center justify-center text-pink-400">
+                                <i class="fas fa-chart-pie text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-white">BI Tools</h3>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="db-item">Tableau</div>
+                            <div class="db-item">Looker</div>
+                            <div class="db-item">Power BI</div>
+                            <div class="db-item">Looker Studio</div>
+                        </div>
+                    </div>
+
+                    <!-- Medium Card: Infrastructure -->
+                    <div class="md:col-span-2 glass-card p-6 rounded-2xl skill-card stagger-7">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500/20 to-orange-500/5 flex items-center justify-center text-orange-400">
+                                <i class="fas fa-server text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-white">Infrastructure</h3>
+                                <p class="text-xs text-muted font-mono mt-0.5">DevOps & big data</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tool-tag">
+                                <i class="fab fa-docker text-blue-400"></i> Docker
+                            </span>
+                            <span class="tool-tag">
+                                <i class="fas fa-dharmachakra text-blue-300"></i> Kubernetes
+                            </span>
+                            <span class="tool-tag">
+                                <i class="fas fa-elephant text-yellow-600"></i> Hadoop
+                            </span>
+                            <span class="tool-tag">HDFS</span>
+                            <span class="tool-tag">Hive</span>
+                            <span class="tool-tag">Impala</span>
+                        </div>
+                    </div>
+
+                    <!-- Wide Card: Core Expertise -->
+                    <div class="md:col-span-6 glass-card p-8 rounded-2xl skill-card stagger-8">
+                        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center text-accent">
+                                    <i class="fas fa-brain text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-white">Core Expertise</h3>
+                                    <p class="text-sm text-muted font-mono mt-1">End-to-End Data Engineering Architecture</p>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="expertise-pill">Data Warehousing</span>
+                                <span class="expertise-pill">ETL/ELT Pipelines</span>
+                                <span class="expertise-pill">Data Lake</span>
+                                <span class="expertise-pill">CDC</span>
+                                <span class="expertise-pill">Real-time Streaming</span>
+                                <span class="expertise-pill">Data Ingestion</span>
+                                <span class="expertise-pill">Data Modeling</span>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </section>
+
+    <style>
+    /* Skill Card Animations */
+    .skill-card {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .skill-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .skill-card:hover::before {
+        left: 100%;
+    }
+
+    .skill-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Stagger Animation Delays */
+    .stagger-1 { animation-delay: 0.1s; }
+    .stagger-2 { animation-delay: 0.2s; }
+    .stagger-3 { animation-delay: 0.3s; }
+    .stagger-4 { animation-delay: 0.4s; }
+    .stagger-5 { animation-delay: 0.5s; }
+    .stagger-6 { animation-delay: 0.6s; }
+    .stagger-7 { animation-delay: 0.7s; }
+    .stagger-8 { animation-delay: 0.8s; }
+
+    /* Skill Badges */
+    .skill-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 0.75rem;
+        transition: all 0.3s ease;
+        cursor: default;
+    }
+
+    .skill-badge:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 255, 255, 0.15);
+        transform: translateY(-2px);
+    }
+
+    .skill-badge span {
+        color: #d1d5db;
+        font-weight: 500;
+    }
+
+    /* Cloud Badges */
+    .cloud-badge {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.375rem;
+        padding: 0.75rem 0.5rem;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+        cursor: default;
+    }
+
+    .cloud-badge:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 255, 255, 0.15);
+        transform: translateY(-2px);
+    }
+
+    .cloud-badge span {
+        color: #9ca3af;
+        font-size: 0.75rem;
+        font-family: 'Courier New', monospace;
+    }
+
+    /* Tool Tags */
+    .tool-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        padding: 0.5rem 0.875rem;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        color: #d1d5db;
+        font-family: 'Courier New', monospace;
+        transition: all 0.3s ease;
+        cursor: default;
+    }
+
+    .tool-tag:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 255, 255, 0.15);
+        color: #fff;
+        transform: translateY(-1px);
+    }
+
+    /* Database Items */
+    .db-item {
+        padding: 0.5rem 0.75rem;
+        background: rgba(255, 255, 255, 0.03);
+        border-left: 3px solid rgba(255, 255, 255, 0.1);
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        color: #d1d5db;
+        font-family: 'Courier New', monospace;
+        transition: all 0.3s ease;
+        cursor: default;
+    }
+
+    .db-item:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-left-color: #60a5fa;
+        color: #fff;
+        transform: translateX(4px);
+    }
+
+    /* Expertise Pills */
+    .expertise-pill {
+        padding: 0.625rem 1.25rem;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 2rem;
+        font-size: 0.875rem;
+        color: #d1d5db;
+        font-family: 'Courier New', monospace;
+        transition: all 0.3s ease;
+        cursor: default;
+        white-space: nowrap;
+    }
+
+    .expertise-pill:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: #10b981;
+        color: #10b981;
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .skill-card {
+            padding: 1.25rem;
+        }
+        
+        .expertise-pill {
+            font-size: 0.75rem;
+            padding: 0.5rem 1rem;
+        }
+    }
+    </style>
 
     <!-- Pipeline Architecture Section -->
     <!-- MLOps Pipeline Architecture Section -->
