@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agus Mahari | Data Engineer & Cloud Architect</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Portfolio of Agus Mahari, Data Engineer specializing in ELT/ETL pipelines, Data Warehousing, and Cloud Infrastructure on GCP, Azure, and Snowflake.">
+    <meta name="keywords" content="Data Engineer, ETL, Python, SQL, Apache Airflow, DBT, GCP, Azure, Snowflake, Data Pipeline, Agus Mahari">
+    <meta name="author" content="Agus Mahari">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0D0A0F">
+    <link rel="canonical" href="https://agusmahari.github.io/">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23FF9A5C'/%3E%3Cstop offset='1' stop-color='%23C96FD8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='url(%23g)'/%3E%3Ctext x='50' y='66' font-family='monospace' font-weight='bold' font-size='44' fill='%230D0A0F' text-anchor='middle'%3EAM%3C/text%3E%3C/svg%3E">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://agusmahari.github.io/">
+    <meta property="og:site_name" content="Agus Mahari Portfolio">
+    <meta property="og:title" content="Agus Mahari | Data Engineer">
+    <meta property="og:description" content="Building robust data pipelines and orchestrating complex workflows.">
+    <meta property="og:image" content="https://agusmahari.github.io/assets/img/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Agus Mahari, Data Engineer portfolio cover image">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Agus Mahari | Data Engineer">
+    <meta name="twitter:description" content="Building robust data pipelines and orchestrating complex workflows on GCP & Azure.">
+    <meta name="twitter:image" content="https://agusmahari.github.io/assets/img/og-image.png">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Agus Mahari",
+        "jobTitle": "Data Engineer",
+        "url": "https://agusmahari.github.io/",
+        "email": "mailto:agusmahari@gmail.com",
+        "address": { "@type": "PostalAddress", "addressLocality": "Jakarta", "addressCountry": "ID" },
+        "sameAs": [
+            "https://linkedin.com/in/agus-mahari/",
+            "https://github.com/agusmahari"
+        ],
+        "knowsAbout": ["Data Engineering", "ETL", "Apache Airflow", "DBT", "GCP", "Azure", "Snowflake"]
+    }
+    </script>
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        bg: '#0D0A0F',
+                        bg2: '#130F16',
+                        card: '#1F1828',
+                        primary: '#FF9A5C', // Sun Orange
+                        secondary: '#FF6B6B', // Dusk Red
+                        accent: '#C96FD8', // Magenta
+                        text: '#F5EEE8',
+                        muted: '#9A8A80',
+                        border: 'rgba(255,180,120,0.08)',
+                    },
+                    fontFamily: {
+                        sans: ['Syne', 'sans-serif'],
+                        mono: ['Space Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom Styles -->
+    <style>
+        /* --- RESET & BASICS --- */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            background-color: #0D0A0F;
+            color: #F5EEE8;
+            font-family: 'Syne', sans-serif;
+            overflow-x: hidden;
+            cursor: none; /* Hide default cursor for custom one */
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        #cursor {
+            position: fixed; width: 12px; height: 12px;
+            background: #FF9A5C; border-radius: 50%;
+            pointer-events: none; z-index: 9999;
+            transform: translate(-50%,-50%);
+            transition: width .2s, height .2s;
+            mix-blend-mode: difference;
+        }
+        #cursor-ring {
+            position: fixed; width: 36px; height: 36px;
+            border: 1.5px solid #FF9A5C; border-radius: 50%;
+            pointer-events: none; z-index: 9998;
+            transform: translate(-50%,-50%);
+            transition: all .12s ease; opacity: .5;
+        }
+
+        /* --- BACKGROUND CANVAS --- */
+        #canvas {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            pointer-events: none; z-index: 0; opacity: .35;
+        }
+
+        /* --- UTILITIES --- */
+        .font-mono { font-family: 'Space Mono', monospace; }
+        .text-gradient { 
+            background: linear-gradient(to right, #FF9A5C, #FF6B6B); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+        }
+        .glass-card {
+            background: rgba(31, 24, 40, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,180,120,0.08);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: rgba(255,180,120,0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px -10px rgba(255, 154, 92, 0.15);
+        }
+        
+        /* Reveal Animation */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0D0A0F; }
+        ::-webkit-scrollbar-thumb { background: #332a33; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #FF9A5C; }
+
+        /* Nav Specifics */
+        nav {
+            background: rgba(13,10,15,0.88);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,180,120,0.08);
+        }
+        
+        /* Terminal Styles */
+        .terminal { 
+            background: #1A1420; 
+            border: 1px solid rgba(255,180,120,0.18); 
+            border-radius: 12px; 
+            overflow: hidden; 
+            font-family: 'Space Mono', monospace; 
+        }
+        .term-bar { 
+            background: #1F1828; 
+            padding: 12px 16px; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            border-bottom: 1px solid rgba(255,180,120,0.08); 
+        }
+        .term-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .term-dot.r { background: #FF5F56; }
+        .term-dot.y { background: #FFBD2E; }
+        .term-dot.g { background: #27C93F; }
+        .term-body { padding: 20px 24px; font-size: 13px; line-height: 1.9; color: #9A8A80; }
+        .term-key { color: #C96FD8; }
+        .term-str { color: #FF8FA3; }
+        .term-val { color: #FFD166; }
+        .term-brace { color: #FF6B6B; }
+        .term-cursor { 
+            display: inline-block; width: 8px; height: 14px; 
+            background: #FF9A5C; 
+            animation: blink 1s step-end infinite; 
+            vertical-align: middle;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+        /* Status Pulse */
+        @keyframes pulse { 
+            0%,100%{opacity:1;transform:scale(1)} 
+            50%{opacity:.5;transform:scale(.8)} 
+        }
+
+        /* --- ACCESSIBILITY: SKIP LINK --- */
+        .skip-link {
+            position: absolute; left: 1rem; top: -100px;
+            background: #FF9A5C; color: #0D0A0F; font-weight: 700;
+            padding: .75rem 1.25rem; border-radius: 8px; z-index: 10000;
+            font-family: 'Space Mono', monospace; font-size: .85rem;
+            transition: top .2s ease;
+        }
+        .skip-link:focus { top: 1rem; }
+
+        /* --- ACCESSIBILITY: VISIBLE KEYBOARD FOCUS --- */
+        a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+            outline: 2px solid #FF9A5C;
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        /* --- CUSTOM CURSOR: only on devices with a real mouse --- */
+        #cursor, #cursor-ring { display: none; }
+        @media (hover: hover) and (pointer: fine) {
+            body.has-fine-pointer { cursor: none; }
+            body.has-fine-pointer #cursor,
+            body.has-fine-pointer #cursor-ring { display: block; }
+        }
+
+        /* --- ACTIVE NAV LINK --- */
+        nav a.nav-active {
+            color: #FF9A5C !important;
+        }
+
+        /* --- BACK TO TOP --- */
+        #back-to-top {
+            position: fixed; right: 1.5rem; bottom: 1.5rem; z-index: 40;
+            width: 46px; height: 46px; border-radius: 50%;
+            background: rgba(31,24,40,0.85); border: 1px solid rgba(255,180,120,0.25);
+            color: #FF9A5C; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transform: translateY(10px);
+            transition: opacity .25s ease, transform .25s ease, border-color .25s ease;
+            backdrop-filter: blur(8px);
+        }
+        #back-to-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        #back-to-top:hover { border-color: #FF9A5C; }
+
+        /* --- PIPELINE STAGE TOGGLES --- */
+        .stage-btn[aria-expanded="true"] {
+            border-color: #FF9A5C;
+            background: rgba(255,154,92,0.08);
+        }
+        .stage-btn[aria-expanded="true"] .stage-num { color: #0D0A0F; background: #FF9A5C; }
+        .stage-panel { display: none; }
+        .stage-panel.active { display: block; }
+
+        /* --- COUNT UP NUMBER --- */
+        .count-up { font-variant-numeric: tabular-nums; }
+
+        /* --- REDUCED MOTION: respect user preference --- */
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            .reveal-up { opacity: 1; transform: none; }
+            #canvas { display: none; }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-primary selection:text-bg">
+
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Custom Cursor Elements -->
+    <div id="cursor" aria-hidden="true"></div>
+    <div id="cursor-ring" aria-hidden="true"></div>
+    
+    <!-- Particle Background -->
+    <canvas id="canvas" aria-hidden="true"></canvas>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300" aria-label="Primary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0 flex items-center gap-2">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center text-bg font-mono font-bold text-lg shadow-lg">
+                        AM
+                    </div>
+                    <span class="text-xl font-bold text-white hidden sm:block">Agus<span class="text-primary">Mahari</span></span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#about" data-nav-link class="nav-link hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium font-mono text-muted">About</a>
+                        <a href="#skills" data-nav-link class="nav-link hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium font-mono text-muted">Skills</a>
+                        <a href="#pipeline" data-nav-link class="nav-link hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium font-mono text-muted">Pipeline</a>
+                        <a href="#experience" data-nav-link class="nav-link hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium font-mono text-muted">Experience</a>
+                        <a href="#projects" data-nav-link class="nav-link hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium font-mono text-muted">Projects</a>
+                        <a href="#contact" class="bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 px-4 py-2 rounded-md text-sm font-medium transition-all font-mono">Contact</a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" id="mobile-menu-btn" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle navigation menu" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <i class="fas fa-bars text-xl" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden bg-bg2 border-b border-border" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#about" class="text-gray-300 hover:text-primary block px-3 py-2 rounded-md text-base font-medium font-mono">About</a>
+                <a href="#skills" class="text-gray-300 hover:text-primary block px-3 py-2 rounded-md text-base font-medium font-mono">Skills</a>
+                <a href="#pipeline" class="text-gray-300 hover:text-primary block px-3 py-2 rounded-md text-base font-medium font-mono">Pipeline</a>
+                <a href="#experience" class="text-gray-300 hover:text-primary block px-3 py-2 rounded-md text-base font-medium font-mono">Experience</a>
+                <a href="#projects" class="text-gray-300 hover:text-primary block px-3 py-2 rounded-md text-base font-medium font-mono">Projects</a>
+                <a href="#contact" class="text-primary font-bold block px-3 py-2 rounded-md text-base font-mono">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main-content">
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative pt-20 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                
+                <!-- Left: Text Content -->
+                <div class="reveal-up">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono mb-6">
+                        <span class="relative flex h-2 w-2">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                        </span>
+                        Available for new projects
+                    </div>
+                    
+                    <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-[1.1] tracking-tight">
+                        <span class="block text-white">Data</span>
+                        <span class="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-accent" style="-webkit-text-stroke: 0;">Engineer</span>
+                        <span class="block text-3xl md:text-5xl font-mono text-muted mt-2">& Architect.</span>
+                    </h1>
+                    
+                    <p class="mt-6 text-lg text-muted leading-relaxed max-w-lg font-mono">
+                        I build robust ELT pipelines, orchestrate complex workflows on <span class="text-primary">GCP & Azure</span>, 
+                        and turn raw data into actionable insights.
+                    </p>
+
+                    <div class="mt-10 flex flex-col sm:flex-row gap-4">
+                        <a href="#projects" class="px-8 py-4 bg-primary hover:bg-orange-400 text-bg font-bold rounded-md transition-all shadow-lg shadow-primary/20 transform hover:-translate-y-1 font-mono text-sm uppercase tracking-wide flex items-center justify-center gap-2">
+                            <i class="fas fa-folder-open" aria-hidden="true"></i> View Projects
+                        </a>
+                        <a href="#contact" class="px-8 py-4 bg-transparent hover:bg-white/5 text-white border border-border rounded-md transition-all font-mono text-sm uppercase tracking-wide flex items-center justify-center gap-2">
+                            <i class="fas fa-envelope" aria-hidden="true"></i> Contact Me
+                        </a>
+                        <a href="assets/cv-agus-mahari.pdf" download class="px-8 py-4 bg-transparent hover:bg-white/5 text-primary border border-primary/30 rounded-md transition-all font-mono text-sm uppercase tracking-wide flex items-center justify-center gap-2">
+                            <i class="fas fa-download" aria-hidden="true"></i> Download CV
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: Terminal Component -->
+                <div class="reveal-up hidden md:block" style="transition-delay: 200ms;">
+                    <div class="terminal">
+                        <div class="term-bar">
+                            <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+                            <span class="term-title text-xs text-muted ml-2">agus@portfolio:~</span>
+                        </div>
+                        <div class="term-body">
+                            <span class="block"><span class="text-primary">$ </span>cat profile.json</span>
+                            <span class="block">&nbsp;</span>
+                            <span class="block"><span class="term-brace">{</span></span>
+                            <span class="block">&nbsp;&nbsp;<span class="term-key">"name"</span>: <span class="term-str">"Agus Mahari"</span>,</span>
+                            <span class="block">&nbsp;&nbsp;<span class="term-key">"role"</span>: <span class="term-str">"Data Engineer"</span>,</span>
+                            <span class="block">&nbsp;&nbsp;<span class="term-key">"location"</span>: <span class="term-str">"Jakarta, ID"</span>,</span>
+                            <span class="block">&nbsp;&nbsp;<span class="term-key">"stack"</span>: <span class="term-brace">[</span></span>
+                            <span class="block">&nbsp;&nbsp;&nbsp;&nbsp;<span class="term-str">"Python"</span>, <span class="term-str">"SQL"</span>,</span>
+                            <span class="block">&nbsp;&nbsp;&nbsp;&nbsp;<span class="term-str">"Airflow"</span>, <span class="term-str">"GCP"</span></span>
+                            <span class="block">&nbsp;&nbsp;<span class="term-brace">]</span>,</span>
+                            <span class="block">&nbsp;&nbsp;<span class="term-key">"openToWork"</span>: <span class="term-val">true</span></span>
+                            <span class="block"><span class="term-brace">}</span></span>
+                            <span class="block">&nbsp;</span>
+                            <span class="block"><span class="text-primary">$ </span><span class="term-cursor"></span></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Tech Stack Marquee -->
+            <div class="mt-24 pt-8 border-t border-border reveal-up">
+                <p class="text-xs font-mono text-muted mb-6 uppercase tracking-widest text-center">Trusted Technologies</p>
+                <div class="flex flex-wrap justify-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                    <i class="fab fa-python text-3xl hover:text-blue-400 transition-colors"></i>
+                    <i class="fab fa-google text-3xl hover:text-red-400 transition-colors"></i>
+                    <i class="fab fa-microsoft text-3xl hover:text-blue-500 transition-colors"></i>
+                    <i class="fas fa-database text-3xl hover:text-yellow-400 transition-colors"></i>
+                    <i class="fas fa-wind text-3xl hover:text-green-400 transition-colors"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 relative border-t border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="reveal-up">
+                <div class="flex items-center gap-3 mb-12">
+                    <span class="text-primary font-mono text-xl">01.</span>
+                    <h2 class="text-3xl font-bold text-white">About Me</h2>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-12">
+                    <div class="md:col-span-2 space-y-6 text-muted leading-relaxed font-mono text-sm">
+                        <p class="text-base">
+                            I'm a Data Engineer with over <strong class="text-white">3 years of experience</strong> architecting end-to-end data solutions. My passion lies in building scalable infrastructure that bridges the gap between raw data sources and business intelligence.
+                        </p>
+                        <p class="text-base">
+                            Currently at <strong class="text-white">PT Astra Graphia</strong>, I lead pipeline development for major clients like Toyota and Telkom, utilizing modern stacks like <span class="text-primary">Airflow</span>, <span class="text-primary">DBT</span>, and <span class="text-primary">Snowflake</span>.
+                        </p>
+                        <p class="text-base">
+                            When I'm not optimizing queries or debugging DAGs, I mentor aspiring data engineers and contribute to open-source data tools.
+                        </p>
+                        
+                        <!-- Stats Grid -->
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-8">
+                            <div class="glass-card p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-primary font-sans count-up" data-count="3" data-suffix="+">0</div>
+                                <div class="text-xs text-muted">Years Experience</div>
+                            </div>
+                            <div class="glass-card p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-secondary font-sans count-up" data-count="20" data-suffix="+">0</div>
+                                <div class="text-xs text-muted">Pipelines Built</div>
+                            </div>
+                            <div class="glass-card p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-accent font-sans count-up" data-count="20" data-suffix="%">0</div>
+                                <div class="text-xs text-muted">Avg. Runtime Reduction</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="relative group">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-primary to-accent rounded-2xl transform rotate-3 opacity-20 group-hover:rotate-6 transition-all"></div>
+                        <!-- GANTI SRC INI DENGAN FOTO ANDA -->
+                        <img src="assets/img/profile.jpg" alt="Agus Mahari" loading="lazy" decoding="async" class="relative w-full h-80 object-cover rounded-2xl border border-border shadow-2xl grayscale group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section (Bento Grid) -->
+    <section id="skills" class="py-24 border-t border-border bg-bg2/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="reveal-up">
+                <div class="flex items-center gap-3 mb-12">
+                    <span class="text-primary font-mono text-xl">02.</span>
+                    <h2 class="text-3xl font-bold text-white">Technical Arsenal</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 grid-rows-4 md:grid-rows-2 gap-4 h-auto md:h-[500px]">
+                    <!-- Large Card: Languages -->
+                    <div class="md:col-span-2 md:row-span-2 glass-card p-6 rounded-2xl reveal-up">
+                        <div class="h-full flex flex-col">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400">
+                                    <i class="fas fa-code text-xl"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-white">Languages</h3>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mt-auto">
+                                <span class="px-3 py-1.5 bg-bg2 text-muted text-sm rounded border border-border font-mono hover:text-primary hover:border-primary transition-colors cursor-default">Python</span>
+                                <span class="px-3 py-1.5 bg-bg2 text-muted text-sm rounded border border-border font-mono hover:text-primary hover:border-primary transition-colors cursor-default">SQL</span>
+                                <span class="px-3 py-1.5 bg-bg2 text-muted text-sm rounded border border-border font-mono hover:text-primary hover:border-primary transition-colors cursor-default">PySpark</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Medium Card: Cloud -->
+                    <div class="md:col-span-2 md:row-span-1 glass-card p-6 rounded-2xl reveal-up">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400">
+                                <i class="fas fa-cloud"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-white">Cloud Platforms</h3>
+                        </div>
+                        <div class="flex gap-4 mt-2 text-muted text-sm font-mono">
+                            <span class="flex items-center gap-2 hover:text-white transition-colors"><i class="fab fa-google"></i> GCP</span>
+                            <span class="flex items-center gap-2 hover:text-white transition-colors"><i class="fab fa-microsoft"></i> Azure</span>
+                            <span class="flex items-center gap-2 hover:text-white transition-colors"><i class="fas fa-snowflake"></i> Snowflake</span>
+                        </div>
+                    </div>
+
+                    <!-- Small Card: Orchestration -->
+                    <div class="md:col-span-1 md:row-span-1 glass-card p-6 rounded-2xl reveal-up">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center text-green-400">
+                                <i class="fas fa-sync-alt"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-white">Orchestration</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <span class="text-xs font-mono bg-bg2 px-2 py-1 rounded text-muted border border-border">Airflow</span>
+                            <span class="text-xs font-mono bg-bg2 px-2 py-1 rounded text-muted border border-border">DBT</span>
+                        </div>
+                    </div>
+
+                     <!-- Small Card: Data Ops -->
+                     <div class="md:col-span-1 md:row-span-1 glass-card p-6 rounded-2xl reveal-up">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-8 h-8 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-400">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-white">Data Ops</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <span class="text-xs font-mono bg-bg2 px-2 py-1 rounded text-muted border border-border">Docker</span>
+                            <span class="text-xs font-mono bg-bg2 px-2 py-1 rounded text-muted border border-border">K8s</span>
+                        </div>
+                    </div>
+
+                    <!-- Wide Card: Concepts -->
+                    <div class="md:col-span-4 md:row-span-1 glass-card p-6 rounded-2xl reveal-up flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center text-accent">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-white">Core Expertise</h3>
+                                <p class="text-xs text-muted font-mono">End-to-End Pipeline Architecture</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap justify-center gap-3">
+                            <span class="px-3 py-1 bg-bg2 text-muted text-sm rounded-full border border-border font-mono hover:border-accent hover:text-accent transition-colors">Data Warehousing</span>
+                            <span class="px-3 py-1 bg-bg2 text-muted text-sm rounded-full border border-border font-mono hover:border-accent hover:text-accent transition-colors">CDC</span>
+                            <span class="px-3 py-1 bg-bg2 text-muted text-sm rounded-full border border-border font-mono hover:border-accent hover:text-accent transition-colors">Real-time Streaming</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pipeline Architecture Section -->
+    <section id="pipeline" class="py-24 border-t border-border" aria-labelledby="pipeline-heading">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="reveal-up">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="text-primary font-mono text-xl">03.</span>
+                    <h2 id="pipeline-heading" class="text-3xl font-bold text-white">How I Build a Pipeline</h2>
+                </div>
+                <p class="text-muted font-mono text-sm mb-12 max-w-2xl">A typical ELT flow I design and operate, from raw source to a query-ready warehouse. Select a stage to see the tools and what I optimize for.</p>
+
+                <!-- Stage selector -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6" role="tablist" aria-label="Pipeline stages">
+                    <button type="button" class="stage-btn glass-card rounded-xl p-4 text-left border border-border" data-stage="extract" role="tab" aria-selected="true" aria-expanded="true" aria-controls="panel-extract" id="tab-extract">
+                        <span class="stage-num inline-flex items-center justify-center w-7 h-7 rounded-full bg-bg2 text-muted text-xs font-mono mb-3">01</span>
+                        <div class="font-bold text-white text-sm">Extract</div>
+                        <div class="text-xs text-muted font-mono">Source systems</div>
+                    </button>
+                    <button type="button" class="stage-btn glass-card rounded-xl p-4 text-left border border-border" data-stage="load" role="tab" aria-selected="false" aria-expanded="false" aria-controls="panel-load" id="tab-load">
+                        <span class="stage-num inline-flex items-center justify-center w-7 h-7 rounded-full bg-bg2 text-muted text-xs font-mono mb-3">02</span>
+                        <div class="font-bold text-white text-sm">Load</div>
+                        <div class="text-xs text-muted font-mono">Raw landing zone</div>
+                    </button>
+                    <button type="button" class="stage-btn glass-card rounded-xl p-4 text-left border border-border" data-stage="transform" role="tab" aria-selected="false" aria-expanded="false" aria-controls="panel-transform" id="tab-transform">
+                        <span class="stage-num inline-flex items-center justify-center w-7 h-7 rounded-full bg-bg2 text-muted text-xs font-mono mb-3">03</span>
+                        <div class="font-bold text-white text-sm">Transform</div>
+                        <div class="text-xs text-muted font-mono">Modeling layer</div>
+                    </button>
+                    <button type="button" class="stage-btn glass-card rounded-xl p-4 text-left border border-border" data-stage="serve" role="tab" aria-selected="false" aria-expanded="false" aria-controls="panel-serve" id="tab-serve">
+                        <span class="stage-num inline-flex items-center justify-center w-7 h-7 rounded-full bg-bg2 text-muted text-xs font-mono mb-3">04</span>
+                        <div class="font-bold text-white text-sm">Serve</div>
+                        <div class="text-xs text-muted font-mono">BI & analytics</div>
+                    </button>
+                </div>
+
+                <!-- Stage detail panels -->
+                <div class="glass-card rounded-2xl p-8 border border-border">
+                    <div id="panel-extract" class="stage-panel active" role="tabpanel" aria-labelledby="tab-extract">
+                        <div class="grid md:grid-cols-3 gap-8 items-center">
+                            <div class="md:col-span-2">
+                                <h3 class="text-xl font-bold text-white mb-2">Extract from source systems</h3>
+                                <p class="text-muted text-sm font-mono leading-relaxed">Pull data from operational databases, ERPs like SAP, and third-party APIs. I prioritize log-based CDC over batch polling wherever the source supports it, to keep load on production systems minimal.</p>
+                                <div class="flex flex-wrap gap-2 mt-4">
+                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Debezium</span>
+                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">REST/SOAP APIs</span>
+                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">SAP</span>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <i class="fas fa-database text-5xl text-primary mb-2" aria-hidden="true"></i>
+                                <div class="text-xs text-muted font-mono">Optimizing for: source-system safety</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="panel-load" class="stage-panel" role="tabpanel" aria-labelledby="tab-load">
+                        <div class="grid md:grid-cols-3 gap-8 items-center">
+                            <div class="md:col-span-2">
+                                <h3 class="text-xl font-bold text-white mb-2">Land raw data, unaltered</h3>
+                                <p class="text-muted text-sm font-mono leading-relaxed">Raw events and snapshots land in a staging zone exactly as received. Keeping an immutable raw layer means I can always replay or reprocess history if a downstream model changes.</p>
+                                <div class="flex flex-wrap gap-2 mt-4">
+                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Redpanda / Kafka</span>
+                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Cloud Storage</span>
+                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Snowflake Stages</span>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <i class="fas fa-inbox text-5xl text-secondary mb-2" aria-hidden="true"></i>
+                                <div class="text-xs text-muted font-mono">Optimizing for: replayability</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="panel-transform" class="stage-panel" role="tabpanel" aria-labelledby="tab-transform">
+                        <div class="grid md:grid-cols-3 gap-8 items-center">
+                            <div class="md:col-span-2">
+                                <h3 class="text-xl font-bold text-white mb-2">Model into trusted layers</h3>
+                                <p class="text-muted text-sm font-mono leading-relaxed">Raw data moves through staging, intermediate, and mart layers with version-controlled SQL. Every model has tests for nulls, uniqueness, and referential integrity before it's allowed downstream.</p>
+                                <div class="flex flex-wrap gap-2 mt-4">
+                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">DBT</span>
+                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Airflow</span>
+                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">PySpark</span>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <i class="fas fa-shuffle text-5xl text-accent mb-2" aria-hidden="true"></i>
+                                <div class="text-xs text-muted font-mono">Optimizing for: data quality</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="panel-serve" class="stage-panel" role="tabpanel" aria-labelledby="tab-serve">
+                        <div class="grid md:grid-cols-3 gap-8 items-center">
+                            <div class="md:col-span-2">
+                                <h3 class="text-xl font-bold text-white mb-2">Serve query-ready marts</h3>
+                                <p class="text-muted text-sm font-mono leading-relaxed">Final marts are documented, access-controlled, and exposed to BI tools and stakeholders. I track freshness SLAs so business users always know how current a number is.</p>
+                                <div class="flex flex-wrap gap-2 mt-4">
+                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Power BI</span>
+                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Looker</span>
+                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Snowflake</span>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <i class="fas fa-chart-line text-5xl text-primary mb-2" aria-hidden="true"></i>
+                                <div class="text-xs text-muted font-mono">Optimizing for: trust & freshness</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-24 border-t border-border">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="reveal-up">
+                <div class="flex items-center gap-3 mb-12">
+                    <span class="text-primary font-mono text-xl">04.</span>
+                    <h2 class="text-3xl font-bold text-white">Experience</h2>
+                </div>
+                
+                <div class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-border before:to-transparent">
+                    
+                    <!-- Job 1 -->
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-full border border-border bg-bg group-hover:bg-primary group-hover:border-primary transition-all shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                            <i class="fas fa-briefcase text-muted group-hover:text-bg text-sm"></i>
+                        </div>
+                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-xl border border-border hover:border-primary/30 transition-all">
+                            <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-2">
+                                <h3 class="font-bold text-white text-lg">Data Engineer</h3>
+                                <span class="text-xs font-mono text-primary bg-primary/10 px-2 py-1 rounded">2024 - Present</span>
+                            </div>
+                            <p class="text-muted text-sm mb-3 font-mono">PT Astra Graphia Info Tech</p>
+                            <ul class="space-y-2 text-sm text-muted list-disc list-inside marker:text-primary">
+                                <li>Architected high-volume batch pipelines using MS Synapse & Fabric.</li>
+                                <li>Implemented CDC with Debezium/Redpanda reducing latency to &lt; 5 mins.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Job 2 -->
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-full border border-border bg-bg group-hover:bg-secondary group-hover:border-secondary transition-all shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                            <i class="fas fa-briefcase text-muted group-hover:text-bg text-sm"></i>
+                        </div>
+                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-xl border border-border hover:border-secondary/30 transition-all">
+                            <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-2">
+                                <h3 class="font-bold text-white text-lg">Data Engineer Consultant</h3>
+                                <span class="text-xs font-mono text-secondary bg-secondary/10 px-2 py-1 rounded">2023 - 2024</span>
+                            </div>
+                            <p class="text-muted text-sm mb-3 font-mono">PT BNI Tbk (via IYKRA)</p>
+                            <ul class="space-y-2 text-sm text-muted list-disc list-inside marker:text-secondary">
+                                <li>Migrated ELT from Teradata to Cloudera using IBM DataStage.</li>
+                                <li>Optimized job runtimes by 20%.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 border-t border-border bg-bg2/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="reveal-up">
+                <div class="flex items-center gap-3 mb-12">
+                    <span class="text-primary font-mono text-xl">05.</span>
+                    <h2 class="text-3xl font-bold text-white">Featured Projects</h2>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    
+                    <!-- Project 1 -->
+                    <div class="glass-card rounded-2xl overflow-hidden border border-border hover:border-primary/30 transition-all group reveal-up">
+                        <div class="p-8">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                                    <i class="fas fa-bolt text-2xl"></i>
+                                </div>
+                                <div class="flex gap-4">
+                                    <a href="#" class="text-muted hover:text-white transition-colors" aria-label="View source code on GitHub (repository link coming soon)"><i class="fab fa-github text-xl" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                            
+                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors">Real-Time CDC Pipeline</h3>
+                            <p class="text-muted text-sm mb-6 font-mono">
+                                Architected a Change Data Capture solution synchronizing on-prem SAP data to Cloud Warehouse in near real-time.
+                            </p>
+
+                            <!-- Diagram -->
+                            <div class="bg-bg border border-border rounded-xl p-4 mb-6 h-40 flex items-center justify-center overflow-hidden relative">
+                                <svg viewBox="0 0 400 150" class="w-full h-full">
+                                    <defs>
+                                        <marker id="arrow" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                          <polygon points="0 0, 10 3.5, 0 7" fill="#FF9A5C" />
+                                        </marker>
+                                    </defs>
+                                    <rect x="20" y="55" width="70" height="40" rx="4" fill="#1F1828" stroke="#FF9A5C" stroke-width="2"/>
+                                    <text x="55" y="80" text-anchor="middle" fill="white" font-size="10" font-family="monospace">SAP</text>
+                                    
+                                    <rect x="165" y="55" width="70" height="40" rx="4" fill="#1F1828" stroke="#FF6B6B" stroke-width="2"/>
+                                    <text x="200" y="80" text-anchor="middle" fill="white" font-size="10" font-family="monospace">Kafka</text>
+                                    
+                                    <rect x="310" y="55" width="70" height="40" rx="4" fill="#1F1828" stroke="#C96FD8" stroke-width="2"/>
+                                    <text x="345" y="80" text-anchor="middle" fill="white" font-size="10" font-family="monospace">Snowflake</text>
+
+                                    <circle r="3" fill="#FF9A5C">
+                                        <animateMotion dur="2s" repeatCount="indefinite" path="M 90 75 L 165 75" />
+                                    </circle>
+                                    <circle r="3" fill="#FF6B6B">
+                                        <animateMotion dur="2s" begin="1s" repeatCount="indefinite" path="M 235 75 L 310 75" />
+                                    </circle>
+
+                                    <line x1="90" y1="75" x2="165" y2="75" stroke="#332a33" stroke-width="2" marker-end="url(#arrow)" />
+                                    <line x1="235" y1="75" x2="310" y2="75" stroke="#332a33" stroke-width="2" marker-end="url(#arrow)" />
+                                </svg>
+                            </div>
+
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Debezium</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Redpanda</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Snowflake</span>
+                            </div>
+
+                            <ul class="space-y-2">
+                                <li class="flex items-start text-sm text-muted">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Reduced latency from 24h to <strong class="text-white">&lt;5 mins</strong>.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="glass-card rounded-2xl overflow-hidden border border-border hover:border-secondary/30 transition-all group reveal-up">
+                        <div class="p-8">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary">
+                                    <i class="fas fa-layer-group text-2xl"></i>
+                                </div>
+                                <div class="flex gap-4">
+                                    <a href="#" class="text-muted hover:text-white transition-colors" aria-label="View source code on GitHub (repository link coming soon)"><i class="fab fa-github text-xl" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                            
+                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-secondary transition-colors">Enterprise Data Warehouse</h3>
+                            <p class="text-muted text-sm mb-6 font-mono">
+                                Designed a scalable dimensional model on Microsoft Fabric unifying 10+ sources for financial reporting.
+                            </p>
+
+                            <div class="bg-bg border border-border rounded-xl p-4 mb-6 h-40 flex items-center justify-center">
+                                <div class="grid grid-cols-3 gap-4 w-full px-4">
+                                    <div class="bg-bg2 p-2 rounded text-center border border-border">
+                                        <i class="fas fa-database text-blue-400 mb-1"></i>
+                                        <div class="text-[10px] text-muted">Sources</div>
+                                    </div>
+                                    <div class="flex items-center justify-center">
+                                        <i class="fas fa-arrow-right text-muted"></i>
+                                    </div>
+                                    <div class="bg-bg2 p-2 rounded text-center border border-secondary/50 shadow-[0_0_15px_rgba(255,107,107,0.2)]">
+                                        <i class="fas fa-cube text-secondary mb-1"></i>
+                                        <div class="text-[10px] text-white font-bold">Fabric DW</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">MS Fabric</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">DBT</span>
+                            </div>
+
+                            <ul class="space-y-2">
+                                <li class="flex items-start text-sm text-muted">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Reduced report generation time by <strong class="text-white">40%</strong>.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 border-t border-border">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <div class="reveal-up">
+                <p class="text-primary font-mono mb-4 text-sm">06. What's Next?</p>
+                <h2 class="text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight">Let's <span class="text-primary">talk.</span></h2>
+                <p class="text-muted text-lg mb-12 max-w-2xl mx-auto font-mono text-sm">
+                    Currently open to new opportunities in Data Engineering and Cloud Architecture. Whether you have a question or just want to say hi, I'll try my best to get back to you!
+                </p>
+                
+                <div class="flex flex-col sm:flex-row justify-center gap-6 mb-12">
+                    <a href="mailto:agusmahari@gmail.com" class="px-8 py-4 bg-primary hover:bg-orange-400 text-bg font-bold rounded-md transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2 font-mono text-sm uppercase">
+                        <i class="fas fa-envelope"></i> Say Hello
+                    </a>
+                    <a href="https://linkedin.com/in/agus-mahari/" target="_blank" rel="noopener noreferrer" class="px-8 py-4 bg-transparent hover:bg-white/5 text-white border border-border rounded-md transition-all flex items-center justify-center gap-2 font-mono text-sm uppercase">
+                        <i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn <span class="sr-only">(opens in new tab)</span>
+                    </a>
+                </div>
+
+                <!-- Code Illustration -->
+                <div class="max-w-md mx-auto bg-bg border border-border rounded-xl p-6 text-left font-mono text-xs text-muted overflow-hidden">
+                    <div class="text-muted">// Agus Mahari... get in touch</div>
+                    <div class="mt-2"><span class="text-accent">const</span> <span class="text-white">agus</span> = <span class="text-primary">{</span></div>
+                    <div>&nbsp;&nbsp;email: <span class="text-str">"agusmahari@gmail.com"</span>,</div>
+                    <div>&nbsp;&nbsp;status: <span class="text-str">"open to opportunities"</span>,</div>
+                    <div>&nbsp;&nbsp;responseTime: <span class="text-str">"usually within 24h"</span>,</div>
+                    <div>&nbsp;&nbsp;likesCollabs: <span class="text-val">true</span>,</div>
+                    <div><span class="text-primary">}</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 border-t border-border text-center text-xs text-muted font-mono">
+        <p>Designed & Built by Agus Mahari &copy; <span id="year"></span></p>
+        <div class="mt-2 flex justify-center gap-4">
+            <a href="https://github.com/agusmahari" target="_blank" rel="noopener noreferrer" aria-label="Agus Mahari on GitHub (opens in new tab)" class="hover:text-primary transition-colors"><i class="fab fa-github" aria-hidden="true"></i></a>
+            <a href="https://linkedin.com/in/agus-mahari/" target="_blank" rel="noopener noreferrer" aria-label="Agus Mahari on LinkedIn (opens in new tab)" class="hover:text-primary transition-colors"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
+        </div>
+    </footer>
+
+    <button type="button" id="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up" aria-hidden="true"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script>
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+        // --- CUSTOM CURSOR LOGIC (desktop mouse users only) ---
+        if (hasFinePointer && !prefersReducedMotion) {
+            document.body.classList.add('has-fine-pointer');
+            const cursor = document.getElementById('cursor');
+            const ring = document.getElementById('cursor-ring');
+            let mx = 0, my = 0, rx = 0, ry = 0;
+
+            document.addEventListener('mousemove', e => {
+                mx = e.clientX;
+                my = e.clientY;
+                cursor.style.left = mx + 'px';
+                cursor.style.top = my + 'px';
+            });
+
+            function animateCursor() {
+                rx += (mx - rx) * 0.14;
+                ry += (my - ry) * 0.14;
+                ring.style.left = rx + 'px';
+                ring.style.top = ry + 'px';
+                requestAnimationFrame(animateCursor);
+            }
+            animateCursor();
+
+            document.querySelectorAll('a, button').forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    cursor.style.width = '6px';
+                    cursor.style.height = '6px';
+                    ring.style.width = '50px';
+                    ring.style.height = '50px';
+                    ring.style.backgroundColor = 'rgba(255, 154, 92, 0.1)';
+                });
+                el.addEventListener('mouseleave', () => {
+                    cursor.style.width = '12px';
+                    cursor.style.height = '12px';
+                    ring.style.width = '36px';
+                    ring.style.height = '36px';
+                    ring.style.backgroundColor = 'transparent';
+                });
+            });
+        }
+
+        // --- PARTICLE BACKGROUND LOGIC (skipped if user prefers reduced motion) ---
+        if (!prefersReducedMotion) {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            let W, H;
+            const COLS = ['#FF9A5C', '#FF6B6B', '#C96FD8', '#FFD166', '#FF8FA3'];
+            const pts = [];
+
+            function resize() {
+                W = canvas.width = window.innerWidth;
+                H = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            function Particle() {
+                this.x = Math.random() * W;
+                this.y = Math.random() * H;
+                this.s = Math.random() * 1.5 + 0.3;
+                this.vx = (Math.random() - 0.5) * 0.3;
+                this.vy = (Math.random() - 0.5) * 0.3;
+                this.o = Math.random() * 0.5 + 0.1;
+                this.c = COLS[Math.floor(Math.random() * COLS.length)];
+            }
+
+            for (let i = 0; i < 80; i++) pts.push(new Particle());
+
+            function drawParticles() {
+                ctx.clearRect(0, 0, W, H);
+                pts.forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
+                    ctx.fillStyle = p.c;
+                    ctx.globalAlpha = p.o;
+                    ctx.fill();
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0 || p.x > W) p.vx *= -1;
+                    if (p.y < 0 || p.y > H) p.vy *= -1;
+                });
+                ctx.globalAlpha = 1;
+                requestAnimationFrame(drawParticles);
+            }
+            drawParticles();
+        }
+
+        // --- SCROLL REVEAL LOGIC ---
+        const revealObs = new IntersectionObserver(entries => {
+            entries.forEach((e) => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal-up').forEach(el => revealObs.observe(el));
+
+        // --- FOOTER YEAR ---
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // --- MOBILE MENU (with full keyboard + a11y support) ---
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        function closeMenu() {
+            menu.classList.add('hidden');
+            menuBtn.setAttribute('aria-expanded', 'false');
+        }
+        function openMenu() {
+            menu.classList.remove('hidden');
+            menuBtn.setAttribute('aria-expanded', 'true');
+        }
+
+        if (menuBtn && menu) {
+            menuBtn.addEventListener('click', () => {
+                const isOpen = menuBtn.getAttribute('aria-expanded') === 'true';
+                isOpen ? closeMenu() : openMenu();
+            });
+            menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape') closeMenu();
+            });
+            document.addEventListener('click', e => {
+                if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !menuBtn.contains(e.target)) {
+                    closeMenu();
+                }
+            });
+        }
+
+        // --- SCROLL-SPY: highlight the active nav link ---
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = Array.from(navLinks)
+            .map(link => document.querySelector(link.getAttribute('href')))
+            .filter(Boolean);
+
+        const sectionObs = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                const id = '#' + entry.target.id;
+                const link = document.querySelector(`.nav-link[href="${id}"]`);
+                if (!link) return;
+                if (entry.isIntersecting) {
+                    navLinks.forEach(l => { l.classList.remove('nav-active'); l.removeAttribute('aria-current'); });
+                    link.classList.add('nav-active');
+                    link.setAttribute('aria-current', 'true');
+                }
+            });
+        }, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+
+        sections.forEach(sec => sectionObs.observe(sec));
+
+        // --- ANIMATED COUNT-UP STATS ---
+        const counters = document.querySelectorAll('.count-up');
+        const counterObs = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                const el = entry.target;
+                const target = parseInt(el.dataset.count, 10) || 0;
+                const suffix = el.dataset.suffix || '';
+                if (prefersReducedMotion) {
+                    el.textContent = target + suffix;
+                } else {
+                    const duration = 1200;
+                    const start = performance.now();
+                    function tick(now) {
+                        const progress = Math.min((now - start) / duration, 1);
+                        const eased = 1 - Math.pow(1 - progress, 3);
+                        el.textContent = Math.round(eased * target) + suffix;
+                        if (progress < 1) requestAnimationFrame(tick);
+                    }
+                    requestAnimationFrame(tick);
+                }
+                counterObs.unobserve(el);
+            });
+        }, { threshold: 0.5 });
+        counters.forEach(el => counterObs.observe(el));
+
+        // --- BACK TO TOP BUTTON ---
+        const backToTop = document.getElementById('back-to-top');
+        if (backToTop) {
+            window.addEventListener('scroll', () => {
+                backToTop.classList.toggle('visible', window.scrollY > 600);
+            }, { passive: true });
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+            });
+        }
+
+        // --- PIPELINE ARCHITECTURE STAGE TABS ---
+        const stageBtns = document.querySelectorAll('.stage-btn');
+        stageBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const stage = btn.dataset.stage;
+                stageBtns.forEach(b => {
+                    const active = b === btn;
+                    b.setAttribute('aria-selected', active);
+                    b.setAttribute('aria-expanded', active);
+                });
+                document.querySelectorAll('.stage-panel').forEach(panel => {
+                    panel.classList.toggle('active', panel.id === `panel-${stage}`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
