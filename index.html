@@ -25,18 +25,23 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#3B82F6', // Blue
-                        secondary: '#10B981', // Emerald
-                        accent: '#8B5CF6', // Purple
-                        dark: '#020617', // Slate 950
-                        card: '#0F172A', // Slate 900
+                        // Updated Palette based on reference (Warm/Dark Tech)
+                        bg: '#0D0A0F',
+                        bg2: '#130F16',
+                        card: '#1F1828',
+                        primary: '#FF9A5C', // Sun Orange
+                        secondary: '#FF6B6B', // Dusk Red
+                        accent: '#C96FD8', // Magenta
+                        text: '#F5EEE8',
+                        muted: '#9A8A80',
+                        border: 'rgba(255,180,120,0.08)',
                     },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
+                        sans: ['Syne', 'sans-serif'], // Unique display font
+                        mono: ['Space Mono', 'monospace'], // Tech font
                     },
                     backgroundImage: {
-                        'grid-pattern': "linear-gradient(to right, #1e293b 1px, transparent 1px), linear-gradient(to bottom, #1e293b 1px, transparent 1px)",
+                        'grid-pattern': "linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px)",
                     }
                 }
             }
@@ -46,36 +51,157 @@
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Swapped to Syne (Display) and Space Mono (Code) -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="assets/css/custom.css">
-</head>
-<body class="bg-dark text-slate-300 font-sans antialiased overflow-x-hidden selection:bg-primary selection:text-white">
+    <!-- Custom Styles -->
+    <style>
+        /* --- RESET & BASICS --- */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            background-color: #0D0A0F;
+            color: #F5EEE8;
+            font-family: 'Syne', sans-serif;
+            overflow-x: hidden;
+            cursor: none; /* Hide default cursor */
+        }
 
-    <!-- Background Grid Effect -->
-    <div class="fixed inset-0 z-0 pointer-events-none bg-grid-pattern bg-[length:40px_40px] opacity-[0.03]"></div>
-    <div class="fixed top-0 left-0 w-full h-full z-0 pointer-events-none bg-gradient-to-br from-primary/5 via-transparent to-secondary/5"></div>
+        /* --- CUSTOM CURSOR --- */
+        #cursor {
+            position: fixed; width: 12px; height: 12px;
+            background: #FF9A5C; border-radius: 50%;
+            pointer-events: none; z-index: 9999;
+            transform: translate(-50%,-50%);
+            transition: width .2s, height .2s;
+            mix-blend-mode: difference;
+        }
+        #cursor-ring {
+            position: fixed; width: 36px; height: 36px;
+            border: 1.5px solid #FF9A5C; border-radius: 50%;
+            pointer-events: none; z-index: 9998;
+            transform: translate(-50%,-50%);
+            transition: all .12s ease; opacity: .5;
+        }
+
+        /* --- BACKGROUND CANVAS --- */
+        #canvas {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            pointer-events: none; z-index: 0; opacity: .35;
+        }
+
+        /* --- UTILITIES --- */
+        .font-mono { font-family: 'Space Mono', monospace; }
+        .text-gradient { 
+            background: linear-gradient(to right, #FF9A5C, #FF6B6B); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+        }
+        .glass-card {
+            background: rgba(31, 24, 40, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,180,120,0.08);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: rgba(255,180,120,0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px -10px rgba(255, 154, 92, 0.15);
+        }
+        
+        /* Reveal Animation */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0D0A0F; }
+        ::-webkit-scrollbar-thumb { background: #332a33; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #FF9A5C; }
+
+        /* Nav Specifics */
+        nav {
+            background: rgba(13,10,15,0.88);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,180,120,0.08);
+        }
+        
+        /* Terminal Styles */
+        .terminal { 
+            background: #1A1420; 
+            border: 1px solid rgba(255,180,120,0.18); 
+            border-radius: 12px; 
+            overflow: hidden; 
+            font-family: 'Space Mono', monospace; 
+        }
+        .term-bar { 
+            background: #1F1828; 
+            padding: 12px 16px; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            border-bottom: 1px solid rgba(255,180,120,0.08); 
+        }
+        .term-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .term-dot.r { background: #FF5F56; }
+        .term-dot.y { background: #FFBD2E; }
+        .term-dot.g { background: #27C93F; }
+        .term-body { padding: 20px 24px; font-size: 13px; line-height: 1.9; color: #9A8A80; }
+        .term-key { color: #C96FD8; }
+        .term-str { color: #FF8FA3; }
+        .term-val { color: #FFD166; }
+        .term-brace { color: #FF6B6B; }
+        .term-cursor { 
+            display: inline-block; width: 8px; height: 14px; 
+            background: #FF9A5C; 
+            animation: blink 1s step-end infinite; 
+            vertical-align: middle;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+        /* Status Pulse */
+        @keyframes pulse { 
+            0%,100%{opacity:1;transform:scale(1)} 
+            50%{opacity:.5;transform:scale(.8)} 
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-primary selection:text-bg">
+
+    <!-- Custom Cursor Elements -->
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+    
+    <!-- Particle Background -->
+    <canvas id="canvas"></canvas>
 
     <!-- Navigation -->
-    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 border-b border-white/5 bg-dark/80 backdrop-blur-md">
+    <nav class="fixed w-full z-50 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <div class="flex-shrink-0 flex items-center gap-2">
                     <!-- Monogram Logo -->
-                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-mono font-bold text-lg shadow-lg shadow-primary/20">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center text-bg font-mono font-bold text-lg shadow-lg">
                         AM
                     </div>
                     <span class="text-xl font-bold text-white hidden sm:block">Agus<span class="text-primary">Mahari</span></span>
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="#about" class="hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium">About</a>
-                        <a href="#skills" class="hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium">Skills</a>
-                        <a href="#experience" class="hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium">Experience</a>
-                        <a href="#projects" class="hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium">Projects</a>
-                        <a href="#contact" class="bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 px-4 py-2 rounded-md text-sm font-medium transition-all">Contact</a>
+                        <a href="#about" class="hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium font-mono text-muted">About</a>
+                        <a href="#skills" class="hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium font-mono text-muted">Skills</a>
+                        <a href="#experience" class="hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium font-mono text-muted">Experience</a>
+                        <a href="#projects" class="hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium font-mono text-muted">Projects</a>
+                        <a href="#contact" class="bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 px-4 py-2 rounded-md text-sm font-medium transition-all font-mono">Contact</a>
                     </div>
                 </div>
                 <div class="-mr-2 flex md:hidden">
@@ -86,106 +212,151 @@
             </div>
         </div>
         <!-- Mobile Menu -->
-        <div class="md:hidden hidden bg-card border-b border-white/5" id="mobile-menu">
+        <div class="md:hidden hidden bg-bg2 border-b border-border" id="mobile-menu">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#about" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
-                <a href="#skills" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Skills</a>
-                <a href="#experience" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Experience</a>
-                <a href="#projects" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Projects</a>
-                <a href="#contact" class="text-primary font-bold block px-3 py-2 rounded-md text-base">Contact</a>
+                <a href="#about" class="text-gray-300 hover:text-primary block px-3 py-2 rounded-md text-base font-medium font-mono">About</a>
+                <a href="#skills" class="text-gray-300 hover:text-primary block px-3 py-2 rounded-md text-base font-medium font-mono">Skills</a>
+                <a href="#experience" class="text-gray-300 hover:text-primary block px-3 py-2 rounded-md text-base font-medium font-mono">Experience</a>
+                <a href="#projects" class="text-gray-300 hover:text-primary block px-3 py-2 rounded-md text-base font-medium font-mono">Projects</a>
+                <a href="#contact" class="text-primary font-bold block px-3 py-2 rounded-md text-base font-mono">Contact</a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section id="home" class="min-h-screen flex items-center justify-center relative pt-20 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <div class="reveal-up">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-mono mb-6">
-                    <span class="relative flex h-2 w-2">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                      <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                    </span>
-                    Available for new projects
-                </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
                 
-                <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
-                    Building <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-secondary">Data Infrastructure</span><br>
-                    that Scales.
-                </h1>
-                
-                <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-slate-400 leading-relaxed">
-                    Hi, I'm <strong class="text-white">Agus Mahari</strong>. I design robust ELT pipelines, 
-                    orchestrate complex workflows on <span class="text-primary font-mono">GCP & Azure</span>, 
-                    and turn raw data into actionable insights.
-                </p>
-
-                <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="#projects" class="px-8 py-4 bg-primary hover:bg-blue-600 text-white rounded-lg font-semibold transition-all shadow-lg shadow-primary/25 transform hover:-translate-y-1 flex items-center justify-center gap-2">
-                        <i class="fas fa-folder-open"></i> View Projects
-                    </a>
-                    <a href="#contact" class="px-8 py-4 bg-card hover:bg-slate-800 text-white rounded-lg font-semibold transition-all border border-white/10 flex items-center justify-center gap-2">
-                        <i class="fas fa-envelope"></i> Contact Me
-                    </a>
-                </div>
-
-                <!-- Tech Stack Marquee (Subtle) -->
-                <div class="mt-16 pt-8 border-t border-white/5">
-                    <p class="text-sm text-slate-500 font-mono mb-4">TRUSTED TECHNOLOGIES</p>
-                    <div class="flex flex-wrap justify-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-                        <i class="fab fa-python text-3xl hover:text-blue-500 transition-colors"></i>
-                        <i class="fab fa-google text-3xl hover:text-red-500 transition-colors"></i>
-                        <i class="fab fa-microsoft text-3xl hover:text-blue-400 transition-colors"></i>
-                        <i class="fas fa-database text-3xl hover:text-yellow-500 transition-colors"></i>
-                        <i class="fas fa-wind text-3xl hover:text-green-500 transition-colors"></i> <!-- Airflow icon proxy -->
+                <!-- Left: Text Content -->
+                <div class="reveal-up">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono mb-6">
+                        <span class="relative flex h-2 w-2">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                        </span>
+                        Available for new projects
                     </div>
+                    
+                    <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-[1.1] tracking-tight">
+                        <span class="block text-white">Data</span>
+                        <span class="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-accent" style="-webkit-text-stroke: 0;">Engineer</span>
+                        <span class="block text-3xl md:text-5xl font-mono text-muted mt-2">& Architect.</span>
+                    </h1>
+                    
+                    <p class="mt-6 text-lg text-muted leading-relaxed max-w-lg font-mono">
+                        I build robust ELT pipelines, orchestrate complex workflows on <span class="text-primary">GCP & Azure</span>, 
+                        and turn raw data into actionable insights.
+                    </p>
+
+                    <div class="mt-10 flex flex-col sm:flex-row gap-4">
+                        <a href="#projects" class="px-8 py-4 bg-primary hover:bg-orange-400 text-bg font-bold rounded-md transition-all shadow-lg shadow-primary/20 transform hover:-translate-y-1 font-mono text-sm uppercase tracking-wide flex items-center justify-center gap-2">
+                            <i class="fas fa-folder-open"></i> View Projects
+                        </a>
+                        <a href="#contact" class="px-8 py-4 bg-transparent hover:bg-white/5 text-white border border-border rounded-md transition-all font-mono text-sm uppercase tracking-wide flex items-center justify-center gap-2">
+                            <i class="fas fa-envelope"></i> Contact Me
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: Terminal Component -->
+                <div class="reveal-up hidden md:block" style="transition-delay: 200ms;">
+                    <div class="terminal">
+                        <div class="term-bar">
+                            <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+                            <span class="term-title text-xs text-muted ml-2">agus@portfolio:~</span>
+                        </div>
+                        <div class="term-body">
+                            <span class="block"><span class="text-primary">$ </span>cat profile.json</span>
+                            <span class="block">&nbsp;</span>
+                            <span class="block"><span class="term-brace">{</span></span>
+                            <span class="block">&nbsp;&nbsp;<span class="term-key">"name"</span>: <span class="term-str">"Agus Mahari"</span>,</span>
+                            <span class="block">&nbsp;&nbsp;<span class="term-key">"role"</span>: <span class="term-str">"Data Engineer"</span>,</span>
+                            <span class="block">&nbsp;&nbsp;<span class="term-key">"location"</span>: <span class="term-str">"Jakarta, ID"</span>,</span>
+                            <span class="block">&nbsp;&nbsp;<span class="term-key">"stack"</span>: <span class="term-brace">[</span></span>
+                            <span class="block">&nbsp;&nbsp;&nbsp;&nbsp;<span class="term-str">"Python"</span>, <span class="term-str">"SQL"</span>,</span>
+                            <span class="block">&nbsp;&nbsp;&nbsp;&nbsp;<span class="term-str">"Airflow"</span>, <span class="term-str">"GCP"</span></span>
+                            <span class="block">&nbsp;&nbsp;<span class="term-brace">]</span>,</span>
+                            <span class="block">&nbsp;&nbsp;<span class="term-key">"openToWork"</span>: <span class="term-val">true</span></span>
+                            <span class="block"><span class="term-brace">}</span></span>
+                            <span class="block">&nbsp;</span>
+                            <span class="block"><span class="text-primary">$ </span><span class="term-cursor"></span></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Tech Stack Marquee -->
+            <div class="mt-24 pt-8 border-t border-border reveal-up">
+                <p class="text-xs font-mono text-muted mb-6 uppercase tracking-widest text-center">Trusted Technologies</p>
+                <div class="flex flex-wrap justify-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                    <i class="fab fa-python text-3xl hover:text-blue-400 transition-colors"></i>
+                    <i class="fab fa-google text-3xl hover:text-red-400 transition-colors"></i>
+                    <i class="fab fa-microsoft text-3xl hover:text-blue-500 transition-colors"></i>
+                    <i class="fas fa-database text-3xl hover:text-yellow-400 transition-colors"></i>
+                    <i class="fas fa-wind text-3xl hover:text-green-400 transition-colors"></i>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-24 relative">
+    <section id="about" class="py-24 relative border-t border-border">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="reveal-up">
-                <h2 class="text-3xl font-bold text-white mb-12 flex items-center gap-3">
-                    <span class="text-secondary font-mono text-xl">01.</span> About Me
-                </h2>
+                <div class="flex items-center gap-3 mb-12">
+                    <span class="text-primary font-mono text-xl">01.</span>
+                    <h2 class="text-3xl font-bold text-white">About Me</h2>
+                </div>
+                
                 <div class="grid md:grid-cols-3 gap-12">
-                    <div class="md:col-span-2 space-y-6 text-slate-400 leading-relaxed">
-                        <p>
+                    <div class="md:col-span-2 space-y-6 text-muted leading-relaxed font-mono text-sm">
+                        <p class="text-base">
                             I'm a Data Engineer with over <strong class="text-white">3 years of experience</strong> architecting end-to-end data solutions. My passion lies in building scalable infrastructure that bridges the gap between raw data sources and business intelligence.
                         </p>
-                        <p>
-                            Currently at <strong class="text-white">PT Astra Graphia</strong>, I lead pipeline development for major clients like Toyota and Telkom, utilizing modern stacks like <span class="text-primary font-mono">Airflow</span>, <span class="text-primary font-mono">DBT</span>, and <span class="text-primary font-mono">Snowflake</span>.
+                        <p class="text-base">
+                            Currently at <strong class="text-white">PT Astra Graphia</strong>, I lead pipeline development for major clients like Toyota and Telkom, utilizing modern stacks like <span class="text-primary">Airflow</span>, <span class="text-primary">DBT</span>, and <span class="text-primary">Snowflake</span>.
                         </p>
-                        <p>
+                        <p class="text-base">
                             When I'm not optimizing queries or debugging DAGs, I mentor aspiring data engineers and contribute to open-source data tools.
                         </p>
+                        
+                        <!-- Stats Grid -->
+                        <div class="grid grid-cols-2 gap-4 mt-8">
+                            <div class="glass-card p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-primary font-sys">3+</div>
+                                <div class="text-xs text-muted">Years Experience</div>
+                            </div>
+                            <div class="glass-card p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-secondary font-sys">20+</div>
+                                <div class="text-xs text-muted">Pipelines Built</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="relative">
-                        <div class="absolute inset-0 bg-gradient-to-tr from-primary to-secondary rounded-2xl transform rotate-3 opacity-20 blur-lg"></div>
+                    
+                    <div class="relative group">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-primary to-accent rounded-2xl transform rotate-3 opacity-20 group-hover:rotate-6 transition-all"></div>
                         <!-- REPLACE WITH YOUR IMAGE -->
-                        <img src="assets/img/profile.jpg" alt="Agus Mahari" class="relative w-full h-64 object-cover rounded-2xl border border-white/10 shadow-2xl grayscale hover:grayscale-0 transition-all duration-500">
+                        <img src="assets/img/profile.jpg" alt="Agus Mahari" class="relative w-full h-80 object-cover rounded-2xl border border-border shadow-2xl grayscale group-hover:grayscale-0 transition-all duration-500">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Skills Section (Bento Grid Layout) -->
-    <section id="skills" class="py-24 bg-card/30">
+    <!-- Skills Section (Bento Grid) -->
+    <section id="skills" class="py-24 border-t border-border bg-bg2/30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="reveal-up">
-                <h2 class="text-3xl font-bold text-white mb-12 flex items-center gap-3">
-                    <span class="text-secondary font-mono text-xl">02.</span> Technical Arsenal
-                </h2>
+                <div class="flex items-center gap-3 mb-12">
+                    <span class="text-primary font-mono text-xl">02.</span>
+                    <h2 class="text-3xl font-bold text-white">Technical Arsenal</h2>
+                </div>
                 
-                <!-- Bento Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-4 grid-rows-4 md:grid-rows-2 gap-4 h-auto md:h-[600px]">
-                    
+                <div class="grid grid-cols-1 md:grid-cols-4 grid-rows-4 md:grid-rows-2 gap-4 h-auto md:h-[500px]">
                     <!-- Large Card: Languages -->
-                    <div class="md:col-span-2 md:row-span-2 glass-card p-6 rounded-2xl border border-white/5 hover:border-primary/30 transition-all group reveal-up">
+                    <div class="md:col-span-2 md:row-span-2 glass-card p-6 rounded-2xl reveal-up">
                         <div class="h-full flex flex-col">
                             <div class="flex items-center gap-3 mb-4">
                                 <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400">
@@ -194,30 +365,30 @@
                                 <h3 class="text-xl font-bold text-white">Languages</h3>
                             </div>
                             <div class="flex flex-wrap gap-2 mt-auto">
-                                <span class="px-3 py-1.5 bg-slate-800 text-slate-300 text-sm rounded-lg border border-slate-700 font-mono">Python (Pandas, Spark)</span>
-                                <span class="px-3 py-1.5 bg-slate-800 text-slate-300 text-sm rounded-lg border border-slate-700 font-mono">SQL (Advanced)</span>
-                                <span class="px-3 py-1.5 bg-slate-800 text-slate-300 text-sm rounded-lg border border-slate-700 font-mono">Bash Scripting</span>
+                                <span class="px-3 py-1.5 bg-bg2 text-muted text-sm rounded border border-border font-mono hover:text-primary hover:border-primary transition-colors cursor-default">Python</span>
+                                <span class="px-3 py-1.5 bg-bg2 text-muted text-sm rounded border border-border font-mono hover:text-primary hover:border-primary transition-colors cursor-default">SQL</span>
+                                <span class="px-3 py-1.5 bg-bg2 text-muted text-sm rounded border border-border font-mono hover:text-primary hover:border-primary transition-colors cursor-default">PySpark</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Medium Card: Cloud -->
-                    <div class="md:col-span-2 md:row-span-1 glass-card p-6 rounded-2xl border border-white/5 hover:border-purple-400/30 transition-all reveal-up">
+                    <div class="md:col-span-2 md:row-span-1 glass-card p-6 rounded-2xl reveal-up">
                         <div class="flex items-center gap-3 mb-2">
                             <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400">
                                 <i class="fas fa-cloud"></i>
                             </div>
                             <h3 class="text-lg font-bold text-white">Cloud Platforms</h3>
                         </div>
-                        <div class="flex gap-4 mt-2 text-slate-400 text-sm">
-                            <span class="flex items-center gap-2"><i class="fab fa-google text-lg"></i> GCP</span>
-                            <span class="flex items-center gap-2"><i class="fab fa-microsoft text-lg"></i> Azure</span>
-                            <span class="flex items-center gap-2"><i class="fas fa-snowflake text-lg"></i> Snowflake</span>
+                        <div class="flex gap-4 mt-2 text-muted text-sm font-mono">
+                            <span class="flex items-center gap-2 hover:text-white transition-colors"><i class="fab fa-google"></i> GCP</span>
+                            <span class="flex items-center gap-2 hover:text-white transition-colors"><i class="fab fa-microsoft"></i> Azure</span>
+                            <span class="flex items-center gap-2 hover:text-white transition-colors"><i class="fas fa-snowflake"></i> Snowflake</span>
                         </div>
                     </div>
 
-                    <!-- Medium Card: Orchestration -->
-                    <div class="md:col-span-1 md:row-span-1 glass-card p-6 rounded-2xl border border-white/5 hover:border-green-400/30 transition-all reveal-up">
+                    <!-- Small Card: Orchestration -->
+                    <div class="md:col-span-1 md:row-span-1 glass-card p-6 rounded-2xl reveal-up">
                         <div class="flex items-center gap-3 mb-2">
                             <div class="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center text-green-400">
                                 <i class="fas fa-sync-alt"></i>
@@ -225,14 +396,13 @@
                             <h3 class="text-lg font-bold text-white">Orchestration</h3>
                         </div>
                         <div class="flex flex-wrap gap-2 mt-2">
-                            <span class="text-xs font-mono bg-slate-800 px-2 py-1 rounded text-slate-300">Airflow</span>
-                            <span class="text-xs font-mono bg-slate-800 px-2 py-1 rounded text-slate-300">DBT</span>
-                            <span class="text-xs font-mono bg-slate-800 px-2 py-1 rounded text-slate-300">Talend</span>
+                            <span class="text-xs font-mono bg-bg2 px-2 py-1 rounded text-muted border border-border">Airflow</span>
+                            <span class="text-xs font-mono bg-bg2 px-2 py-1 rounded text-muted border border-border">DBT</span>
                         </div>
                     </div>
 
-                     <!-- Medium Card: Data Ops -->
-                     <div class="md:col-span-1 md:row-span-1 glass-card p-6 rounded-2xl border border-white/5 hover:border-orange-400/30 transition-all reveal-up">
+                     <!-- Small Card: Data Ops -->
+                     <div class="md:col-span-1 md:row-span-1 glass-card p-6 rounded-2xl reveal-up">
                         <div class="flex items-center gap-3 mb-2">
                             <div class="w-8 h-8 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-400">
                                 <i class="fas fa-server"></i>
@@ -240,28 +410,26 @@
                             <h3 class="text-lg font-bold text-white">Data Ops</h3>
                         </div>
                         <div class="flex flex-wrap gap-2 mt-2">
-                            <span class="text-xs font-mono bg-slate-800 px-2 py-1 rounded text-slate-300">Docker</span>
-                            <span class="text-xs font-mono bg-slate-800 px-2 py-1 rounded text-slate-300">K8s</span>
-                            <span class="text-xs font-mono bg-slate-800 px-2 py-1 rounded text-slate-300">CI/CD</span>
+                            <span class="text-xs font-mono bg-bg2 px-2 py-1 rounded text-muted border border-border">Docker</span>
+                            <span class="text-xs font-mono bg-bg2 px-2 py-1 rounded text-muted border border-border">K8s</span>
                         </div>
                     </div>
 
                     <!-- Wide Card: Concepts -->
-                    <div class="md:col-span-4 md:row-span-1 glass-card p-6 rounded-2xl border border-white/5 hover:border-accent/30 transition-all reveal-up flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div class="md:col-span-4 md:row-span-1 glass-card p-6 rounded-2xl reveal-up flex flex-col md:flex-row items-center justify-between gap-4">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center text-accent-400">
+                            <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center text-accent">
                                 <i class="fas fa-brain"></i>
                             </div>
                             <div>
                                 <h3 class="text-lg font-bold text-white">Core Expertise</h3>
-                                <p class="text-sm text-slate-400">End-to-End Pipeline Architecture</p>
+                                <p class="text-xs text-muted font-mono">End-to-End Pipeline Architecture</p>
                             </div>
                         </div>
                         <div class="flex flex-wrap justify-center gap-3">
-                            <span class="px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded-full border border-slate-700">Data Warehousing</span>
-                            <span class="px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded-full border border-slate-700">CDC (Change Data Capture)</span>
-                            <span class="px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded-full border border-slate-700">Real-time Streaming</span>
-                            <span class="px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded-full border border-slate-700">Dimensional Modeling</span>
+                            <span class="px-3 py-1 bg-bg2 text-muted text-sm rounded-full border border-border font-mono hover:border-accent hover:text-accent transition-colors">Data Warehousing</span>
+                            <span class="px-3 py-1 bg-bg2 text-muted text-sm rounded-full border border-border font-mono hover:border-accent hover:text-accent transition-colors">CDC</span>
+                            <span class="px-3 py-1 bg-bg2 text-muted text-sm rounded-full border border-border font-mono hover:border-accent hover:text-accent transition-colors">Real-time Streaming</span>
                         </div>
                     </div>
                 </div>
@@ -270,66 +438,48 @@
     </section>
 
     <!-- Experience Section -->
-    <section id="experience" class="py-24">
+    <section id="experience" class="py-24 border-t border-border">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="reveal-up">
-                <h2 class="text-3xl font-bold text-white mb-12 flex items-center gap-3">
-                    <span class="text-secondary font-mono text-xl">03.</span> Experience
-                </h2>
+                <div class="flex items-center gap-3 mb-12">
+                    <span class="text-primary font-mono text-xl">03.</span>
+                    <h2 class="text-3xl font-bold text-white">Experience</h2>
+                </div>
                 
-                <div class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-700 before:to-transparent">
+                <div class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-border before:to-transparent">
                     
-                    <!-- Job 1: Astra Graphia -->
-                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-full border border-slate-700 bg-slate-900 group-hover:bg-primary group-hover:border-primary transition-all shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
-                            <i class="fas fa-briefcase text-slate-500 group-hover:text-white text-sm"></i>
+                    <!-- Job 1 -->
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-full border border-border bg-bg group-hover:bg-primary group-hover:border-primary transition-all shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                            <i class="fas fa-briefcase text-muted group-hover:text-bg text-sm"></i>
                         </div>
-                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-xl border border-white/5 hover:border-primary/30 transition-all">
+                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-xl border border-border hover:border-primary/30 transition-all">
                             <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-2">
                                 <h3 class="font-bold text-white text-lg">Data Engineer</h3>
                                 <span class="text-xs font-mono text-primary bg-primary/10 px-2 py-1 rounded">2024 - Present</span>
                             </div>
-                            <p class="text-slate-400 text-sm mb-3">PT Astra Graphia Info Tech (Placements: Astra Intl, Toyota, Telkom)</p>
-                            <ul class="space-y-2 text-sm text-slate-400 list-disc list-inside marker:text-primary">
+                            <p class="text-muted text-sm mb-3 font-mono">PT Astra Graphia Info Tech</p>
+                            <ul class="space-y-2 text-sm text-muted list-disc list-inside marker:text-primary">
                                 <li>Architected high-volume batch pipelines using MS Synapse & Fabric.</li>
-                                <li>Implemented CDC with Debezium/Redpanda reducing latency to < 5 mins.</li>
-                                <li>Reduced dev time by 20% via modular Talend frameworks.</li>
+                                <li>Implemented CDC with Debezium/Redpanda reducing latency to &lt; 5 mins.</li>
                             </ul>
                         </div>
                     </div>
 
-                    <!-- Job 2: BNI -->
+                    <!-- Job 2 -->
                     <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-full border border-slate-700 bg-slate-900 group-hover:bg-secondary group-hover:border-secondary transition-all shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
-                            <i class="fas fa-briefcase text-slate-500 group-hover:text-white text-sm"></i>
+                        <div class="flex items-center justify-center w-10 h-10 rounded-full border border-border bg-bg group-hover:bg-secondary group-hover:border-secondary transition-all shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                            <i class="fas fa-briefcase text-muted group-hover:text-bg text-sm"></i>
                         </div>
-                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-xl border border-white/5 hover:border-secondary/30 transition-all">
+                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-xl border border-border hover:border-secondary/30 transition-all">
                             <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-2">
                                 <h3 class="font-bold text-white text-lg">Data Engineer Consultant</h3>
                                 <span class="text-xs font-mono text-secondary bg-secondary/10 px-2 py-1 rounded">2023 - 2024</span>
                             </div>
-                            <p class="text-slate-400 text-sm mb-3">PT BNI Tbk (via IYKRA)</p>
-                            <ul class="space-y-2 text-sm text-slate-400 list-disc list-inside marker:text-secondary">
+                            <p class="text-muted text-sm mb-3 font-mono">PT BNI Tbk (via IYKRA)</p>
+                            <ul class="space-y-2 text-sm text-muted list-disc list-inside marker:text-secondary">
                                 <li>Migrated ELT from Teradata to Cloudera using IBM DataStage.</li>
-                                <li>Optimized job runtimes by 20% through partition tuning.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Job 3: Rumah Zakat -->
-                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-full border border-slate-700 bg-slate-900 group-hover:bg-accent group-hover:border-accent transition-all shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
-                            <i class="fas fa-briefcase text-slate-500 group-hover:text-white text-sm"></i>
-                        </div>
-                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-xl border border-white/5 hover:border-accent/30 transition-all">
-                            <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-2">
-                                <h3 class="font-bold text-white text-lg">Data Engineer</h3>
-                                <span class="text-xs font-mono text-accent bg-accent/10 px-2 py-1 rounded">2022 - 2023</span>
-                            </div>
-                            <p class="text-slate-400 text-sm mb-3">Rumah Zakat</p>
-                            <ul class="space-y-2 text-sm text-slate-400 list-disc list-inside marker:text-accent">
-                                <li>Built end-to-end GCP pipelines (BigQuery, Looker Studio).</li>
-                                <li>Developed dashboards improving donor transparency reporting.</li>
+                                <li>Optimized job runtimes by 20%.</li>
                             </ul>
                         </div>
                     </div>
@@ -339,147 +489,120 @@
         </div>
     </section>
 
-    <!-- Projects Section (With Architecture Diagrams) -->
-    <section id="projects" class="py-24 bg-card/30">
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 border-t border-border bg-bg2/30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="reveal-up">
-                <h2 class="text-3xl font-bold text-white mb-12 flex items-center gap-3">
-                    <span class="text-secondary font-mono text-xl">04.</span> Featured Projects
-                </h2>
+                <div class="flex items-center gap-3 mb-12">
+                    <span class="text-primary font-mono text-xl">04.</span>
+                    <h2 class="text-3xl font-bold text-white">Featured Projects</h2>
+                </div>
 
                 <div class="grid md:grid-cols-2 gap-8">
                     
-                    <!-- Project 1: Real-Time CDC -->
-                    <div class="glass-card rounded-2xl overflow-hidden border border-white/5 hover:border-primary/30 transition-all group reveal-up">
+                    <!-- Project 1 -->
+                    <div class="glass-card rounded-2xl overflow-hidden border border-border hover:border-primary/30 transition-all group reveal-up">
                         <div class="p-8">
                             <div class="flex justify-between items-start mb-6">
                                 <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                                     <i class="fas fa-bolt text-2xl"></i>
                                 </div>
                                 <div class="flex gap-4">
-                                    <a href="#" class="text-slate-400 hover:text-white transition-colors"><i class="fab fa-github text-xl"></i></a>
-                                    <a href="#" class="text-slate-400 hover:text-white transition-colors"><i class="fas fa-external-link-alt text-xl"></i></a>
+                                    <a href="#" class="text-muted hover:text-white transition-colors"><i class="fab fa-github text-xl"></i></a>
                                 </div>
                             </div>
                             
                             <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors">Real-Time CDC Pipeline</h3>
-                            <p class="text-slate-400 text-sm mb-6">
-                                Architected a Change Data Capture solution synchronizing on-prem SAP data to Cloud Warehouse in near real-time for automotive clients.
+                            <p class="text-muted text-sm mb-6 font-mono">
+                                Architected a Change Data Capture solution synchronizing on-prem SAP data to Cloud Warehouse in near real-time.
                             </p>
 
-                            <!-- Interactive Architecture Diagram Container -->
-                            <div class="bg-darker rounded-xl p-4 mb-6 border border-white/5 relative overflow-hidden h-48 flex items-center justify-center" id="diagram-container-1">
-                                <!-- SVG Diagram will be injected here by JS or static SVG -->
-                                <svg viewBox="0 0 400 200" class="w-full h-full">
-                                    <!-- Definitions for gradients/markers -->
+                            <!-- Diagram -->
+                            <div class="bg-bg border border-border rounded-xl p-4 mb-6 h-40 flex items-center justify-center overflow-hidden relative">
+                                <svg viewBox="0 0 400 150" class="w-full h-full">
                                     <defs>
-                                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-                                          <polygon points="0 0, 10 3.5, 0 7" fill="#3B82F6" />
+                                        <marker id="arrow" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                          <polygon points="0 0, 10 3.5, 0 7" fill="#FF9A5C" />
                                         </marker>
                                     </defs>
+                                    <rect x="20" y="55" width="70" height="40" rx="4" fill="#1F1828" stroke="#FF9A5C" stroke-width="2"/>
+                                    <text x="55" y="80" text-anchor="middle" fill="white" font-size="10" font-family="monospace">SAP</text>
                                     
-                                    <!-- Nodes -->
-                                    <rect x="20" y="80" width="80" height="40" rx="4" fill="#1E293B" stroke="#3B82F6" stroke-width="2" class="drop-shadow-lg"/>
-                                    <text x="60" y="105" text-anchor="middle" fill="white" font-size="10" font-family="monospace">SAP Source</text>
+                                    <rect x="165" y="55" width="70" height="40" rx="4" fill="#1F1828" stroke="#FF6B6B" stroke-width="2"/>
+                                    <text x="200" y="80" text-anchor="middle" fill="white" font-size="10" font-family="monospace">Kafka</text>
                                     
-                                    <rect x="160" y="80" width="80" height="40" rx="4" fill="#1E293B" stroke="#10B981" stroke-width="2" class="drop-shadow-lg"/>
-                                    <text x="200" y="105" text-anchor="middle" fill="white" font-size="10" font-family="monospace">Debezium</text>
-                                    
-                                    <rect x="300" y="80" width="80" height="40" rx="4" fill="#1E293B" stroke="#8B5CF6" stroke-width="2" class="drop-shadow-lg"/>
-                                    <text x="340" y="105" text-anchor="middle" fill="white" font-size="10" font-family="monospace">Snowflake</text>
+                                    <rect x="310" y="55" width="70" height="40" rx="4" fill="#1F1828" stroke="#C96FD8" stroke-width="2"/>
+                                    <text x="345" y="80" text-anchor="middle" fill="white" font-size="10" font-family="monospace">Snowflake</text>
 
-                                    <!-- Animated Data Particles (Simple Circles moving) -->
-                                    <circle r="3" fill="#3B82F6">
-                                        <animateMotion dur="2s" repeatCount="indefinite" path="M 100 100 L 160 100" />
+                                    <circle r="3" fill="#FF9A5C">
+                                        <animateMotion dur="2s" repeatCount="indefinite" path="M 90 75 L 165 75" />
                                     </circle>
-                                    <circle r="3" fill="#10B981">
-                                        <animateMotion dur="2s" begin="1s" repeatCount="indefinite" path="M 240 100 L 300 100" />
+                                    <circle r="3" fill="#FF6B6B">
+                                        <animateMotion dur="2s" begin="1s" repeatCount="indefinite" path="M 235 75 L 310 75" />
                                     </circle>
 
-                                    <!-- Connecting Lines -->
-                                    <line x1="100" y1="100" x2="160" y2="100" stroke="#334155" stroke-width="2" marker-end="url(#arrowhead)" />
-                                    <line x1="240" y1="100" x2="300" y2="100" stroke="#334155" stroke-width="2" marker-end="url(#arrowhead)" />
+                                    <line x1="90" y1="75" x2="165" y2="75" stroke="#332a33" stroke-width="2" marker-end="url(#arrow)" />
+                                    <line x1="235" y1="75" x2="310" y2="75" stroke="#332a33" stroke-width="2" marker-end="url(#arrow)" />
                                 </svg>
                             </div>
 
                             <div class="flex flex-wrap gap-2 mb-6">
-                                <span class="text-xs font-mono bg-slate-800 text-slate-300 px-2 py-1 rounded">Debezium</span>
-                                <span class="text-xs font-mono bg-slate-800 text-slate-300 px-2 py-1 rounded">Redpanda</span>
-                                <span class="text-xs font-mono bg-slate-800 text-slate-300 px-2 py-1 rounded">Snowflake</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Debezium</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Redpanda</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Snowflake</span>
                             </div>
 
                             <ul class="space-y-2">
-                                <li class="flex items-start text-sm text-slate-300">
+                                <li class="flex items-start text-sm text-muted">
                                     <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
                                     <span>Reduced latency from 24h to <strong class="text-white">&lt;5 mins</strong>.</span>
-                                </li>
-                                <li class="flex items-start text-sm text-slate-300">
-                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
-                                    <span>Handled 50M+ daily records with 99.9% uptime.</span>
                                 </li>
                             </ul>
                         </div>
                     </div>
 
-                    <!-- Project 2: Enterprise DW -->
-                    <div class="glass-card rounded-2xl overflow-hidden border border-white/5 hover:border-secondary/30 transition-all group reveal-up">
+                    <!-- Project 2 -->
+                    <div class="glass-card rounded-2xl overflow-hidden border border-border hover:border-secondary/30 transition-all group reveal-up">
                         <div class="p-8">
                             <div class="flex justify-between items-start mb-6">
                                 <div class="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary">
                                     <i class="fas fa-layer-group text-2xl"></i>
                                 </div>
                                 <div class="flex gap-4">
-                                    <a href="#" class="text-slate-400 hover:text-white transition-colors"><i class="fab fa-github text-xl"></i></a>
+                                    <a href="#" class="text-muted hover:text-white transition-colors"><i class="fab fa-github text-xl"></i></a>
                                 </div>
                             </div>
                             
                             <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-secondary transition-colors">Enterprise Data Warehouse</h3>
-                            <p class="text-slate-400 text-sm mb-6">
+                            <p class="text-muted text-sm mb-6 font-mono">
                                 Designed a scalable dimensional model on Microsoft Fabric unifying 10+ sources for financial reporting.
                             </p>
 
-                            <!-- Static Diagram Representation -->
-                            <div class="bg-darker rounded-xl p-4 mb-6 border border-white/5 relative overflow-hidden h-48 flex items-center justify-center">
+                            <div class="bg-bg border border-border rounded-xl p-4 mb-6 h-40 flex items-center justify-center">
                                 <div class="grid grid-cols-3 gap-4 w-full px-4">
-                                    <div class="bg-slate-800 p-2 rounded text-center border border-slate-700">
+                                    <div class="bg-bg2 p-2 rounded text-center border border-border">
                                         <i class="fas fa-database text-blue-400 mb-1"></i>
-                                        <div class="text-[10px] text-slate-400">Sources</div>
+                                        <div class="text-[10px] text-muted">Sources</div>
                                     </div>
-                                    <div class="bg-slate-800 p-2 rounded text-center border border-slate-700 flex items-center justify-center">
-                                        <i class="fas fa-arrow-right text-slate-500"></i>
+                                    <div class="flex items-center justify-center">
+                                        <i class="fas fa-arrow-right text-muted"></i>
                                     </div>
-                                    <div class="bg-slate-800 p-2 rounded text-center border border-secondary/50 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                                    <div class="bg-bg2 p-2 rounded text-center border border-secondary/50 shadow-[0_0_15px_rgba(255,107,107,0.2)]">
                                         <i class="fas fa-cube text-secondary mb-1"></i>
                                         <div class="text-[10px] text-white font-bold">Fabric DW</div>
-                                    </div>
-                                    <div class="bg-slate-800 p-2 rounded text-center border border-slate-700 col-start-1 row-start-2">
-                                        <i class="fas fa-table text-blue-400 mb-1"></i>
-                                        <div class="text-[10px] text-slate-400">Staging</div>
-                                    </div>
-                                    <div class="bg-slate-800 p-2 rounded text-center border border-slate-700 col-start-2 row-start-2 flex items-center justify-center">
-                                        <i class="fas fa-arrow-right text-slate-500"></i>
-                                    </div>
-                                    <div class="bg-slate-800 p-2 rounded text-center border border-slate-700 col-start-3 row-start-2">
-                                        <i class="fas fa-chart-bar text-purple-400 mb-1"></i>
-                                        <div class="text-[10px] text-slate-400">Power BI</div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="flex flex-wrap gap-2 mb-6">
-                                <span class="text-xs font-mono bg-slate-800 text-slate-300 px-2 py-1 rounded">MS Fabric</span>
-                                <span class="text-xs font-mono bg-slate-800 text-slate-300 px-2 py-1 rounded">DBT</span>
-                                <span class="text-xs font-mono bg-slate-800 text-slate-300 px-2 py-1 rounded">Synapse</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">MS Fabric</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">DBT</span>
                             </div>
 
                             <ul class="space-y-2">
-                                <li class="flex items-start text-sm text-slate-300">
+                                <li class="flex items-start text-sm text-muted">
                                     <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
                                     <span>Reduced report generation time by <strong class="text-white">40%</strong>.</span>
-                                </li>
-                                <li class="flex items-start text-sm text-slate-300">
-                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
-                                    <span>Automated data quality tests with DBT.</span>
                                 </li>
                             </ul>
                         </div>
@@ -491,38 +614,159 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-24 relative overflow-hidden">
+    <section id="contact" class="py-24 border-t border-border">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
             <div class="reveal-up">
-                <p class="text-secondary font-mono mb-4">05. What's Next?</p>
-                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Let's Build Something Data-Driven</h2>
-                <p class="text-slate-400 text-lg mb-12 max-w-2xl mx-auto">
+                <p class="text-primary font-mono mb-4 text-sm">05. What's Next?</p>
+                <h2 class="text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight">Let's <span class="text-primary">talk.</span></h2>
+                <p class="text-muted text-lg mb-12 max-w-2xl mx-auto font-mono text-sm">
                     Currently open to new opportunities in Data Engineering and Cloud Architecture. Whether you have a question or just want to say hi, I'll try my best to get back to you!
                 </p>
                 
-                <div class="flex flex-col sm:flex-row justify-center gap-6">
-                    <a href="mailto:agusmahari@gmail.com" class="px-8 py-4 bg-primary hover:bg-blue-600 text-white rounded-lg font-semibold transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
+                <div class="flex flex-col sm:flex-row justify-center gap-6 mb-12">
+                    <a href="mailto:agusmahari@gmail.com" class="px-8 py-4 bg-primary hover:bg-orange-400 text-bg font-bold rounded-md transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2 font-mono text-sm uppercase">
                         <i class="fas fa-envelope"></i> Say Hello
                     </a>
-                    <a href="https://linkedin.com/in/agus-mahari/" target="_blank" class="px-8 py-4 bg-card hover:bg-slate-800 text-white rounded-lg font-semibold transition-all border border-white/10 flex items-center justify-center gap-2">
+                    <a href="https://linkedin.com/in/agus-mahari/" target="_blank" class="px-8 py-4 bg-transparent hover:bg-white/5 text-white border border-border rounded-md transition-all flex items-center justify-center gap-2 font-mono text-sm uppercase">
                         <i class="fab fa-linkedin"></i> LinkedIn
                     </a>
+                </div>
+
+                <!-- Code Illustration -->
+                <div class="max-w-md mx-auto bg-bg border border-border rounded-xl p-6 text-left font-mono text-xs text-muted overflow-hidden">
+                    <div class="text-muted">// Agus Mahari... get in touch</div>
+                    <div class="mt-2"><span class="text-accent">const</span> <span class="text-white">agus</span> = <span class="text-primary">{</span></div>
+                    <div>&nbsp;&nbsp;email: <span class="text-str">"agusmahari@gmail.com"</span>,</div>
+                    <div>&nbsp;&nbsp;status: <span class="text-str">"open to opportunities"</span>,</div>
+                    <div>&nbsp;&nbsp;responseTime: <span class="text-str">"usually within 24h"</span>,</div>
+                    <div>&nbsp;&nbsp;likesCollabs: <span class="text-val">true</span>,</div>
+                    <div><span class="text-primary">}</span></div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-8 bg-dark border-t border-white/5 text-center text-sm text-slate-500">
+    <footer class="py-8 border-t border-border text-center text-xs text-muted font-mono">
         <p>Designed & Built by Agus Mahari &copy; <span id="year"></span></p>
         <div class="mt-2 flex justify-center gap-4">
-            <a href="https://github.com/agusmahari" target="_blank" class="hover:text-white transition-colors"><i class="fab fa-github"></i></a>
-            <a href="https://linkedin.com/in/agus-mahari/" target="_blank" class="hover:text-white transition-colors"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/agusmahari" target="_blank" class="hover:text-primary transition-colors"><i class="fab fa-github"></i></a>
+            <a href="https://linkedin.com/in/agus-mahari/" target="_blank" class="hover:text-primary transition-colors"><i class="fab fa-linkedin"></i></a>
         </div>
     </footer>
 
     <!-- Scripts -->
-    <script src="assets/js/components.js"></script>
-    <script src="script.js"></script>
+    <script>
+        // --- CUSTOM CURSOR LOGIC ---
+        const cursor = document.getElementById('cursor');
+        const ring = document.getElementById('cursor-ring');
+        let mx=0, my=0, rx=0, ry=0;
+
+        document.addEventListener('mousemove', e => {
+            mx = e.clientX;
+            my = e.clientY;
+            cursor.style.left = mx + 'px';
+            cursor.style.top = my + 'px';
+        });
+
+        function animateCursor() {
+            rx += (mx - rx) * 0.14;
+            ry += (my - ry) * 0.14;
+            ring.style.left = rx + 'px';
+            ring.style.top = ry + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Hover effects for links
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.width = '6px';
+                cursor.style.height = '6px';
+                ring.style.width = '50px';
+                ring.style.height = '50px';
+                ring.style.backgroundColor = 'rgba(255, 154, 92, 0.1)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.width = '12px';
+                cursor.style.height = '12px';
+                ring.style.width = '36px';
+                ring.style.height = '36px';
+                ring.style.backgroundColor = 'transparent';
+            });
+        });
+
+        // --- PARTICLE BACKGROUND LOGIC ---
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let W, H;
+        const COLS = ['#FF9A5C','#FF6B6B','#C96FD8','#FFD166','#FF8FA3'];
+        const pts = [];
+
+        function resize() {
+            W = canvas.width = window.innerWidth;
+            H = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        function Particle() {
+            this.x = Math.random() * W;
+            this.y = Math.random() * H;
+            this.s = Math.random() * 1.5 + 0.3;
+            this.vx = (Math.random() - 0.5) * 0.3;
+            this.vy = (Math.random() - 0.5) * 0.3;
+            this.o = Math.random() * 0.5 + 0.1;
+            this.c = COLS[Math.floor(Math.random() * COLS.length)];
+        }
+
+        for(let i=0; i<80; i++) pts.push(new Particle());
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, W, H);
+            pts.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.s, 0, Math.PI*2);
+                ctx.fillStyle = p.c;
+                ctx.globalAlpha = p.o;
+                ctx.fill();
+                p.x += p.vx;
+                p.y += p.vy;
+                if(p.x < 0 || p.x > W) p.vx *= -1;
+                if(p.y < 0 || p.y > H) p.vy *= -1;
+            });
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(drawParticles);
+        }
+        drawParticles();
+
+        // --- SCROLL REVEAL LOGIC ---
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach((e) => {
+                if(e.isIntersecting) {
+                    e.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal-up').forEach(el => obs.observe(el));
+
+        // --- TYPEWRITER EFFECT FOR HERO ---
+        const l3 = document.querySelector('.term-body'); 
+        // Simple blink logic is handled by CSS, but we can add typing effect later if needed
+        
+        // --- FOOTER YEAR ---
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // --- MOBILE MENU ---
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        if(btn && menu) {
+            btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+            menu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => menu.classList.add('hidden'));
+            });
+        }
+    </script>
 </body>
 </html>
