@@ -1,0 +1,1268 @@
+--- index.html (原始)
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Agus Mahari - Data Engineer | Cloud & Data Warehousing Specialist">
+    <meta name="author" content="Agus Mahari">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config for Dark Theme -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                        dark: {
+                            900: '#0f172a',
+                            800: '#1e293b',
+                            700: '#334155',
+                            600: '#475569'
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out forwards',
+                        'slide-up': 'slideUp 0.6s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <style>
+        /* Base styles */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        /* Scroll reveal animation classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Timeline line */
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #3B82F6, #10B981);
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #3B82F6, #10B981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Skill badge hover effect */
+        .skill-badge {
+            transition: all 0.3s ease;
+        }
+
+        .skill-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #3B82F6;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2563EB;
+        }
+    </style>
+
+    <title>Agus Mahari | Data Engineer</title>
+</head>
+<body class="bg-dark-900 text-gray-100 min-h-screen">
+
+    <!-- ==================== NAVIGATION ==================== -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-700 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="#home" class="text-2xl font-bold gradient-text">AM</a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="#about" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="#skills" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Skills</a>
+                        <a href="#experience" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Experience</a>
+                        <a href="#education" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Education</a>
+                        <a href="#contact" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-dark-800 border-t border-dark-700">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#home" class="block hover:bg-dark-700 px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#about" class="block hover:bg-dark-700 px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="#skills" class="block hover:bg-dark-700 px-3 py-2 rounded-md text-base font-medium">Skills</a>
+                <a href="#experience" class="block hover:bg-dark-700 px-3 py-2 rounded-md text-base font-medium">Experience</a>
+                <a href="#education" class="block hover:bg-dark-700 px-3 py-2 rounded-md text-base font-medium">Education</a>
+                <a href="#contact" class="block hover:bg-dark-700 px-3 py-2 rounded-md text-base font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-16 relative overflow-hidden">
+        <!-- Background gradient orbs -->
+        <div class="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-20 right-10 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+            <div class="text-center reveal">
+                <!-- Profile Picture Placeholder -->
+                <!--
+                    TODO: Add your profile picture here
+                    Replace the div below with:
+                    <img src="assets/img/profile.jpg" alt="Agus Mahari" class="w-40 h-40 rounded-full mx-auto mb-8 border-4 border-primary shadow-lg object-cover">
+                -->
+                <div class="w-40 h-40 rounded-full mx-auto mb-8 border-4 border-primary shadow-lg bg-dark-700 flex items-center justify-center">
+                    <i class="fas fa-user text-6xl text-gray-500"></i>
+                </div>
+
+                <h1 class="text-5xl md:text-7xl font-bold mb-4">
+                    <span class="gradient-text">Agus Mahari</span>
+                </h1>
+
+                <h2 class="text-2xl md:text-3xl text-gray-300 mb-6">
+                    Data Engineer | Cloud & Data Warehousing Specialist
+                </h2>
+
+                <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mb-10 leading-relaxed">
+                    I build robust, automated data pipelines and orchestrate complex workflows across GCP, Azure, and Snowflake.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#experience" class="bg-primary hover:bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-primary/50">
+                        View Experience
+                    </a>
+                    <a href="#contact" class="border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                        Contact Me
+                    </a>
+                </div>
+
+                <!-- Social Links -->
+                <div class="mt-12 flex justify-center space-x-6">
+                    <a href="https://linkedin.com/in/agus-mahari/" target="_blank" class="text-gray-400 hover:text-primary transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-linkedin text-3xl"></i>
+                    </a>
+                    <a href="https://github.com/agusmahari" target="_blank" class="text-gray-400 hover:text-primary transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-github text-3xl"></i>
+                    </a>
+                    <a href="mailto:agusmahari@gmail.com" class="text-gray-400 hover:text-primary transition-colors duration-300 transform hover:scale-110">
+                        <i class="fas fa-envelope text-3xl"></i>
+                    </a>
+                </div>
+
+                <!-- Scroll indicator -->
+                <div class="mt-16 animate-bounce">
+                    <i class="fas fa-chevron-down text-2xl text-gray-500"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ABOUT SECTION ==================== -->
+    <section id="about" class="py-20 bg-dark-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl font-bold mb-4">
+                    <span class="gradient-text">About Me</span>
+                </h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-secondary mx-auto"></div>
+            </div>
+
+            <div class="max-w-4xl mx-auto reveal">
+                <p class="text-lg text-gray-300 leading-relaxed text-center">
+                    With over 3 years of experience in designing end-to-end ELT/ETL pipelines, data warehousing, and Change Data Capture (CDC), I specialize in transforming raw data into actionable insights. My expertise spans across multiple cloud platforms including GCP, Azure, and AWS, with a strong focus on building scalable and efficient data infrastructure. Beyond technical skills, I have a passion for mentoring and training data teams, helping others grow their skills in data engineering, Python, SQL, and Apache Airflow. I'm driven by the challenge of optimizing data workflows and enabling data-driven decision-making across organizations.
+                </p>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
+                    <div class="text-center p-6 bg-dark-700 rounded-lg">
+                        <div class="text-3xl font-bold text-primary mb-2">3+</div>
+                        <div class="text-gray-400">Years Experience</div>
+                    </div>
+                    <div class="text-center p-6 bg-dark-700 rounded-lg">
+                        <div class="text-3xl font-bold text-secondary mb-2">20+</div>
+                        <div class="text-gray-400">Projects Completed</div>
+                    </div>
+                    <div class="text-center p-6 bg-dark-700 rounded-lg">
+                        <div class="text-3xl font-bold text-primary mb-2">5+</div>
+                        <div class="text-gray-400">Companies Served</div>
+                    </div>
+                    <div class="text-center p-6 bg-dark-700 rounded-lg">
+                        <div class="text-3xl font-bold text-secondary mb-2">50+</div>
+                        <div class="text-gray-400">Students Mentored</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SKILLS SECTION ==================== -->
+    <section id="skills" class="py-20 bg-dark-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl font-bold mb-4">
+                    <span class="gradient-text">Technical Skills</span>
+                </h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-secondary mx-auto"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Languages -->
+                <div class="bg-dark-800 p-6 rounded-lg reveal">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-code text-primary text-2xl mr-3"></i>
+                        <h3 class="text-xl font-bold">Languages</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Python</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Pandas</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">SQLAlchemy</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Spark</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">SQL</span>
+                    </div>
+                </div>
+
+                <!-- Tools -->
+                <div class="bg-dark-800 p-6 rounded-lg reveal">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-tools text-secondary text-2xl mr-3"></i>
+                        <h3 class="text-xl font-bold">Tools</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Apache Airflow</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">DBT</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Talend</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">IBM DataStage</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">SSIS</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Debezium</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Redpanda</span>
+                    </div>
+                </div>
+
+                <!-- Cloud & Infra -->
+                <div class="bg-dark-800 p-6 rounded-lg reveal">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-cloud text-primary text-2xl mr-3"></i>
+                        <h3 class="text-xl font-bold">Cloud & Infra</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">GCP</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Composer</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">BigQuery</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">GCS</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Azure</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Synapse</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Fabric</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">AWS</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">S3</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Redshift</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Snowflake</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Docker</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Kubernetes</span>
+                    </div>
+                </div>
+
+                <!-- Techniques -->
+                <div class="bg-dark-800 p-6 rounded-lg reveal">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-layer-group text-secondary text-2xl mr-3"></i>
+                        <h3 class="text-xl font-bold">Techniques</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Data Warehousing</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">ETL/ELT</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Data Lake</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">CDC</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Data Modeling</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== EXPERIENCE SECTION ==================== -->
+    <section id="experience" class="py-20 bg-dark-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl font-bold mb-4">
+                    <span class="gradient-text">Professional Experience</span>
+                </h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-secondary mx-auto"></div>
+            </div>
+
+            <div class="relative max-w-4xl mx-auto">
+                <!-- Timeline line -->
+                <div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 timeline-line h-full"></div>
+
+                <!-- Experience Item 1 -->
+                <div class="relative mb-12 reveal">
+                    <div class="md:w-1/2 md:pr-12 md:text-right md:ml-0 ml-8">
+                        <div class="bg-dark-700 p-6 rounded-lg shadow-lg">
+                            <div class="flex items-center mb-3 md:justify-end">
+                                <i class="fas fa-briefcase text-primary text-xl mr-2 md:order-last md:mr-0 md:ml-2"></i>
+                                <h3 class="text-xl font-bold">Data Engineer</h3>
+                            </div>
+                            <p class="text-primary font-semibold mb-2">PT Astra Graphia Info Tech</p>
+                            <p class="text-gray-400 text-sm mb-3">(Placements at Astra Intl, Toyota, Telkom)</p>
+                            <p class="text-secondary text-sm mb-4"><i class="far fa-calendar-alt mr-2"></i>Jun 2024 - Present</p>
+                            <ul class="text-gray-300 text-sm space-y-2 md:space-y-1">
+                                <li>• Built high-volume batch pipelines using MS Synapse, Fabric, GCP, Airflow, DBT</li>
+                                <li>• POC CDC with Debezium/Redpanda</li>
+                                <li>• Reduced pipeline dev time by 20% using Talend</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="absolute left-0 md:left-1/2 transform -translate-x-1/2 w-4 h-4 bg-primary rounded-full border-4 border-dark-800"></div>
+                </div>
+
+                <!-- Experience Item 2 -->
+                <div class="relative mb-12 reveal">
+                    <div class="md:w-1/2 md:pl-12 md:ml-auto md:text-left ml-8">
+                        <div class="bg-dark-700 p-6 rounded-lg shadow-lg">
+                            <div class="flex items-center mb-3">
+                                <i class="fas fa-briefcase text-secondary text-xl mr-2"></i>
+                                <h3 class="text-xl font-bold">Data Engineer Consultant</h3>
+                            </div>
+                            <p class="text-primary font-semibold mb-2">PT BNI Tbk (via IYKRA)</p>
+                            <p class="text-secondary text-sm mb-4"><i class="far fa-calendar-alt mr-2"></i>Jul 2023 - Mar 2024</p>
+                            <ul class="text-gray-300 text-sm space-y-2">
+                                <li>• ELT from Teradata to Cloudera(Hive) using IBM Datastage</li>
+                                <li>• Reduced job run times by 20%</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="absolute left-0 md:left-1/2 transform -translate-x-1/2 w-4 h-4 bg-secondary rounded-full border-4 border-dark-800"></div>
+                </div>
+
+                <!-- Experience Item 3 -->
+                <div class="relative mb-12 reveal">
+                    <div class="md:w-1/2 md:pr-12 md:text-right md:ml-0 ml-8">
+                        <div class="bg-dark-700 p-6 rounded-lg shadow-lg">
+                            <div class="flex items-center mb-3 md:justify-end">
+                                <i class="fas fa-briefcase text-primary text-xl mr-2 md:order-last md:mr-0 md:ml-2"></i>
+                                <h3 class="text-xl font-bold">Data Engineer</h3>
+                            </div>
+                            <p class="text-primary font-semibold mb-2">Rumah Zakat</p>
+                            <p class="text-secondary text-sm mb-4"><i class="far fa-calendar-alt mr-2"></i>Apr 2022 - May 2023</p>
+                            <ul class="text-gray-300 text-sm space-y-2 md:space-y-1">
+                                <li>• Built end-to-end data pipelines</li>
+                                <li>• Developed BigQuery solutions</li>
+                                <li>• Created Looker Studio dashboards</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="absolute left-0 md:left-1/2 transform -translate-x-1/2 w-4 h-4 bg-primary rounded-full border-4 border-dark-800"></div>
+                </div>
+
+                <!-- Experience Item 4 -->
+                <div class="relative mb-12 reveal">
+                    <div class="md:w-1/2 md:pl-12 md:ml-auto md:text-left ml-8">
+                        <div class="bg-dark-700 p-6 rounded-lg shadow-lg">
+                            <div class="flex items-center mb-3">
+                                <i class="fas fa-chalkboard-teacher text-secondary text-xl mr-2"></i>
+                                <h3 class="text-xl font-bold">Trainer & Mentor</h3>
+                            </div>
+                            <p class="text-primary font-semibold mb-2">MIKTI & IYKRA</p>
+                            <p class="text-secondary text-sm mb-4"><i class="far fa-calendar-alt mr-2"></i>Jan 2023 - Dec 2023</p>
+                            <ul class="text-gray-300 text-sm space-y-2">
+                                <li>• Taught data analysis, Python, SQL, and Airflow</li>
+                                <li>• Mentored aspiring data professionals</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="absolute left-0 md:left-1/2 transform -translate-x-1/2 w-4 h-4 bg-secondary rounded-full border-4 border-dark-800"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== EDUCATION & AWARDS SECTION ==================== -->
+    <section id="education" class="py-20 bg-dark-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl font-bold mb-4">
+                    <span class="gradient-text">Education & Awards</span>
+                </h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-secondary mx-auto"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Education -->
+                <div class="bg-dark-800 p-8 rounded-lg reveal">
+                    <div class="flex items-center mb-6">
+                        <i class="fas fa-graduation-cap text-primary text-3xl mr-4"></i>
+                        <h3 class="text-2xl font-bold">Education</h3>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="border-l-4 border-primary pl-4">
+                            <h4 class="text-lg font-bold">B.Sc. Computer Science</h4>
+                            <p class="text-primary">UIN Sunan Gunung Djati Bandung</p>
+                            <p class="text-gray-400 text-sm">GPA 3.4/4.0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Awards & Certifications -->
+                <div class="bg-dark-800 p-8 rounded-lg reveal">
+                    <div class="flex items-center mb-6">
+                        <i class="fas fa-trophy text-secondary text-3xl mr-4"></i>
+                        <h3 class="text-2xl font-bold">Awards & Certifications</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="bg-dark-700 p-4 rounded-lg">
+                            <div class="flex items-start">
+                                <i class="fas fa-medal text-secondary text-xl mr-3 mt-1"></i>
+                                <div>
+                                    <h4 class="font-bold">3rd Place National Data Science Tournament 2023</h4>
+                                    <p class="text-gray-400 text-sm mt-1">Built scalable GCP data pipeline with Docker & VPC</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-dark-700 p-4 rounded-lg">
+                            <div class="flex items-start">
+                                <i class="fas fa-certificate text-primary text-xl mr-3 mt-1"></i>
+                                <div>
+                                    <h4 class="font-bold">Astronomers: DAG Authoring for Apache Airflow</h4>
+                                    <p class="text-gray-400 text-sm mt-1">Score 85/100</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CONTACT SECTION ==================== -->
+    <section id="contact" class="py-20 bg-dark-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl font-bold mb-4">
+                    <span class="gradient-text">Get In Touch</span>
+                </h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-secondary mx-auto"></div>
+                <p class="text-gray-400 mt-4 max-w-2xl mx-auto">
+                    I'm always open to discussing new opportunities, collaborations, or just having a chat about data engineering!
+                </p>
+            </div>
+
+            <div class="max-w-3xl mx-auto">
+                <div class="grid md:grid-cols-3 gap-6 reveal">
+                    <!-- Email -->
+                    <a href="mailto:agusmahari@gmail.com" class="bg-dark-700 p-6 rounded-lg text-center hover:bg-dark-600 transition-all duration-300 transform hover:scale-105 group">
+                        <i class="fas fa-envelope text-4xl text-primary mb-4 group-hover:scale-110 transition-transform"></i>
+                        <h3 class="font-bold mb-2">Email</h3>
+                        <p class="text-gray-400 text-sm break-all">agusmahari@gmail.com</p>
+                    </a>
+
+                    <!-- WhatsApp -->
+                    <a href="https://wa.me/6285900243566" target="_blank" class="bg-dark-700 p-6 rounded-lg text-center hover:bg-dark-600 transition-all duration-300 transform hover:scale-105 group">
+                        <i class="fab fa-whatsapp text-4xl text-secondary mb-4 group-hover:scale-110 transition-transform"></i>
+                        <h3 class="font-bold mb-2">WhatsApp</h3>
+                        <p class="text-gray-400 text-sm">+62 859-0024-3566</p>
+                    </a>
+
+                    <!-- LinkedIn -->
+                    <a href="https://linkedin.com/in/agus-mahari/" target="_blank" class="bg-dark-700 p-6 rounded-lg text-center hover:bg-dark-600 transition-all duration-300 transform hover:scale-105 group">
+                        <i class="fab fa-linkedin text-4xl text-primary mb-4 group-hover:scale-110 transition-transform"></i>
+                        <h3 class="font-bold mb-2">LinkedIn</h3>
+                        <p class="text-gray-400 text-sm">linkedin.com/in/agus-mahari/</p>
+                    </a>
+                </div>
+
+                <!-- Contact Form Placeholder -->
+                <!--
+                    TODO: If you want to add a contact form later, you can replace the section above with a form
+                    Example services: Formspree, Netlify Forms, or Google Forms
+                -->
+
+                <!-- Call to Action -->
+                <div class="text-center mt-12 reveal">
+                    <p class="text-gray-300 mb-6">Ready to collaborate on your next data project?</p>
+                    <a href="mailto:agusmahari@gmail.com" class="inline-block bg-gradient-to-r from-primary to-secondary text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-primary/50 transition-all duration-300 transform hover:scale-105">
+                        <i class="fas fa-paper-plane mr-2"></i>Send Me a Message
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-dark-900 border-t border-dark-700 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <span class="text-2xl font-bold gradient-text">AM</span>
+                    <p class="text-gray-400 text-sm mt-1">© 2024 Agus Mahari. All rights reserved.</p>
+                </div>
+
+                <div class="flex space-x-6">
+                    <a href="https://linkedin.com/in/agus-mahari/" target="_blank" class="text-gray-400 hover:text-primary transition-colors">
+                        <i class="fab fa-linkedin text-xl"></i>
+                    </a>
+                    <a href="https://github.com/agusmahari" target="_blank" class="text-gray-400 hover:text-primary transition-colors">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                    <a href="mailto:agusmahari@gmail.com" class="text-gray-400 hover:text-primary transition-colors">
+                        <i class="fas fa-envelope text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
+
++++ index.html (修改后)
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Agus Mahari - Data Engineer | Cloud & Data Warehousing Specialist">
+    <meta name="author" content="Agus Mahari">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config for Dark Theme -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                        dark: {
+                            900: '#0f172a',
+                            800: '#1e293b',
+                            700: '#334155',
+                            600: '#475569'
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out forwards',
+                        'slide-up': 'slideUp 0.6s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <style>
+        /* Base styles */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        /* Scroll reveal animation classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Timeline line */
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #3B82F6, #10B981);
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #3B82F6, #10B981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Skill badge hover effect */
+        .skill-badge {
+            transition: all 0.3s ease;
+        }
+
+        .skill-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #3B82F6;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2563EB;
+        }
+    </style>
+
+    <title>Agus Mahari | Data Engineer</title>
+</head>
+<body class="bg-dark-900 text-gray-100 min-h-screen">
+
+    <!-- ==================== NAVIGATION ==================== -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-700 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="#home" class="text-2xl font-bold gradient-text">AM</a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="#about" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="#skills" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Skills</a>
+                        <a href="#experience" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Experience</a>
+                        <a href="#education" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Education</a>
+                        <a href="#contact" class="hover:text-primary transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-dark-800 border-t border-dark-700">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#home" class="block hover:bg-dark-700 px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#about" class="block hover:bg-dark-700 px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="#skills" class="block hover:bg-dark-700 px-3 py-2 rounded-md text-base font-medium">Skills</a>
+                <a href="#experience" class="block hover:bg-dark-700 px-3 py-2 rounded-md text-base font-medium">Experience</a>
+                <a href="#education" class="block hover:bg-dark-700 px-3 py-2 rounded-md text-base font-medium">Education</a>
+                <a href="#contact" class="block hover:bg-dark-700 px-3 py-2 rounded-md text-base font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-16 relative overflow-hidden">
+        <!-- Background gradient orbs -->
+        <div class="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-20 right-10 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+            <div class="text-center reveal">
+                <!-- Profile Picture Placeholder -->
+                <!--
+                    TODO: Add your profile picture here
+                    Replace the div below with:
+                    <img src="assets/img/profile.jpg" alt="Agus Mahari" class="w-40 h-40 rounded-full mx-auto mb-8 border-4 border-primary shadow-lg object-cover">
+                -->
+                <div class="w-40 h-40 rounded-full mx-auto mb-8 border-4 border-primary shadow-lg bg-dark-700 flex items-center justify-center">
+                    <i class="fas fa-user text-6xl text-gray-500"></i>
+                </div>
+
+                <h1 class="text-5xl md:text-7xl font-bold mb-4">
+                    <span class="gradient-text">Agus Mahari</span>
+                </h1>
+
+                <h2 class="text-2xl md:text-3xl text-gray-300 mb-6">
+                    Data Engineer | Cloud & Data Warehousing Specialist
+                </h2>
+
+                <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mb-10 leading-relaxed">
+                    I build robust, automated data pipelines and orchestrate complex workflows across GCP, Azure, and Snowflake.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#experience" class="bg-primary hover:bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-primary/50">
+                        View Experience
+                    </a>
+                    <a href="#contact" class="border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                        Contact Me
+                    </a>
+                </div>
+
+                <!-- Social Links -->
+                <div class="mt-12 flex justify-center space-x-6">
+                    <a href="https://linkedin.com/in/agus-mahari/" target="_blank" class="text-gray-400 hover:text-primary transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-linkedin text-3xl"></i>
+                    </a>
+                    <a href="https://github.com/agusmahari" target="_blank" class="text-gray-400 hover:text-primary transition-colors duration-300 transform hover:scale-110">
+                        <i class="fab fa-github text-3xl"></i>
+                    </a>
+                    <a href="mailto:agusmahari@gmail.com" class="text-gray-400 hover:text-primary transition-colors duration-300 transform hover:scale-110">
+                        <i class="fas fa-envelope text-3xl"></i>
+                    </a>
+                </div>
+
+                <!-- Scroll indicator -->
+                <div class="mt-16 animate-bounce">
+                    <i class="fas fa-chevron-down text-2xl text-gray-500"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ABOUT SECTION ==================== -->
+    <section id="about" class="py-20 bg-dark-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl font-bold mb-4">
+                    <span class="gradient-text">About Me</span>
+                </h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-secondary mx-auto"></div>
+            </div>
+
+            <div class="max-w-4xl mx-auto reveal">
+                <p class="text-lg text-gray-300 leading-relaxed text-center">
+                    With over 3 years of experience in designing end-to-end ELT/ETL pipelines, data warehousing, and Change Data Capture (CDC), I specialize in transforming raw data into actionable insights. My expertise spans across multiple cloud platforms including GCP, Azure, and AWS, with a strong focus on building scalable and efficient data infrastructure. Beyond technical skills, I have a passion for mentoring and training data teams, helping others grow their skills in data engineering, Python, SQL, and Apache Airflow. I'm driven by the challenge of optimizing data workflows and enabling data-driven decision-making across organizations.
+                </p>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
+                    <div class="text-center p-6 bg-dark-700 rounded-lg">
+                        <div class="text-3xl font-bold text-primary mb-2">3+</div>
+                        <div class="text-gray-400">Years Experience</div>
+                    </div>
+                    <div class="text-center p-6 bg-dark-700 rounded-lg">
+                        <div class="text-3xl font-bold text-secondary mb-2">20+</div>
+                        <div class="text-gray-400">Projects Completed</div>
+                    </div>
+                    <div class="text-center p-6 bg-dark-700 rounded-lg">
+                        <div class="text-3xl font-bold text-primary mb-2">5+</div>
+                        <div class="text-gray-400">Companies Served</div>
+                    </div>
+                    <div class="text-center p-6 bg-dark-700 rounded-lg">
+                        <div class="text-3xl font-bold text-secondary mb-2">50+</div>
+                        <div class="text-gray-400">Students Mentored</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SKILLS SECTION ==================== -->
+    <section id="skills" class="py-20 bg-dark-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl font-bold mb-4">
+                    <span class="gradient-text">Technical Skills</span>
+                </h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-secondary mx-auto"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Languages -->
+                <div class="bg-dark-800 p-6 rounded-lg reveal">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-code text-primary text-2xl mr-3"></i>
+                        <h3 class="text-xl font-bold">Languages</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Python</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Pandas</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">SQLAlchemy</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Spark</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">SQL</span>
+                    </div>
+                </div>
+
+                <!-- Tools -->
+                <div class="bg-dark-800 p-6 rounded-lg reveal">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-tools text-secondary text-2xl mr-3"></i>
+                        <h3 class="text-xl font-bold">Tools</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Apache Airflow</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">DBT</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Talend</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">IBM DataStage</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">SSIS</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Debezium</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Redpanda</span>
+                    </div>
+                </div>
+
+                <!-- Cloud & Infra -->
+                <div class="bg-dark-800 p-6 rounded-lg reveal">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-cloud text-primary text-2xl mr-3"></i>
+                        <h3 class="text-xl font-bold">Cloud & Infra</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">GCP</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Composer</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">BigQuery</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">GCS</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Azure</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Synapse</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Fabric</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">AWS</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">S3</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Redshift</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Snowflake</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Docker</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Kubernetes</span>
+                    </div>
+                </div>
+
+                <!-- Techniques -->
+                <div class="bg-dark-800 p-6 rounded-lg reveal">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-layer-group text-secondary text-2xl mr-3"></i>
+                        <h3 class="text-xl font-bold">Techniques</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Data Warehousing</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">ETL/ELT</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Data Lake</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">CDC</span>
+                        <span class="skill-badge bg-dark-700 px-3 py-1 rounded-full text-sm">Data Modeling</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== EXPERIENCE SECTION ==================== -->
+    <section id="experience" class="py-20 bg-dark-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl font-bold mb-4">
+                    <span class="gradient-text">Professional Experience</span>
+                </h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-secondary mx-auto"></div>
+            </div>
+
+            <div class="space-y-8 max-w-6xl mx-auto">
+
+                <!-- Main Company Card - PT Astra Graphia Info Tech (with sub-assignments) -->
+                <div class="reveal">
+                    <div class="bg-gradient-to-r from-dark-700 to-dark-600 p-6 rounded-lg shadow-lg border-l-4 border-primary">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                            <div class="flex items-center mb-3 md:mb-0">
+                                <div class="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-building text-primary text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-bold">PT Astra Graphia Information Technology</h3>
+                                    <p class="text-gray-400 text-sm"><i class="fas fa-map-marker-alt mr-2"></i>Jakarta</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="bg-primary/20 text-primary px-4 py-2 rounded-full text-sm font-semibold">
+                                    <i class="far fa-calendar-alt mr-2"></i>Jun 2024 - Present
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-4">Data Engineer - Multiple Client Placements</p>
+
+                        <!-- Sub Assignments Grid -->
+                        <div class="grid md:grid-cols-2 gap-4 mt-6">
+
+                            <!-- Sub Assignment 1: Astra Internasional -->
+                            <div class="bg-dark-800/50 p-5 rounded-lg border border-dark-600 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10">
+                                <div class="flex items-start mb-3">
+                                    <i class="fas fa-briefcase text-secondary text-lg mr-2 mt-1"></i>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-lg">PT Astra Internasional Tbk</h4>
+                                        <p class="text-gray-400 text-xs">(Toyota Auto2000 & Astra Honda Motor)</p>
+                                    </div>
+                                    <span class="bg-secondary/20 text-secondary px-2 py-1 rounded text-xs font-semibold whitespace-nowrap ml-2">
+                                        Jun 2024 - Nov 2025
+                                    </span>
+                                </div>
+                                <ul class="text-gray-300 text-sm space-y-2 ml-6">
+                                    <li>• Designed high-volume batch data pipelines using MS Synapse, Microsoft Fabric, GCP (Cloud Composer, BigQuery, GCS, Cloud SQL, Pub/Sub), SAP Environment, DBT, and Airflow</li>
+                                    <li>• Led POC for CDC with Debezium and Redpanda for real-time data ingestion</li>
+                                    <li>• Conducted POC for Snowflake as enterprise data warehouse solution</li>
+                                    <li>• Developed enterprise data warehouse solutions in Microsoft Fabric, BigQuery, and DBT optimized for analytical workloads</li>
+                                </ul>
+                            </div>
+
+                            <!-- Sub Assignment 2: Toyota Astra Motor -->
+                            <div class="bg-dark-800/50 p-5 rounded-lg border border-dark-600 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10">
+                                <div class="flex items-start mb-3">
+                                    <i class="fas fa-briefcase text-secondary text-lg mr-2 mt-1"></i>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-lg">PT Toyota Astra Motor Tbk</h4>
+                                    </div>
+                                    <span class="bg-secondary/20 text-secondary px-2 py-1 rounded text-xs font-semibold whitespace-nowrap ml-2">
+                                        Jul 2025 - Nov 2025
+                                    </span>
+                                </div>
+                                <ul class="text-gray-300 text-sm space-y-2 ml-6">
+                                    <li>• Built end-to-end ETL workflows using Talend</li>
+                                    <li>• Reduced data pipeline development time by 20%</li>
+                                    <li>• Enabled self-service monitoring via Talend's unified logging framework</li>
+                                    <li>• Designed modular, reusable Talend components and documented pipeline standards</li>
+                                    <li>• Accelerated onboarding of new team members and enabled scalable integration</li>
+                                </ul>
+                            </div>
+
+                            <!-- Sub Assignment 3: Astragraphia Tbk -->
+                            <div class="bg-dark-800/50 p-5 rounded-lg border border-dark-600 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10">
+                                <div class="flex items-start mb-3">
+                                    <i class="fas fa-briefcase text-secondary text-lg mr-2 mt-1"></i>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-lg">PT Astragraphia Tbk</h4>
+                                    </div>
+                                    <span class="bg-secondary/20 text-secondary px-2 py-1 rounded text-xs font-semibold whitespace-nowrap ml-2">
+                                        Nov 2025 - Present
+                                    </span>
+                                </div>
+                                <ul class="text-gray-300 text-sm space-y-2 ml-6">
+                                    <li>• Build architecture and develop ELT processes for warehouse data</li>
+                                    <li>• Use Python, SQL, and Airflow to transform data into ML-ready datasets</li>
+                                    <li>• Ensure reliability, efficiency, and data quality across pipelines</li>
+                                </ul>
+                            </div>
+
+                            <!-- Sub Assignment 4: Telkom Indonesia International -->
+                            <div class="bg-dark-800/50 p-5 rounded-lg border border-dark-600 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10">
+                                <div class="flex items-start mb-3">
+                                    <i class="fas fa-briefcase text-secondary text-lg mr-2 mt-1"></i>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-lg">PT Telekomunikasi Indonesia International</h4>
+                                    </div>
+                                    <span class="bg-secondary/20 text-secondary px-2 py-1 rounded text-xs font-semibold whitespace-nowrap ml-2">
+                                        Nov 2025 - Present
+                                    </span>
+                                </div>
+                                <ul class="text-gray-300 text-sm space-y-2 ml-6">
+                                    <li>• Develop ELT pipelines to process warehouse table sources</li>
+                                    <li>• Create and optimize SSAS tabular model measures for Power BI</li>
+                                    <li>• Enable self-service analytics and reduce calculation complexity for end users</li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Experience Item - BNI Tbk -->
+                <div class="relative reveal">
+                    <div class="bg-dark-700 p-6 rounded-lg shadow-lg border-l-4 border-secondary">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                            <div class="flex items-center mb-3 md:mb-0">
+                                <div class="w-12 h-12 bg-secondary/20 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-briefcase text-secondary text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold">Data Engineer Consultant</h3>
+                                    <p class="text-primary font-semibold">PT BNI Tbk (via IYKRA)</p>
+                                </div>
+                            </div>
+                            <span class="bg-secondary/20 text-secondary px-4 py-2 rounded-full text-sm font-semibold">
+                                <i class="far fa-calendar-alt mr-2"></i>Jul 2023 - Mar 2024
+                            </span>
+                        </div>
+                        <ul class="text-gray-300 text-sm space-y-2 ml-16">
+                            <li>• Executed ELT from Teradata to Cloudera (Hive) using IBM DataStage</li>
+                            <li>• Reduced job run times by 20% through optimization</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Experience Item - Rumah Zakat -->
+                <div class="relative reveal">
+                    <div class="bg-dark-700 p-6 rounded-lg shadow-lg border-l-4 border-primary">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                            <div class="flex items-center mb-3 md:mb-0">
+                                <div class="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-briefcase text-primary text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold">Data Engineer</h3>
+                                    <p class="text-primary font-semibold">Rumah Zakat</p>
+                                </div>
+                            </div>
+                            <span class="bg-primary/20 text-primary px-4 py-2 rounded-full text-sm font-semibold">
+                                <i class="far fa-calendar-alt mr-2"></i>Apr 2022 - May 2023
+                            </span>
+                        </div>
+                        <ul class="text-gray-300 text-sm space-y-2 ml-16">
+                            <li>• Built end-to-end data pipelines</li>
+                            <li>• Developed BigQuery solutions</li>
+                            <li>• Created Looker Studio dashboards</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Experience Item - Trainer & Mentor -->
+                <div class="relative reveal">
+                    <div class="bg-dark-700 p-6 rounded-lg shadow-lg border-l-4 border-secondary">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                            <div class="flex items-center mb-3 md:mb-0">
+                                <div class="w-12 h-12 bg-secondary/20 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-chalkboard-teacher text-secondary text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold">Trainer & Mentor</h3>
+                                    <p class="text-primary font-semibold">MIKTI & IYKRA</p>
+                                </div>
+                            </div>
+                            <span class="bg-secondary/20 text-secondary px-4 py-2 rounded-full text-sm font-semibold">
+                                <i class="far fa-calendar-alt mr-2"></i>Jan 2023 - Dec 2023
+                            </span>
+                        </div>
+                        <ul class="text-gray-300 text-sm space-y-2 ml-16">
+                            <li>• Taught data analysis, Python, SQL, and Apache Airflow</li>
+                            <li>• Mentored aspiring data professionals</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== EDUCATION & AWARDS SECTION ==================== -->
+    <section id="education" class="py-20 bg-dark-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl font-bold mb-4">
+                    <span class="gradient-text">Education & Awards</span>
+                </h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-secondary mx-auto"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Education -->
+                <div class="bg-dark-800 p-8 rounded-lg reveal">
+                    <div class="flex items-center mb-6">
+                        <i class="fas fa-graduation-cap text-primary text-3xl mr-4"></i>
+                        <h3 class="text-2xl font-bold">Education</h3>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="border-l-4 border-primary pl-4">
+                            <h4 class="text-lg font-bold">B.Sc. Computer Science</h4>
+                            <p class="text-primary">UIN Sunan Gunung Djati Bandung</p>
+                            <p class="text-gray-400 text-sm">GPA 3.4/4.0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Awards & Certifications -->
+                <div class="bg-dark-800 p-8 rounded-lg reveal">
+                    <div class="flex items-center mb-6">
+                        <i class="fas fa-trophy text-secondary text-3xl mr-4"></i>
+                        <h3 class="text-2xl font-bold">Awards & Certifications</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="bg-dark-700 p-4 rounded-lg">
+                            <div class="flex items-start">
+                                <i class="fas fa-medal text-secondary text-xl mr-3 mt-1"></i>
+                                <div>
+                                    <h4 class="font-bold">3rd Place National Data Science Tournament 2023</h4>
+                                    <p class="text-gray-400 text-sm mt-1">Built scalable GCP data pipeline with Docker & VPC</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-dark-700 p-4 rounded-lg">
+                            <div class="flex items-start">
+                                <i class="fas fa-certificate text-primary text-xl mr-3 mt-1"></i>
+                                <div>
+                                    <h4 class="font-bold">Astronomers: DAG Authoring for Apache Airflow</h4>
+                                    <p class="text-gray-400 text-sm mt-1">Score 85/100</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CONTACT SECTION ==================== -->
+    <section id="contact" class="py-20 bg-dark-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl font-bold mb-4">
+                    <span class="gradient-text">Get In Touch</span>
+                </h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary to-secondary mx-auto"></div>
+                <p class="text-gray-400 mt-4 max-w-2xl mx-auto">
+                    I'm always open to discussing new opportunities, collaborations, or just having a chat about data engineering!
+                </p>
+            </div>
+
+            <div class="max-w-3xl mx-auto">
+                <div class="grid md:grid-cols-3 gap-6 reveal">
+                    <!-- Email -->
+                    <a href="mailto:agusmahari@gmail.com" class="bg-dark-700 p-6 rounded-lg text-center hover:bg-dark-600 transition-all duration-300 transform hover:scale-105 group">
+                        <i class="fas fa-envelope text-4xl text-primary mb-4 group-hover:scale-110 transition-transform"></i>
+                        <h3 class="font-bold mb-2">Email</h3>
+                        <p class="text-gray-400 text-sm break-all">agusmahari@gmail.com</p>
+                    </a>
+
+                    <!-- WhatsApp -->
+                    <a href="https://wa.me/6285900243566" target="_blank" class="bg-dark-700 p-6 rounded-lg text-center hover:bg-dark-600 transition-all duration-300 transform hover:scale-105 group">
+                        <i class="fab fa-whatsapp text-4xl text-secondary mb-4 group-hover:scale-110 transition-transform"></i>
+                        <h3 class="font-bold mb-2">WhatsApp</h3>
+                        <p class="text-gray-400 text-sm">+62 859-0024-3566</p>
+                    </a>
+
+                    <!-- LinkedIn -->
+                    <a href="https://linkedin.com/in/agus-mahari/" target="_blank" class="bg-dark-700 p-6 rounded-lg text-center hover:bg-dark-600 transition-all duration-300 transform hover:scale-105 group">
+                        <i class="fab fa-linkedin text-4xl text-primary mb-4 group-hover:scale-110 transition-transform"></i>
+                        <h3 class="font-bold mb-2">LinkedIn</h3>
+                        <p class="text-gray-400 text-sm">linkedin.com/in/agus-mahari/</p>
+                    </a>
+                </div>
+
+                <!-- Contact Form Placeholder -->
+                <!--
+                    TODO: If you want to add a contact form later, you can replace the section above with a form
+                    Example services: Formspree, Netlify Forms, or Google Forms
+                -->
+
+                <!-- Call to Action -->
+                <div class="text-center mt-12 reveal">
+                    <p class="text-gray-300 mb-6">Ready to collaborate on your next data project?</p>
+                    <a href="mailto:agusmahari@gmail.com" class="inline-block bg-gradient-to-r from-primary to-secondary text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-primary/50 transition-all duration-300 transform hover:scale-105">
+                        <i class="fas fa-paper-plane mr-2"></i>Send Me a Message
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-dark-900 border-t border-dark-700 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <span class="text-2xl font-bold gradient-text">AM</span>
+                    <p class="text-gray-400 text-sm mt-1">© 2024 Agus Mahari. All rights reserved.</p>
+                </div>
+
+                <div class="flex space-x-6">
+                    <a href="https://linkedin.com/in/agus-mahari/" target="_blank" class="text-gray-400 hover:text-primary transition-colors">
+                        <i class="fab fa-linkedin text-xl"></i>
+                    </a>
+                    <a href="https://github.com/agusmahari" target="_blank" class="text-gray-400 hover:text-primary transition-colors">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                    <a href="mailto:agusmahari@gmail.com" class="text-gray-400 hover:text-primary transition-colors">
+                        <i class="fas fa-envelope text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
