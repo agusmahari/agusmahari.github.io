@@ -546,113 +546,568 @@
     </section>
 
     <!-- Pipeline Architecture Section -->
+    <!-- MLOps Pipeline Architecture Section -->
     <section id="pipeline" class="py-24 border-t border-border" aria-labelledby="pipeline-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="reveal-up">
                 <div class="flex items-center gap-3 mb-4">
                     <span class="text-primary font-mono text-xl">03.</span>
-                    <h2 id="pipeline-heading" class="text-3xl font-bold text-white">How I Build a Pipeline</h2>
+                    <h2 id="pipeline-heading" class="text-3xl font-bold text-white">Open-Source MLOps Stack</h2>
                 </div>
-                <p class="text-muted font-mono text-sm mb-12 max-w-2xl">A typical ELT flow I design and operate, from raw source to a query-ready warehouse. Select a stage to see the tools and what I optimize for.</p>
+                <p class="text-muted font-mono text-sm mb-12 max-w-3xl">Full production-grade MLOps pipeline I architect and operate. Hover over each component to see how it fits in the workflow.</p>
 
-                <!-- Stage selector -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6" role="tablist" aria-label="Pipeline stages">
-                    <button type="button" class="stage-btn glass-card rounded-xl p-4 text-left border border-border" data-stage="extract" role="tab" aria-selected="true" aria-expanded="true" aria-controls="panel-extract" id="tab-extract">
-                        <span class="stage-num inline-flex items-center justify-center w-7 h-7 rounded-full bg-bg2 text-muted text-xs font-mono mb-3">01</span>
-                        <div class="font-bold text-white text-sm">Extract</div>
-                        <div class="text-xs text-muted font-mono">Source systems</div>
-                    </button>
-                    <button type="button" class="stage-btn glass-card rounded-xl p-4 text-left border border-border" data-stage="load" role="tab" aria-selected="false" aria-expanded="false" aria-controls="panel-load" id="tab-load">
-                        <span class="stage-num inline-flex items-center justify-center w-7 h-7 rounded-full bg-bg2 text-muted text-xs font-mono mb-3">02</span>
-                        <div class="font-bold text-white text-sm">Load</div>
-                        <div class="text-xs text-muted font-mono">Raw landing zone</div>
-                    </button>
-                    <button type="button" class="stage-btn glass-card rounded-xl p-4 text-left border border-border" data-stage="transform" role="tab" aria-selected="false" aria-expanded="false" aria-controls="panel-transform" id="tab-transform">
-                        <span class="stage-num inline-flex items-center justify-center w-7 h-7 rounded-full bg-bg2 text-muted text-xs font-mono mb-3">03</span>
-                        <div class="font-bold text-white text-sm">Transform</div>
-                        <div class="text-xs text-muted font-mono">Modeling layer</div>
-                    </button>
-                    <button type="button" class="stage-btn glass-card rounded-xl p-4 text-left border border-border" data-stage="serve" role="tab" aria-selected="false" aria-expanded="false" aria-controls="panel-serve" id="tab-serve">
-                        <span class="stage-num inline-flex items-center justify-center w-7 h-7 rounded-full bg-bg2 text-muted text-xs font-mono mb-3">04</span>
-                        <div class="font-bold text-white text-sm">Serve</div>
-                        <div class="text-xs text-muted font-mono">BI & analytics</div>
-                    </button>
-                </div>
+                <!-- Architecture Diagram -->
+                <div class="glass-card rounded-2xl p-8 border border-border relative overflow-hidden">
+                    
+                    <!-- Flow Arrows (SVG Background) -->
+                    <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-20" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Data Flow Lines -->
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="currentColor" class="text-primary"/>
+                            </marker>
+                        </defs>
+                        <!-- Horizontal flow lines -->
+                        <line x1="15%" y1="25%" x2="85%" y2="25%" stroke="currentColor" stroke-width="2" marker-end="url(#arrowhead)" class="text-primary animate-pulse"/>
+                        <line x1="15%" y1="50%" x2="85%" y2="50%" stroke="currentColor" stroke-width="2" marker-end="url(#arrowhead)" class="text-secondary animate-pulse"/>
+                        <line x1="15%" y1="75%" x2="85%" y2="75%" stroke="currentColor" stroke-width="2" marker-end="url(#arrowhead)" class="text-accent animate-pulse"/>
+                    </svg>
 
-                <!-- Stage detail panels -->
-                <div class="glass-card rounded-2xl p-8 border border-border">
-                    <div id="panel-extract" class="stage-panel active" role="tabpanel" aria-labelledby="tab-extract">
-                        <div class="grid md:grid-cols-3 gap-8 items-center">
-                            <div class="md:col-span-2">
-                                <h3 class="text-xl font-bold text-white mb-2">Extract from source systems</h3>
-                                <p class="text-muted text-sm font-mono leading-relaxed">Pull data from operational databases, ERPs like SAP, and third-party APIs. I prioritize log-based CDC over batch polling wherever the source supports it, to keep load on production systems minimal.</p>
-                                <div class="flex flex-wrap gap-2 mt-4">
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Debezium</span>
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">REST/SOAP APIs</span>
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">SAP</span>
+                    <!-- Layer 1: Data Ingestion Layer -->
+                    <div class="relative z-10 mb-8">
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-2 h-8 bg-gradient-to-b from-primary to-primary/50 rounded-full"></div>
+                            <h3 class="text-lg font-bold text-white">Data Layer</h3>
+                            <span class="text-xs font-mono text-muted ml-2">Sources → Ingestion → Storage</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <!-- Data Sources -->
+                            <div class="mlops-node glass-card rounded-xl p-5 border border-border hover:border-primary transition-all group cursor-pointer" data-node="sources">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                        <i class="fas fa-database text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Data Sources</div>
+                                        <div class="text-xs text-muted font-mono">APIs & Databases</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-plug text-primary text-[10px]"></i>
+                                        <span>REST APIs, Webhooks</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-stream text-primary text-[10px]"></i>
+                                        <span>Kafka Topics</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-table text-primary text-[10px]"></i>
+                                        <span>PostgreSQL, MySQL</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="text-center">
-                                <i class="fas fa-database text-5xl text-primary mb-2" aria-hidden="true"></i>
-                                <div class="text-xs text-muted font-mono">Optimizing for: source-system safety</div>
+
+                            <!-- Ingestion -->
+                            <div class="mlops-node glass-card rounded-xl p-5 border border-border hover:border-primary transition-all group cursor-pointer" data-node="ingestion">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                        <i class="fab fa-python text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Ingestion</div>
+                                        <div class="text-xs text-muted font-mono">Batch Processing</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fab fa-python text-primary text-[10px]"></i>
+                                        <span>Python Batching</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-sync text-primary text-[10px]"></i>
+                                        <span>Scheduled ETL Jobs</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-compress-alt text-primary text-[10px]"></i>
+                                        <span>Data Compression</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Storage -->
+                            <div class="mlops-node glass-card rounded-xl p-5 border border-border hover:border-primary transition-all group cursor-pointer" data-node="storage">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                        <i class="fas fa-cubes text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Storage / Lakehouse</div>
+                                        <div class="text-xs text-muted font-mono">S3-Compatible</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-server text-primary text-[10px]"></i>
+                                        <span>MinIO Object Storage</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-layer-group text-primary text-[10px]"></i>
+                                        <span>Raw & Processed Zones</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-shield-alt text-primary text-[10px]"></i>
+                                        <span>Versioned Datasets</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div id="panel-load" class="stage-panel" role="tabpanel" aria-labelledby="tab-load">
-                        <div class="grid md:grid-cols-3 gap-8 items-center">
-                            <div class="md:col-span-2">
-                                <h3 class="text-xl font-bold text-white mb-2">Land raw data, unaltered</h3>
-                                <p class="text-muted text-sm font-mono leading-relaxed">Raw events and snapshots land in a staging zone exactly as received. Keeping an immutable raw layer means I can always replay or reprocess history if a downstream model changes.</p>
-                                <div class="flex flex-wrap gap-2 mt-4">
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Redpanda / Kafka</span>
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Cloud Storage</span>
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Snowflake Stages</span>
+
+                    <!-- Layer 2: ML Development Layer -->
+                    <div class="relative z-10 mb-8">
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-2 h-8 bg-gradient-to-b from-secondary to-secondary/50 rounded-full"></div>
+                            <h3 class="text-lg font-bold text-white">ML Development Layer</h3>
+                            <span class="text-xs font-mono text-muted ml-2">Transform → Track → Train → Register</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <!-- Processing -->
+                            <div class="mlops-node glass-card rounded-xl p-5 border border-border hover:border-secondary transition-all group cursor-pointer" data-node="processing">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center group-hover:bg-secondary/20 transition-colors">
+                                        <i class="fas fa-cogs text-secondary"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Processing</div>
+                                        <div class="text-xs text-muted font-mono">SQL Transform</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-database text-secondary text-[10px]"></i>
+                                        <span>dbt Core</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-code-branch text-secondary text-[10px]"></i>
+                                        <span>Version Control</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-check-circle text-secondary text-[10px]"></i>
+                                        <span>Automated Testing</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="text-center">
-                                <i class="fas fa-inbox text-5xl text-secondary mb-2" aria-hidden="true"></i>
-                                <div class="text-xs text-muted font-mono">Optimizing for: replayability</div>
+
+                            <!-- Feature Store -->
+                            <div class="mlops-node glass-card rounded-xl p-5 border border-border hover:border-secondary transition-all group cursor-pointer" data-node="feature-store">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center group-hover:bg-secondary/20 transition-colors relative">
+                                        <i class="fas fa-flask text-secondary"></i>
+                                        <i class="fas fa-star text-yellow-400 absolute -top-1 -right-1 text-[10px]"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Feature Store</div>
+                                        <div class="text-xs text-muted font-mono">Tracking</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-vial text-secondary text-[10px]"></i>
+                                        <span>MLflow Tracking</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-chart-bar text-secondary text-[10px]"></i>
+                                        <span>Experiment Metrics</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-archive text-secondary text-[10px]"></i>
+                                        <span>Artifact Storage</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Training -->
+                            <div class="mlops-node glass-card rounded-xl p-5 border border-border hover:border-secondary transition-all group cursor-pointer" data-node="training">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center group-hover:bg-secondary/20 transition-colors">
+                                        <i class="fas fa-brain text-secondary"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Model Training</div>
+                                        <div class="text-xs text-muted font-mono">ML Pipeline</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fab fa-python text-secondary text-[10px]"></i>
+                                        <span>Scikit-learn, XGBoost</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-fire text-secondary text-[10px]"></i>
+                                        <span>Hyperparameter Tuning</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-tachometer-alt text-secondary text-[10px]"></i>
+                                        <span>Performance Metrics</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Registry -->
+                            <div class="mlops-node glass-card rounded-xl p-5 border border-border hover:border-secondary transition-all group cursor-pointer" data-node="registry">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center group-hover:bg-secondary/20 transition-colors relative">
+                                        <i class="fas fa-bookmark text-secondary"></i>
+                                        <i class="fas fa-star text-yellow-400 absolute -top-1 -right-1 text-[10px]"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Model Registry</div>
+                                        <div class="text-xs text-muted font-mono">Versioning</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-clipboard-list text-secondary text-[10px]"></i>
+                                        <span>MLflow Registry</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-code-branch text-secondary text-[10px]"></i>
+                                        <span>Model Versioning</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-tag text-secondary text-[10px]"></i>
+                                        <span>Stage Transitions</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div id="panel-transform" class="stage-panel" role="tabpanel" aria-labelledby="tab-transform">
-                        <div class="grid md:grid-cols-3 gap-8 items-center">
-                            <div class="md:col-span-2">
-                                <h3 class="text-xl font-bold text-white mb-2">Model into trusted layers</h3>
-                                <p class="text-muted text-sm font-mono leading-relaxed">Raw data moves through staging, intermediate, and mart layers with version-controlled SQL. Every model has tests for nulls, uniqueness, and referential integrity before it's allowed downstream.</p>
-                                <div class="flex flex-wrap gap-2 mt-4">
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">DBT</span>
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Airflow</span>
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">PySpark</span>
+
+                    <!-- Layer 3: Deployment & Operations Layer -->
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-2 h-8 bg-gradient-to-b from-accent to-accent/50 rounded-full"></div>
+                            <h3 class="text-lg font-bold text-white">Deployment & Operations Layer</h3>
+                            <span class="text-xs font-mono text-muted ml-2">Serve → Orchestrate → Report → Monitor</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <!-- Serving -->
+                            <div class="mlops-node glass-card rounded-xl p-5 border border-border hover:border-accent transition-all group cursor-pointer" data-node="serving">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                                        <i class="fas fa-rocket text-accent"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Model Serving</div>
+                                        <div class="text-xs text-muted font-mono">API Endpoints</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-box text-accent text-[10px]"></i>
+                                        <span>BentoML</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-server text-accent text-[10px]"></i>
+                                        <span>REST API Serving</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-docker text-accent text-[10px]"></i>
+                                        <span>Container Packaging</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="text-center">
-                                <i class="fas fa-shuffle text-5xl text-accent mb-2" aria-hidden="true"></i>
-                                <div class="text-xs text-muted font-mono">Optimizing for: data quality</div>
+
+                            <!-- Orchestration -->
+                            <div class="mlops-node glass-card rounded-xl p-5 border border-border hover:border-accent transition-all group cursor-pointer" data-node="orchestration">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                                        <i class="fas fa-project-diagram text-accent"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Orchestration</div>
+                                        <div class="text-xs text-muted font-mono">Workflow</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-wind text-accent text-[10px]"></i>
+                                        <span>Apache Airflow</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-sitemap text-accent text-[10px]"></i>
+                                        <span>DAG Scheduling</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-bell text-accent text-[10px]"></i>
+                                        <span>Alert Management</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Reporting -->
+                            <div class="mlops-node glass-card rounded-xl p-5 border border-border hover:border-accent transition-all group cursor-pointer" data-node="reporting">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                                        <i class="fas fa-chart-pie text-accent"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Reporting</div>
+                                        <div class="text-xs text-muted font-mono">Dashboards</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-chart-bar text-accent text-[10px]"></i>
+                                        <span>Power BI</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-tachometer-alt text-accent text-[10px]"></i>
+                                        <span>Model Performance</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-users text-accent text-[10px]"></i>
+                                        <span>Business Insights</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Monitoring -->
+                            <div class="mlops-node glass-card rounded-xl p-5 border border-border hover:border-accent transition-all group cursor-pointer" data-node="monitoring">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                                        <i class="fas fa-heartbeat text-accent"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Monitoring</div>
+                                        <div class="text-xs text-muted font-mono">Quality & Ops</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-fire text-accent text-[10px]"></i>
+                                        <span>Prometheus</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-chart-line text-accent text-[10px]"></i>
+                                        <span>Grafana Dashboards</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-exclamation-triangle text-accent text-[10px]"></i>
+                                        <span>Data Drift Detection</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div id="panel-serve" class="stage-panel" role="tabpanel" aria-labelledby="tab-serve">
-                        <div class="grid md:grid-cols-3 gap-8 items-center">
-                            <div class="md:col-span-2">
-                                <h3 class="text-xl font-bold text-white mb-2">Serve query-ready marts</h3>
-                                <p class="text-muted text-sm font-mono leading-relaxed">Final marts are documented, access-controlled, and exposed to BI tools and stakeholders. I track freshness SLAs so business users always know how current a number is.</p>
-                                <div class="flex flex-wrap gap-2 mt-4">
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Power BI</span>
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Looker</span>
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Snowflake</span>
-                                </div>
+
+                    <!-- Detail Panel (Shows on hover/click) -->
+                    <div id="node-detail" class="hidden mt-8 p-6 rounded-xl bg-bg2 border border-border">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <h4 id="detail-title" class="text-lg font-bold text-white mb-1"></h4>
+                                <p id="detail-subtitle" class="text-xs font-mono text-primary"></p>
                             </div>
-                            <div class="text-center">
-                                <i class="fas fa-chart-line text-5xl text-primary mb-2" aria-hidden="true"></i>
-                                <div class="text-xs text-muted font-mono">Optimizing for: trust & freshness</div>
-                            </div>
+                            <button onclick="document.getElementById('node-detail').classList.add('hidden')" class="text-muted hover:text-white transition-colors">
+                                <i class="fas fa-times"></i>
+                            </button>
                         </div>
+                        <p id="detail-description" class="text-sm text-muted leading-relaxed mb-4"></p>
+                        <div id="detail-use-cases" class="space-y-2"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <script>
+    // MLOps Node Data
+    const mlopsData = {
+        'sources': {
+            title: 'Data Sources',
+            subtitle: 'Multi-Format Data Ingestion Points',
+            description: 'I pull data from diverse sources including REST APIs, webhook events, streaming platforms like Kafka, and relational databases. Each source type requires different ingestion strategies.',
+            useCases: [
+                'Real-time event streams from Kafka topics',
+                'Batch data extraction from PostgreSQL/MySQL',
+                'API polling and webhook receivers',
+                'File-based ingestion from FTP/SFTP'
+            ]
+        },
+        'ingestion': {
+            title: 'Ingestion Layer',
+            subtitle: 'Python-Based Batch Processing',
+            description: 'Custom Python scripts handle data extraction, validation, and initial transformation. I implement retry logic, error handling, and data quality checks at this stage.',
+            useCases: [
+                'Scheduled batch jobs with cron/Airflow',
+                'Data validation and schema enforcement',
+                'Incremental loading with watermark tracking',
+                'Error handling and dead letter queues'
+            ]
+        },
+        'storage': {
+            title: 'Storage / Lakehouse',
+            subtitle: 'MinIO S3-Compatible Object Storage',
+            description: 'Raw and processed data lands in MinIO, organized in zones (raw, curated, feature). This provides cost-effective, scalable storage with S3 API compatibility.',
+            useCases: [
+                'Immutable raw data landing zone',
+                'Partitioned datasets for efficient queries',
+                'Version-controlled data artifacts',
+                'Cross-region replication for disaster recovery'
+            ]
+        },
+        'processing': {
+            title: 'Processing & Transformation',
+            subtitle: 'dbt Core SQL Framework',
+            description: 'dbt handles all SQL transformations with version control, testing, and documentation built-in. I model data through staging, intermediate, and mart layers.',
+            useCases: [
+                'SQL-based feature engineering',
+                'Automated data quality tests',
+                'Lineage tracking and documentation',
+                'Incremental model runs for efficiency'
+            ]
+        },
+        'feature-store': {
+            title: 'Feature Store & Experiment Tracking',
+            subtitle: 'MLflow Tracking (Standard)',
+            description: 'MLflow tracks every experiment: parameters, metrics, artifacts, and code versions. This enables reproducibility and comparison across model iterations.',
+            useCases: [
+                'Experiment parameter logging',
+                'Metric tracking (accuracy, F1, AUC)',
+                'Model artifact storage',
+                'Experiment comparison and analysis'
+            ]
+        },
+        'training': {
+            title: 'Model Training Pipeline',
+            subtitle: 'Automated ML Workflows',
+            description: 'Training pipelines orchestrate data preparation, model training, hyperparameter tuning, and evaluation. I use scikit-learn, XGBoost, and custom implementations.',
+            useCases: [
+                'Automated retraining schedules',
+                'Hyperparameter optimization',
+                'Cross-validation and evaluation',
+                'Model performance benchmarking'
+            ]
+        },
+        'registry': {
+            title: 'Model Registry',
+            subtitle: 'MLflow Registry (Standard)',
+            description: 'Centralized model versioning with stage transitions (Staging → Production). This provides governance, auditability, and controlled deployment.',
+            useCases: [
+                'Model versioning and lineage',
+                'Stage transitions with approval workflows',
+                'Model metadata and documentation',
+                'Rollback capabilities for production models'
+            ]
+        },
+        'serving': {
+            title: 'Model Serving',
+            subtitle: 'BentoML Packaging & Deployment',
+            description: 'BentoML packages models into production-ready containers with REST APIs. This enables scalable, low-latency inference with built-in monitoring.',
+            useCases: [
+                'REST API endpoints for predictions',
+                'Batch inference jobs',
+                'A/B testing with traffic splitting',
+                'Auto-scaling based on load'
+            ]
+        },
+        'orchestration': {
+            title: 'Orchestration',
+            subtitle: 'Apache Airflow DAG Scheduling',
+            description: 'Airflow orchestrates the entire MLOps pipeline: data ingestion, transformation, training, and deployment. I use it for scheduling, monitoring, and alerting.',
+            useCases: [
+                'DAG-based workflow scheduling',
+                'Dependency management between tasks',
+                'Alerting on failures and SLA breaches',
+                'Backfilling and retry logic'
+            ]
+        },
+        'reporting': {
+            title: 'Reporting & Dashboarding',
+            subtitle: 'Power BI Business Intelligence',
+            description: 'Power BI dashboards surface model performance, data quality metrics, and business KPIs to stakeholders. This closes the loop between ML and business outcomes.',
+            useCases: [
+                'Model performance dashboards',
+                'Data quality scorecards',
+                'Business impact metrics',
+                'Executive reporting and insights'
+            ]
+        },
+        'monitoring': {
+            title: 'Monitoring & Quality',
+            subtitle: 'Prometheus + Grafana Stack',
+            description: 'Comprehensive monitoring tracks infrastructure health, model performance, and data drift. Grafana dashboards provide real-time visibility into the entire pipeline.',
+            useCases: [
+                'Infrastructure metrics (CPU, memory, disk)',
+                'Model performance degradation alerts',
+                'Data drift and concept drift detection',
+                'SLA compliance monitoring'
+            ]
+        }
+    };
+
+    // Add interactivity
+    document.querySelectorAll('.mlops-node').forEach(node => {
+        node.addEventListener('mouseenter', function() {
+            const nodeId = this.dataset.node;
+            const data = mlopsData[nodeId];
+            
+            if (data) {
+                const detailPanel = document.getElementById('node-detail');
+                document.getElementById('detail-title').textContent = data.title;
+                document.getElementById('detail-subtitle').textContent = data.subtitle;
+                document.getElementById('detail-description').textContent = data.description;
+                
+                const useCasesContainer = document.getElementById('detail-use-cases');
+                useCasesContainer.innerHTML = '<div class="text-xs font-mono text-white mb-2">Key Use Cases:</div>';
+                data.useCases.forEach(useCase => {
+                    useCasesContainer.innerHTML += `
+                        <div class="flex items-start gap-2 text-xs text-muted">
+                            <i class="fas fa-check text-primary mt-0.5"></i>
+                            <span>${useCase}</span>
+                        </div>
+                    `;
+                });
+                
+                detailPanel.classList.remove('hidden');
+                detailPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+    });
+
+    // Optional: Add click to keep detail open
+    document.querySelectorAll('.mlops-node').forEach(node => {
+        node.addEventListener('click', function() {
+            const nodeId = this.dataset.node;
+            const data = mlopsData[nodeId];
+            
+            if (data) {
+                const detailPanel = document.getElementById('node-detail');
+                document.getElementById('detail-title').textContent = data.title;
+                document.getElementById('detail-subtitle').textContent = data.subtitle;
+                document.getElementById('detail-description').textContent = data.description;
+                
+                const useCasesContainer = document.getElementById('detail-use-cases');
+                useCasesContainer.innerHTML = '<div class="text-xs font-mono text-white mb-2">Key Use Cases:</div>';
+                data.useCases.forEach(useCase => {
+                    useCasesContainer.innerHTML += `
+                        <div class="flex items-start gap-2 text-xs text-muted">
+                            <i class="fas fa-check text-primary mt-0.5"></i>
+                            <span>${useCase}</span>
+                        </div>
+                    `;
+                });
+                
+                detailPanel.classList.remove('hidden');
+                detailPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+    });
+    </script>
 
     <!-- Experience Section -->
     <!-- Experience Section -->
