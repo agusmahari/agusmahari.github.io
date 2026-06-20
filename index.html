@@ -1614,6 +1614,7 @@
 
     <!-- Projects Section -->
     <!-- Featured Projects Section -->
+    <!-- Featured Projects Section -->
     <section id="projects" class="py-24 border-t border-border bg-bg2/30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="reveal-up">
@@ -1641,7 +1642,7 @@
                                 Architected a production-grade, open-source MLOps pipeline automating data ingestion, model training, and low-latency serving.
                             </p>
 
-                            <!-- Diagram -->
+                            <!-- Diagram MLOps -->
                             <div class="bg-bg border border-border rounded-xl p-4 mb-6 h-40 flex items-center justify-center overflow-hidden relative">
                                 <svg viewBox="0 0 400 150" class="w-full h-full">
                                     <defs>
@@ -1650,7 +1651,6 @@
                                         </marker>
                                     </defs>
                                     
-                                    <!-- Boxes -->
                                     <rect x="10" y="55" width="75" height="40" rx="6" fill="#1F1828" stroke="#60A5FA" stroke-width="2"/>
                                     <text x="47.5" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">PostgreSQL</text>
                                     
@@ -1663,12 +1663,10 @@
                                     <rect x="325" y="55" width="75" height="40" rx="6" fill="#1F1828" stroke="#F472B6" stroke-width="2"/>
                                     <text x="362.5" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">BentoML</text>
 
-                                    <!-- Lines -->
                                     <line x1="85" y1="75" x2="110" y2="75" stroke="#332a33" stroke-width="2" marker-end="url(#arrow-mlops)" />
                                     <line x1="190" y1="75" x2="215" y2="75" stroke="#332a33" stroke-width="2" marker-end="url(#arrow-mlops)" />
                                     <line x1="295" y1="75" x2="320" y2="75" stroke="#332a33" stroke-width="2" marker-end="url(#arrow-mlops)" />
 
-                                    <!-- Animated Dots -->
                                     <circle r="3" fill="#60A5FA">
                                         <animateMotion dur="2s" repeatCount="indefinite" path="M 85 75 L 115 75" />
                                     </circle>
@@ -1702,67 +1700,82 @@
                         </div>
                     </div>
 
-                    <!-- Project 2: Real-Time CDC Pipeline -->
+                    <!-- Project 2: ETL & Dimensional Modeling Pipeline (REPLACED) -->
                     <div class="glass-card rounded-2xl overflow-hidden border border-border hover:border-secondary/30 transition-all group reveal-up">
                         <div class="p-8 h-full flex flex-col">
                             <div class="flex justify-between items-start mb-6">
                                 <div class="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary">
-                                    <i class="fas fa-bolt text-2xl"></i>
+                                    <i class="fas fa-cubes text-2xl"></i>
                                 </div>
                                 <div class="flex gap-4">
                                     <a href="#" class="text-muted hover:text-white transition-colors" aria-label="View source code on GitHub"><i class="fab fa-github text-xl" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                             
-                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-secondary transition-colors">Real-Time CDC Pipeline</h3>
+                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-secondary transition-colors">Enterprise ETL & Dimensional Modeling</h3>
                             <p class="text-muted text-sm mb-6 font-mono">
-                                Proof-of-Concept for a Change Data Capture solution synchronizing operational databases to Snowflake in near real-time.
+                                Engineered a scalable ELT pipeline transforming raw API and database records into a Kimball dimensional model, powering automated BI dashboards.
                             </p>
 
-                            <!-- Diagram -->
+                            <!-- Diagram ETL & Dimensional Modeling -->
                             <div class="bg-bg border border-border rounded-xl p-4 mb-6 h-40 flex items-center justify-center overflow-hidden relative">
                                 <svg viewBox="0 0 400 150" class="w-full h-full">
                                     <defs>
-                                        <marker id="arrow-cdc" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                                        <polygon points="0 0, 10 3.5, 0 7" fill="#FF9A5C" />
+                                        <marker id="arrow-etl" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                        <polygon points="0 0, 10 3.5, 0 7" fill="#34D399" />
                                         </marker>
                                     </defs>
-                                    <rect x="20" y="55" width="80" height="40" rx="6" fill="#1F1828" stroke="#FF9A5C" stroke-width="2"/>
-                                    <text x="60" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">Source DB</text>
                                     
-                                    <rect x="160" y="55" width="80" height="40" rx="6" fill="#1F1828" stroke="#FF6B6B" stroke-width="2"/>
-                                    <text x="200" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">Redpanda</text>
-                                    
-                                    <rect x="300" y="55" width="80" height="40" rx="6" fill="#1F1828" stroke="#C96FD8" stroke-width="2"/>
-                                    <text x="340" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">Snowflake</text>
+                                    <!-- Orchestrator Label (Airflow) -->
+                                    <rect x="130" y="15" width="140" height="24" rx="12" fill="#064E3B" stroke="#10B981" stroke-width="1" stroke-dasharray="3,3"/>
+                                    <text x="200" y="31" text-anchor="middle" fill="#34D399" font-size="10" font-family="monospace" font-weight="bold">Orchestrated by Airflow</text>
+                                    <line x1="200" y1="39" x2="200" y2="50" stroke="#10B981" stroke-width="1" stroke-dasharray="3,3"/>
 
-                                    <circle r="3" fill="#FF9A5C">
-                                        <animateMotion dur="2s" repeatCount="indefinite" path="M 100 75 L 160 75" />
-                                    </circle>
-                                    <circle r="3" fill="#FF6B6B">
-                                        <animateMotion dur="2s" begin="1s" repeatCount="indefinite" path="M 240 75 L 300 75" />
-                                    </circle>
+                                    <!-- Node 1: Sources -->
+                                    <rect x="15" y="60" width="90" height="45" rx="6" fill="#1F1828" stroke="#60A5FA" stroke-width="2"/>
+                                    <text x="60" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">API / DB</text>
+                                    <text x="60" y="95" text-anchor="middle" fill="#9CA3AF" font-size="9" font-family="monospace">Raw Sources</text>
 
-                                    <line x1="100" y1="75" x2="155" y2="75" stroke="#332a33" stroke-width="2" marker-end="url(#arrow-cdc)" />
-                                    <line x1="240" y1="75" x2="295" y2="75" stroke="#332a33" stroke-width="2" marker-end="url(#arrow-cdc)" />
+                                    <!-- Node 2: DW + dbt -->
+                                    <rect x="150" y="60" width="100" height="45" rx="6" fill="#1F1828" stroke="#34D399" stroke-width="2"/>
+                                    <text x="200" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">BigQuery</text>
+                                    <text x="200" y="95" text-anchor="middle" fill="#FBBF24" font-size="9" font-family="monospace">+ dbt (Star Schema)</text>
+
+                                    <!-- Node 3: Power BI -->
+                                    <rect x="295" y="60" width="90" height="45" rx="6" fill="#1F1828" stroke="#F59E0B" stroke-width="2"/>
+                                    <text x="340" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">Power BI</text>
+                                    <text x="340" y="95" text-anchor="middle" fill="#9CA3AF" font-size="9" font-family="monospace">Dashboards</text>
+
+                                    <!-- Lines & Arrows -->
+                                    <line x1="105" y1="82.5" x2="143" y2="82.5" stroke="#332a33" stroke-width="2" marker-end="url(#arrow-etl)" />
+                                    <line x1="250" y1="82.5" x2="288" y2="82.5" stroke="#332a33" stroke-width="2" marker-end="url(#arrow-etl)" />
+
+                                    <!-- Animated Dots -->
+                                    <circle r="3.5" fill="#60A5FA">
+                                        <animateMotion dur="2.5s" repeatCount="indefinite" path="M 105 82.5 L 150 82.5" />
+                                    </circle>
+                                    <circle r="3.5" fill="#34D399">
+                                        <animateMotion dur="2.5s" begin="1.2s" repeatCount="indefinite" path="M 250 82.5 L 295 82.5" />
+                                    </circle>
                                 </svg>
                             </div>
 
                             <div class="flex flex-wrap gap-2 mb-6">
-                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Debezium</span>
-                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Redpanda</span>
-                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Snowflake</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Apache Airflow</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">dbt</span>
                                 <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Python</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">BigQuery</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Power BI</span>
                             </div>
 
                             <ul class="space-y-2 mt-auto">
                                 <li class="flex items-start text-sm text-muted">
                                     <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
-                                    <span>Reduced batch latency from 24h to <strong class="text-white">&lt;5 mins</strong> using log-based CDC.</span>
+                                    <span>Designed <strong class="text-white">Kimball Star Schema</strong> (Fact & Dimension tables) using dbt, optimizing BI query speeds.</span>
                                 </li>
                                 <li class="flex items-start text-sm text-muted">
                                     <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
-                                    <span>Minimized load on production SAP systems via <strong class="text-white">event streaming</strong>.</span>
+                                    <span>Automated daily ELT workflows via Airflow, reducing manual reporting effort by <strong class="text-white">40%</strong>.</span>
                                 </li>
                             </ul>
                         </div>
