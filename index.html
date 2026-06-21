@@ -15,6 +15,7 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23FF9A5C'/%3E%3Cstop offset='1' stop-color='%23C96FD8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='url(%23g)'/%3E%3Ctext x='50' y='66' font-family='monospace' font-weight='bold' font-size='44' fill='%230D0A0F' text-anchor='middle'%3EAM%3C/text%3E%3C/svg%3E">
     
     <!-- Open Graph -->
+    <!-- TODO: upload assets/img/og-image.png (1200x630) or these previews will break on LinkedIn/X -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://agusmahari.github.io/">
     <meta property="og:site_name" content="Agus Mahari Portfolio">
@@ -245,17 +246,138 @@
         #back-to-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
         #back-to-top:hover { border-color: #FF9A5C; }
 
-        /* --- PIPELINE STAGE TOGGLES --- */
-        .stage-btn[aria-expanded="true"] {
-            border-color: #FF9A5C;
-            background: rgba(255,154,92,0.08);
+        /* --- MLOPS NODE: keyboard-accessible interactive card --- */
+        .mlops-node[aria-expanded="true"] {
+            border-color: var(--node-accent, #FF9A5C);
+            background: rgba(255,154,92,0.06);
         }
-        .stage-btn[aria-expanded="true"] .stage-num { color: #0D0A0F; background: #FF9A5C; }
-        .stage-panel { display: none; }
-        .stage-panel.active { display: block; }
+        .mlops-node:focus-visible {
+            outline: 2px solid #FF9A5C;
+            outline-offset: 2px;
+        }
 
         /* --- COUNT UP NUMBER --- */
         .count-up { font-variant-numeric: tabular-nums; }
+
+        /* --- LIGHT CARD: same look as glass-card without the always-on GPU blur,
+               used for dense grids (skills bento, mlops nodes) where dozens of
+               cards would otherwise each pay the cost of backdrop-filter --- */
+        .light-card {
+            background: rgba(31, 24, 40, 0.82);
+            border: 1px solid rgba(255,180,120,0.08);
+            transition: border-color 0.3s ease, transform 0.3s ease, background 0.3s ease;
+        }
+        .light-card:hover, .light-card:focus-within {
+            border-color: rgba(255,180,120,0.3);
+            transform: translateY(-4px);
+            backdrop-filter: blur(12px);
+            background: rgba(31, 24, 40, 0.6);
+        }
+
+        /* --- SKILLS SECTION (consolidated from a stray mid-body style block) --- */
+        .skill-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .skill-card::before {
+            content: '';
+            position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: left 0.6s ease;
+        }
+        .skill-card:hover::before { left: 100%; }
+        .skill-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); }
+
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+        .stagger-5 { animation-delay: 0.5s; }
+        .stagger-6 { animation-delay: 0.6s; }
+        .stagger-7 { animation-delay: 0.7s; }
+        .stagger-8 { animation-delay: 0.8s; }
+
+        .skill-badge {
+            display: flex; align-items: center; gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+        .skill-badge:hover { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.15); transform: translateY(-2px); }
+        .skill-badge span { color: #d1d5db; font-weight: 500; }
+
+        .cloud-badge {
+            display: flex; flex-direction: column; align-items: center; gap: 0.375rem;
+            padding: 0.75rem 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+        .cloud-badge:hover { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.15); transform: translateY(-2px); }
+        .cloud-badge span { color: #9ca3af; font-size: 0.75rem; font-family: 'Space Mono', monospace; }
+
+        .tool-tag {
+            display: inline-flex; align-items: center; gap: 0.375rem;
+            padding: 0.5rem 0.875rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.5rem;
+            font-size: 0.875rem; color: #d1d5db;
+            font-family: 'Space Mono', monospace;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+        .tool-tag:hover { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.15); color: #fff; transform: translateY(-1px); }
+
+        .db-item {
+            padding: 0.5rem 0.75rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.375rem;
+            font-size: 0.875rem; color: #d1d5db;
+            font-family: 'Space Mono', monospace;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+        .db-item:hover { background: rgba(255, 255, 255, 0.06); border-left-color: var(--db-hover, #FF9A5C); color: #fff; transform: translateX(4px); }
+
+        .expertise-pill {
+            padding: 0.625rem 1.25rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 2rem;
+            font-size: 0.875rem; color: #d1d5db;
+            font-family: 'Space Mono', monospace;
+            transition: all 0.3s ease;
+            cursor: default;
+            white-space: nowrap;
+        }
+        .expertise-pill:hover {
+            background: rgba(255, 154, 92, 0.08);
+            border-color: #FF9A5C;
+            color: #FF9A5C;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(255, 154, 92, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .skill-card { padding: 1.25rem; }
+            .expertise-pill { font-size: 0.75rem; padding: 0.5rem 1rem; }
+        }
+
+        /* --- PLACEHOLDER / COMING SOON LINKS --- */
+        a[aria-disabled="true"] {
+            opacity: .45;
+            pointer-events: none;
+            cursor: default;
+        }
 
         /* --- REDUCED MOTION: respect user preference --- */
         @media (prefers-reduced-motion: reduce) {
@@ -346,8 +468,8 @@
                     </h1>
                     
                     <p class="mt-6 text-lg text-muted leading-relaxed max-w-lg font-mono">
-                        I build robust ELT pipelines, orchestrate complex workflows on <span class="text-primary">GCP & Azure</span>, 
-                        and turn raw data into actionable insights.
+                        I design ELT pipelines that actually ship — and don't break at 3 AM.
+                        Working across <span class="text-primary">GCP, Azure & Snowflake</span> with clients like Toyota and Telkom.
                     </p>
 
                     <div class="mt-10 flex flex-col sm:flex-row gap-4">
@@ -357,35 +479,21 @@
                         <a href="#contact" class="px-8 py-4 bg-transparent hover:bg-white/5 text-white border border-border rounded-md transition-all font-mono text-sm uppercase tracking-wide flex items-center justify-center gap-2">
                             <i class="fas fa-envelope" aria-hidden="true"></i> Contact Me
                         </a>
+                        <!-- TODO: upload your real CV to assets/cv-agus-mahari.pdf — this link 404s until that file exists -->
                         <a href="assets/cv-agus-mahari.pdf" download class="px-8 py-4 bg-transparent hover:bg-white/5 text-primary border border-primary/30 rounded-md transition-all font-mono text-sm uppercase tracking-wide flex items-center justify-center gap-2">
                             <i class="fas fa-download" aria-hidden="true"></i> Download CV
                         </a>
                     </div>
                 </div>
 
-                <!-- Right: Terminal Component -->
+                <!-- Right: Animated Typewriter Terminal -->
                 <div class="reveal-up hidden md:block" style="transition-delay: 200ms;">
                     <div class="terminal">
                         <div class="term-bar">
                             <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
                             <span class="term-title text-xs text-muted ml-2">agus@portfolio:~</span>
                         </div>
-                        <div class="term-body">
-                            <span class="block"><span class="text-primary">$ </span>cat profile.json</span>
-                            <span class="block">&nbsp;</span>
-                            <span class="block"><span class="term-brace">{</span></span>
-                            <span class="block">&nbsp;&nbsp;<span class="term-key">"name"</span>: <span class="term-str">"Agus Mahari"</span>,</span>
-                            <span class="block">&nbsp;&nbsp;<span class="term-key">"role"</span>: <span class="term-str">"Data Engineer"</span>,</span>
-                            <span class="block">&nbsp;&nbsp;<span class="term-key">"location"</span>: <span class="term-str">"Jakarta, ID"</span>,</span>
-                            <span class="block">&nbsp;&nbsp;<span class="term-key">"stack"</span>: <span class="term-brace">[</span></span>
-                            <span class="block">&nbsp;&nbsp;&nbsp;&nbsp;<span class="term-str">"Python"</span>, <span class="term-str">"SQL"</span>,</span>
-                            <span class="block">&nbsp;&nbsp;&nbsp;&nbsp;<span class="term-str">"Airflow"</span>, <span class="term-str">"GCP"</span></span>
-                            <span class="block">&nbsp;&nbsp;<span class="term-brace">]</span>,</span>
-                            <span class="block">&nbsp;&nbsp;<span class="term-key">"openToWork"</span>: <span class="term-val">true</span></span>
-                            <span class="block"><span class="term-brace">}</span></span>
-                            <span class="block">&nbsp;</span>
-                            <span class="block"><span class="text-primary">$ </span><span class="term-cursor"></span></span>
-                        </div>
+                        <div class="term-body" id="typewriter-output" style="min-height:220px;"></div>
                     </div>
                 </div>
 
@@ -399,7 +507,8 @@
                     <i class="fab fa-google text-3xl hover:text-red-400 transition-colors"></i>
                     <i class="fab fa-microsoft text-3xl hover:text-blue-500 transition-colors"></i>
                     <i class="fas fa-database text-3xl hover:text-yellow-400 transition-colors"></i>
-                    <i class="fas fa-wind text-3xl hover:text-green-400 transition-colors"></i>
+                    <i class="fas fa-wind text-3xl hover:text-green-400 transition-colors" title="Apache Airflow"></i>
+                    <i class="fas fa-snowflake text-3xl hover:text-cyan-300 transition-colors" title="Snowflake"></i>
                 </div>
             </div>
         </div>
@@ -417,13 +526,13 @@
                 <div class="grid md:grid-cols-3 gap-12">
                     <div class="md:col-span-2 space-y-6 text-muted leading-relaxed font-mono text-sm">
                         <p class="text-base">
-                            I'm a Data Engineer with over <strong class="text-white">3 years of experience</strong> architecting end-to-end data solutions. My passion lies in building scalable infrastructure that bridges the gap between raw data sources and business intelligence.
+                            I'm a Data Engineer based in Jakarta with <strong class="text-white">3+ years</strong> of building pipelines that run quietly in production while the business sleeps. I care about clean architecture, observable systems, and data that people can actually trust.
                         </p>
                         <p class="text-base">
-                            Currently at <strong class="text-white">PT Astra Graphia</strong>, I lead pipeline development for major clients like Toyota and Telkom, utilizing modern stacks like <span class="text-primary">Airflow</span>, <span class="text-primary">DBT</span>, and <span class="text-primary">Snowflake</span>.
+                            At <strong class="text-white">PT Astra Graphia</strong>, I build ELT infrastructure for Toyota and Telkom using <span class="text-primary">Airflow</span>, <span class="text-primary">DBT</span>, and <span class="text-primary">Snowflake</span>. Before that, I cut ELT runtimes by 20% at BNI and helped Astra International experiment with real-time CDC using Debezium &amp; Redpanda.
                         </p>
                         <p class="text-base">
-                            When I'm not optimizing queries or debugging DAGs, I mentor aspiring data engineers and contribute to open-source data tools.
+                            Outside of work, I mentor data engineers through IYKRA and build open-source MLOps tooling as a way to push my skills into ML serving and monitoring.
                         </p>
                         
                         <!-- Stats Grid -->
@@ -454,6 +563,7 @@
     </section>
 
     <!-- Skills Section (Bento Grid) -->
+    <!-- Skills Section -->
     <section id="skills" class="py-24 border-t border-border bg-bg2/30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="reveal-up">
@@ -462,197 +572,745 @@
                     <h2 class="text-3xl font-bold text-white">Technical Arsenal</h2>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-4 grid-rows-4 md:grid-rows-2 gap-4 h-auto md:h-[500px]">
-                    <!-- Large Card: Languages -->
-                    <div class="md:col-span-2 md:row-span-2 glass-card p-6 rounded-2xl reveal-up">
+                <!-- Bento Grid Layout -->
+                <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+                    
+                    <!-- Large Card: Programming Languages -->
+                    <div class="md:col-span-3 md:row-span-2 light-card p-8 rounded-2xl skill-card stagger-1">
                         <div class="h-full flex flex-col">
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400">
-                                    <i class="fas fa-code text-xl"></i>
+                            <div class="flex items-center gap-3 mb-6">
+                                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-500/5 flex items-center justify-center text-blue-400">
+                                    <i class="fas fa-code text-2xl"></i>
                                 </div>
-                                <h3 class="text-xl font-bold text-white">Languages</h3>
+                                <div>
+                                    <h3 class="text-2xl font-bold text-white">Programming Languages</h3>
+                                    <p class="text-xs text-muted font-mono mt-1">Core development stack</p>
+                                </div>
                             </div>
-                            <div class="flex flex-wrap gap-2 mt-auto">
-                                <span class="px-3 py-1.5 bg-bg2 text-muted text-sm rounded border border-border font-mono hover:text-primary hover:border-primary transition-colors cursor-default">Python</span>
-                                <span class="px-3 py-1.5 bg-bg2 text-muted text-sm rounded border border-border font-mono hover:text-primary hover:border-primary transition-colors cursor-default">SQL</span>
-                                <span class="px-3 py-1.5 bg-bg2 text-muted text-sm rounded border border-border font-mono hover:text-primary hover:border-primary transition-colors cursor-default">PySpark</span>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-auto">
+                                <div class="skill-badge group">
+                                    <i class="fab fa-python text-yellow-400 group-hover:scale-110 transition-transform"></i>
+                                    <span class="text-sm font-mono">Python</span>
+                                </div>
+                                <div class="skill-badge group">
+                                    <i class="fas fa-database text-blue-400 group-hover:scale-110 transition-transform"></i>
+                                    <span class="text-sm font-mono">SQL</span>
+                                </div>
+                                <div class="skill-badge group">
+                                    <i class="fas fa-bolt text-orange-400 group-hover:scale-110 transition-transform"></i>
+                                    <span class="text-sm font-mono">PySpark</span>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Medium Card: Cloud -->
-                    <div class="md:col-span-2 md:row-span-1 glass-card p-6 rounded-2xl reveal-up">
-                        <div class="flex items-center gap-3 mb-2">
-                            <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400">
-                                <i class="fas fa-cloud"></i>
-                            </div>
-                            <h3 class="text-lg font-bold text-white">Cloud Platforms</h3>
-                        </div>
-                        <div class="flex gap-4 mt-2 text-muted text-sm font-mono">
-                            <span class="flex items-center gap-2 hover:text-white transition-colors"><i class="fab fa-google"></i> GCP</span>
-                            <span class="flex items-center gap-2 hover:text-white transition-colors"><i class="fab fa-microsoft"></i> Azure</span>
-                            <span class="flex items-center gap-2 hover:text-white transition-colors"><i class="fas fa-snowflake"></i> Snowflake</span>
-                        </div>
-                    </div>
-
-                    <!-- Small Card: Orchestration -->
-                    <div class="md:col-span-1 md:row-span-1 glass-card p-6 rounded-2xl reveal-up">
-                        <div class="flex items-center gap-3 mb-2">
-                            <div class="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center text-green-400">
-                                <i class="fas fa-sync-alt"></i>
-                            </div>
-                            <h3 class="text-lg font-bold text-white">Orchestration</h3>
-                        </div>
-                        <div class="flex flex-wrap gap-2 mt-2">
-                            <span class="text-xs font-mono bg-bg2 px-2 py-1 rounded text-muted border border-border">Airflow</span>
-                            <span class="text-xs font-mono bg-bg2 px-2 py-1 rounded text-muted border border-border">DBT</span>
-                        </div>
-                    </div>
-
-                     <!-- Small Card: Data Ops -->
-                     <div class="md:col-span-1 md:row-span-1 glass-card p-6 rounded-2xl reveal-up">
-                        <div class="flex items-center gap-3 mb-2">
-                            <div class="w-8 h-8 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-400">
-                                <i class="fas fa-server"></i>
-                            </div>
-                            <h3 class="text-lg font-bold text-white">Data Ops</h3>
-                        </div>
-                        <div class="flex flex-wrap gap-2 mt-2">
-                            <span class="text-xs font-mono bg-bg2 px-2 py-1 rounded text-muted border border-border">Docker</span>
-                            <span class="text-xs font-mono bg-bg2 px-2 py-1 rounded text-muted border border-border">K8s</span>
-                        </div>
-                    </div>
-
-                    <!-- Wide Card: Concepts -->
-                    <div class="md:col-span-4 md:row-span-1 glass-card p-6 rounded-2xl reveal-up flex flex-col md:flex-row items-center justify-between gap-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center text-accent">
-                                <i class="fas fa-brain"></i>
+                    <!-- Medium Card: Cloud Platforms -->
+                    <div class="md:col-span-3 light-card p-6 rounded-2xl skill-card stagger-2">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500/20 to-purple-500/5 flex items-center justify-center text-purple-400">
+                                <i class="fas fa-cloud text-xl"></i>
                             </div>
                             <div>
-                                <h3 class="text-lg font-bold text-white">Core Expertise</h3>
-                                <p class="text-xs text-muted font-mono">End-to-End Pipeline Architecture</p>
+                                <h3 class="text-lg font-bold text-white">Cloud Platforms</h3>
+                                <p class="text-xs text-muted font-mono mt-0.5">Multi-cloud expertise</p>
                             </div>
                         </div>
-                        <div class="flex flex-wrap justify-center gap-3">
-                            <span class="px-3 py-1 bg-bg2 text-muted text-sm rounded-full border border-border font-mono hover:border-accent hover:text-accent transition-colors">Data Warehousing</span>
-                            <span class="px-3 py-1 bg-bg2 text-muted text-sm rounded-full border border-border font-mono hover:border-accent hover:text-accent transition-colors">CDC</span>
-                            <span class="px-3 py-1 bg-bg2 text-muted text-sm rounded-full border border-border font-mono hover:border-accent hover:text-accent transition-colors">Real-time Streaming</span>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <div class="cloud-badge">
+                                <i class="fab fa-google text-blue-400"></i>
+                                <span class="text-xs font-mono">GCP</span>
+                            </div>
+                            <div class="cloud-badge">
+                                <i class="fab fa-microsoft text-blue-500"></i>
+                                <span class="text-xs font-mono">Azure</span>
+                            </div>
+                            <div class="cloud-badge">
+                                <i class="fas fa-snowflake text-cyan-300"></i>
+                                <span class="text-xs font-mono">Snowflake</span>
+                            </div>
+                            <div class="cloud-badge">
+                                <i class="fas fa-cube text-purple-400"></i>
+                                <span class="text-xs font-mono">Fabric</span>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Small Card: Orchestration & ETL -->
+                    <div class="md:col-span-2 light-card p-6 rounded-2xl skill-card stagger-3">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-green-500/20 to-green-500/5 flex items-center justify-center text-green-400">
+                                <i class="fas fa-sync-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-white">Orchestration</h3>
+                                <p class="text-xs text-muted font-mono mt-0.5">Workflow automation</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tool-tag">Apache Airflow</span>
+                            <span class="tool-tag">DBT</span>
+                            <span class="tool-tag">Talend</span>
+                            <span class="tool-tag">SSIS</span>
+                            <span class="tool-tag">Pentaho</span>
+                            <span class="tool-tag">IBM DataStage</span>
+                        </div>
+                    </div>
+
+                    <!-- Small Card: Databases -->
+                    <div class="md:col-span-1 light-card p-6 rounded-2xl skill-card stagger-4">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500/20 to-cyan-500/5 flex items-center justify-center text-cyan-400">
+                                <i class="fas fa-database text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-white">Databases</h3>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="db-item">PostgreSQL</div>
+                            <div class="db-item">MongoDB</div>
+                            <div class="db-item">BigQuery</div>
+                            <div class="db-item">Redshift</div>
+                            <div class="db-item">Cloudera</div>
+                        </div>
+                    </div>
+
+                    <!-- Medium Card: Python Libraries -->
+                    <div class="md:col-span-2 light-card p-6 rounded-2xl skill-card stagger-5">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-500/20 to-yellow-500/5 flex items-center justify-center text-yellow-400">
+                                <i class="fab fa-python text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-white">Python Libraries</h3>
+                                <p class="text-xs text-muted font-mono mt-0.5">Data manipulation stack</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tool-tag">Pandas</span>
+                            <span class="tool-tag">SQLAlchemy</span>
+                            <span class="tool-tag">BeautifulSoup</span>
+                            <span class="tool-tag">Requests</span>
+                            <span class="tool-tag">Spark</span>
+                            <span class="tool-tag">Scikit-learn</span>
+                            <span class="tool-tag">Matplotlib</span>
+                        </div>
+                    </div>
+
+                    <!-- Small Card: BI & Visualization -->
+                    <div class="md:col-span-1 light-card p-6 rounded-2xl skill-card stagger-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-pink-500/20 to-pink-500/5 flex items-center justify-center text-pink-400">
+                                <i class="fas fa-chart-pie text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-white">BI Tools</h3>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="db-item">Tableau</div>
+                            <div class="db-item">Looker</div>
+                            <div class="db-item">Power BI</div>
+                            <div class="db-item">Looker Studio</div>
+                        </div>
+                    </div>
+
+                    <!-- Medium Card: Infrastructure -->
+                    <div class="md:col-span-2 light-card p-6 rounded-2xl skill-card stagger-7">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500/20 to-orange-500/5 flex items-center justify-center text-orange-400">
+                                <i class="fas fa-server text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-white">Infrastructure</h3>
+                                <p class="text-xs text-muted font-mono mt-0.5">DevOps & big data</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tool-tag">
+                                <i class="fab fa-docker text-blue-400"></i> Docker
+                            </span>
+                            <span class="tool-tag">
+                                <i class="fas fa-dharmachakra text-blue-300"></i> Kubernetes
+                            </span>
+                            <span class="tool-tag">
+                                <i class="fas fa-elephant text-yellow-600"></i> Hadoop
+                            </span>
+                            <span class="tool-tag">HDFS</span>
+                            <span class="tool-tag">Hive</span>
+                            <span class="tool-tag">Impala</span>
+                        </div>
+                    </div>
+
+                    <!-- Wide Card: Core Expertise -->
+                    <div class="md:col-span-6 light-card p-8 rounded-2xl skill-card stagger-8">
+                        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center text-accent">
+                                    <i class="fas fa-brain text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-white">Core Expertise</h3>
+                                    <p class="text-sm text-muted font-mono mt-1">End-to-End Data Engineering Architecture</p>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="expertise-pill">Data Warehousing</span>
+                                <span class="expertise-pill">ETL/ELT Pipelines</span>
+                                <span class="expertise-pill">Data Lake</span>
+                                <span class="expertise-pill">CDC</span>
+                                <span class="expertise-pill">Real-time Streaming</span>
+                                <span class="expertise-pill">Data Ingestion</span>
+                                <span class="expertise-pill">Data Modeling</span>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Pipeline Architecture Section -->
+    <!-- MLOps Pipeline Architecture Section -->
     <section id="pipeline" class="py-24 border-t border-border" aria-labelledby="pipeline-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="reveal-up">
                 <div class="flex items-center gap-3 mb-4">
                     <span class="text-primary font-mono text-xl">03.</span>
-                    <h2 id="pipeline-heading" class="text-3xl font-bold text-white">How I Build a Pipeline</h2>
+                    <h2 id="pipeline-heading" class="text-3xl font-bold text-white">Open-Source MLOps Stack</h2>
                 </div>
-                <p class="text-muted font-mono text-sm mb-12 max-w-2xl">A typical ELT flow I design and operate, from raw source to a query-ready warehouse. Select a stage to see the tools and what I optimize for.</p>
+                <p class="text-muted font-mono text-sm mb-2 max-w-3xl">A reference architecture I designed and built end-to-end as a personal deep-dive into MLOps — pairing my production data-engineering background with tools I've explored hands-on outside client work, from raw sources through training, serving, and monitoring.</p>
+                <p class="text-muted font-mono text-xs mb-12 max-w-3xl opacity-70">Select a component below to see how it fits into the workflow.</p>
 
-                <!-- Stage selector -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6" role="tablist" aria-label="Pipeline stages">
-                    <button type="button" class="stage-btn glass-card rounded-xl p-4 text-left border border-border" data-stage="extract" role="tab" aria-selected="true" aria-expanded="true" aria-controls="panel-extract" id="tab-extract">
-                        <span class="stage-num inline-flex items-center justify-center w-7 h-7 rounded-full bg-bg2 text-muted text-xs font-mono mb-3">01</span>
-                        <div class="font-bold text-white text-sm">Extract</div>
-                        <div class="text-xs text-muted font-mono">Source systems</div>
-                    </button>
-                    <button type="button" class="stage-btn glass-card rounded-xl p-4 text-left border border-border" data-stage="load" role="tab" aria-selected="false" aria-expanded="false" aria-controls="panel-load" id="tab-load">
-                        <span class="stage-num inline-flex items-center justify-center w-7 h-7 rounded-full bg-bg2 text-muted text-xs font-mono mb-3">02</span>
-                        <div class="font-bold text-white text-sm">Load</div>
-                        <div class="text-xs text-muted font-mono">Raw landing zone</div>
-                    </button>
-                    <button type="button" class="stage-btn glass-card rounded-xl p-4 text-left border border-border" data-stage="transform" role="tab" aria-selected="false" aria-expanded="false" aria-controls="panel-transform" id="tab-transform">
-                        <span class="stage-num inline-flex items-center justify-center w-7 h-7 rounded-full bg-bg2 text-muted text-xs font-mono mb-3">03</span>
-                        <div class="font-bold text-white text-sm">Transform</div>
-                        <div class="text-xs text-muted font-mono">Modeling layer</div>
-                    </button>
-                    <button type="button" class="stage-btn glass-card rounded-xl p-4 text-left border border-border" data-stage="serve" role="tab" aria-selected="false" aria-expanded="false" aria-controls="panel-serve" id="tab-serve">
-                        <span class="stage-num inline-flex items-center justify-center w-7 h-7 rounded-full bg-bg2 text-muted text-xs font-mono mb-3">04</span>
-                        <div class="font-bold text-white text-sm">Serve</div>
-                        <div class="text-xs text-muted font-mono">BI & analytics</div>
-                    </button>
-                </div>
+                <!-- Architecture Diagram -->
+                <div class="glass-card rounded-2xl p-8 border border-border relative overflow-hidden">
+                    
+                    <!-- Flow Arrows (SVG Background) -->
+                    <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-20" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Data Flow Lines -->
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="currentColor" class="text-primary"/>
+                            </marker>
+                        </defs>
+                        <!-- Horizontal flow lines -->
+                        <line x1="15%" y1="25%" x2="85%" y2="25%" stroke="currentColor" stroke-width="2" marker-end="url(#arrowhead)" class="text-primary animate-pulse"/>
+                        <line x1="15%" y1="50%" x2="85%" y2="50%" stroke="currentColor" stroke-width="2" marker-end="url(#arrowhead)" class="text-secondary animate-pulse"/>
+                        <line x1="15%" y1="75%" x2="85%" y2="75%" stroke="currentColor" stroke-width="2" marker-end="url(#arrowhead)" class="text-accent animate-pulse"/>
+                    </svg>
 
-                <!-- Stage detail panels -->
-                <div class="glass-card rounded-2xl p-8 border border-border">
-                    <div id="panel-extract" class="stage-panel active" role="tabpanel" aria-labelledby="tab-extract">
-                        <div class="grid md:grid-cols-3 gap-8 items-center">
-                            <div class="md:col-span-2">
-                                <h3 class="text-xl font-bold text-white mb-2">Extract from source systems</h3>
-                                <p class="text-muted text-sm font-mono leading-relaxed">Pull data from operational databases, ERPs like SAP, and third-party APIs. I prioritize log-based CDC over batch polling wherever the source supports it, to keep load on production systems minimal.</p>
-                                <div class="flex flex-wrap gap-2 mt-4">
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Debezium</span>
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">REST/SOAP APIs</span>
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">SAP</span>
+                    <!-- Layer 1: Data Ingestion Layer -->
+                    <div class="relative z-10 mb-8">
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-2 h-8 bg-gradient-to-b from-primary to-primary/50 rounded-full"></div>
+                            <h3 class="text-lg font-bold text-white">Data Layer</h3>
+                            <span class="text-xs font-mono text-muted ml-2">Sources → Ingestion → Storage</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <!-- Data Sources -->
+                            <div class="mlops-node light-card rounded-xl p-5 border border-border hover:border-primary transition-all group cursor-pointer" data-node="sources" role="button" tabindex="0" aria-expanded="false" aria-controls="node-detail">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                        <i class="fas fa-database text-primary" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Data Sources</div>
+                                        <div class="text-xs text-muted font-mono">APIs & Databases</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-plug text-primary text-[10px]" aria-hidden="true"></i>
+                                        <span>REST APIs, Webhooks</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-stream text-primary text-[10px]" aria-hidden="true"></i>
+                                        <span>Kafka Topics</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-table text-primary text-[10px]" aria-hidden="true"></i>
+                                        <span>PostgreSQL, MySQL</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="text-center">
-                                <i class="fas fa-database text-5xl text-primary mb-2" aria-hidden="true"></i>
-                                <div class="text-xs text-muted font-mono">Optimizing for: source-system safety</div>
+
+                            <!-- Ingestion -->
+                            <div class="mlops-node light-card rounded-xl p-5 border border-border hover:border-primary transition-all group cursor-pointer" data-node="ingestion" role="button" tabindex="0" aria-expanded="false" aria-controls="node-detail">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                        <i class="fab fa-python text-primary" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Ingestion</div>
+                                        <div class="text-xs text-muted font-mono">Batch Processing</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fab fa-python text-primary text-[10px]" aria-hidden="true"></i>
+                                        <span>Python Batching</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-sync text-primary text-[10px]" aria-hidden="true"></i>
+                                        <span>Scheduled ETL Jobs</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-compress-alt text-primary text-[10px]" aria-hidden="true"></i>
+                                        <span>Data Compression</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Storage -->
+                            <div class="mlops-node light-card rounded-xl p-5 border border-border hover:border-primary transition-all group cursor-pointer" data-node="storage" role="button" tabindex="0" aria-expanded="false" aria-controls="node-detail">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                        <i class="fas fa-cubes text-primary" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Storage / Lakehouse</div>
+                                        <div class="text-xs text-muted font-mono">S3-Compatible</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-server text-primary text-[10px]" aria-hidden="true"></i>
+                                        <span>MinIO Object Storage</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-layer-group text-primary text-[10px]" aria-hidden="true"></i>
+                                        <span>Raw & Processed Zones</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-shield-alt text-primary text-[10px]" aria-hidden="true"></i>
+                                        <span>Versioned Datasets</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div id="panel-load" class="stage-panel" role="tabpanel" aria-labelledby="tab-load">
-                        <div class="grid md:grid-cols-3 gap-8 items-center">
-                            <div class="md:col-span-2">
-                                <h3 class="text-xl font-bold text-white mb-2">Land raw data, unaltered</h3>
-                                <p class="text-muted text-sm font-mono leading-relaxed">Raw events and snapshots land in a staging zone exactly as received. Keeping an immutable raw layer means I can always replay or reprocess history if a downstream model changes.</p>
-                                <div class="flex flex-wrap gap-2 mt-4">
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Redpanda / Kafka</span>
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Cloud Storage</span>
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Snowflake Stages</span>
+
+                    <!-- Layer 2: ML Development Layer -->
+                    <div class="relative z-10 mb-8">
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-2 h-8 bg-gradient-to-b from-secondary to-secondary/50 rounded-full"></div>
+                            <h3 class="text-lg font-bold text-white">ML Development Layer</h3>
+                            <span class="text-xs font-mono text-muted ml-2">Transform → Track → Train → Register</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <!-- Processing -->
+                            <div class="mlops-node light-card rounded-xl p-5 border border-border hover:border-secondary transition-all group cursor-pointer" data-node="processing" role="button" tabindex="0" aria-expanded="false" aria-controls="node-detail">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center group-hover:bg-secondary/20 transition-colors">
+                                        <i class="fas fa-cogs text-secondary" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Processing</div>
+                                        <div class="text-xs text-muted font-mono">SQL Transform</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-database text-secondary text-[10px]" aria-hidden="true"></i>
+                                        <span>dbt Core</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-code-branch text-secondary text-[10px]" aria-hidden="true"></i>
+                                        <span>Version Control</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-check-circle text-secondary text-[10px]" aria-hidden="true"></i>
+                                        <span>Automated Testing</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="text-center">
-                                <i class="fas fa-inbox text-5xl text-secondary mb-2" aria-hidden="true"></i>
-                                <div class="text-xs text-muted font-mono">Optimizing for: replayability</div>
+
+                            <!-- Feature Store -->
+                            <div class="mlops-node light-card rounded-xl p-5 border border-border hover:border-secondary transition-all group cursor-pointer" data-node="feature-store" role="button" tabindex="0" aria-expanded="false" aria-controls="node-detail">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center group-hover:bg-secondary/20 transition-colors relative">
+                                        <i class="fas fa-flask text-secondary" aria-hidden="true"></i>
+                                        <i class="fas fa-star text-yellow-400 absolute -top-1 -right-1 text-[10px]" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Feature Store</div>
+                                        <div class="text-xs text-muted font-mono">Tracking</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-vial text-secondary text-[10px]" aria-hidden="true"></i>
+                                        <span>MLflow Tracking</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-chart-bar text-secondary text-[10px]" aria-hidden="true"></i>
+                                        <span>Experiment Metrics</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-archive text-secondary text-[10px]" aria-hidden="true"></i>
+                                        <span>Artifact Storage</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Training -->
+                            <div class="mlops-node light-card rounded-xl p-5 border border-border hover:border-secondary transition-all group cursor-pointer" data-node="training" role="button" tabindex="0" aria-expanded="false" aria-controls="node-detail">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center group-hover:bg-secondary/20 transition-colors">
+                                        <i class="fas fa-brain text-secondary" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Model Training</div>
+                                        <div class="text-xs text-muted font-mono">ML Pipeline</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fab fa-python text-secondary text-[10px]" aria-hidden="true"></i>
+                                        <span>Scikit-learn, XGBoost</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-fire text-secondary text-[10px]" aria-hidden="true"></i>
+                                        <span>Hyperparameter Tuning</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-tachometer-alt text-secondary text-[10px]" aria-hidden="true"></i>
+                                        <span>Performance Metrics</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Registry -->
+                            <div class="mlops-node light-card rounded-xl p-5 border border-border hover:border-secondary transition-all group cursor-pointer" data-node="registry" role="button" tabindex="0" aria-expanded="false" aria-controls="node-detail">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center group-hover:bg-secondary/20 transition-colors relative">
+                                        <i class="fas fa-bookmark text-secondary" aria-hidden="true"></i>
+                                        <i class="fas fa-star text-yellow-400 absolute -top-1 -right-1 text-[10px]" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Model Registry</div>
+                                        <div class="text-xs text-muted font-mono">Versioning</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-clipboard-list text-secondary text-[10px]" aria-hidden="true"></i>
+                                        <span>MLflow Registry</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-code-branch text-secondary text-[10px]" aria-hidden="true"></i>
+                                        <span>Model Versioning</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-tag text-secondary text-[10px]" aria-hidden="true"></i>
+                                        <span>Stage Transitions</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div id="panel-transform" class="stage-panel" role="tabpanel" aria-labelledby="tab-transform">
-                        <div class="grid md:grid-cols-3 gap-8 items-center">
-                            <div class="md:col-span-2">
-                                <h3 class="text-xl font-bold text-white mb-2">Model into trusted layers</h3>
-                                <p class="text-muted text-sm font-mono leading-relaxed">Raw data moves through staging, intermediate, and mart layers with version-controlled SQL. Every model has tests for nulls, uniqueness, and referential integrity before it's allowed downstream.</p>
-                                <div class="flex flex-wrap gap-2 mt-4">
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">DBT</span>
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Airflow</span>
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">PySpark</span>
+
+                    <!-- Layer 3: Deployment & Operations Layer -->
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-2 h-8 bg-gradient-to-b from-accent to-accent/50 rounded-full"></div>
+                            <h3 class="text-lg font-bold text-white">Deployment & Operations Layer</h3>
+                            <span class="text-xs font-mono text-muted ml-2">Serve → Orchestrate → Report → Monitor</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <!-- Serving -->
+                            <div class="mlops-node light-card rounded-xl p-5 border border-border hover:border-accent transition-all group cursor-pointer" data-node="serving" role="button" tabindex="0" aria-expanded="false" aria-controls="node-detail">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                                        <i class="fas fa-rocket text-accent" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Model Serving</div>
+                                        <div class="text-xs text-muted font-mono">API Endpoints</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-box text-accent text-[10px]" aria-hidden="true"></i>
+                                        <span>BentoML</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-server text-accent text-[10px]" aria-hidden="true"></i>
+                                        <span>REST API Serving</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-docker text-accent text-[10px]" aria-hidden="true"></i>
+                                        <span>Container Packaging</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="text-center">
-                                <i class="fas fa-shuffle text-5xl text-accent mb-2" aria-hidden="true"></i>
-                                <div class="text-xs text-muted font-mono">Optimizing for: data quality</div>
+
+                            <!-- Orchestration -->
+                            <div class="mlops-node light-card rounded-xl p-5 border border-border hover:border-accent transition-all group cursor-pointer" data-node="orchestration" role="button" tabindex="0" aria-expanded="false" aria-controls="node-detail">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                                        <i class="fas fa-project-diagram text-accent" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Orchestration</div>
+                                        <div class="text-xs text-muted font-mono">Workflow</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-wind text-accent text-[10px]" aria-hidden="true"></i>
+                                        <span>Apache Airflow</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-sitemap text-accent text-[10px]" aria-hidden="true"></i>
+                                        <span>DAG Scheduling</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-bell text-accent text-[10px]" aria-hidden="true"></i>
+                                        <span>Alert Management</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Reporting -->
+                            <div class="mlops-node light-card rounded-xl p-5 border border-border hover:border-accent transition-all group cursor-pointer" data-node="reporting" role="button" tabindex="0" aria-expanded="false" aria-controls="node-detail">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                                        <i class="fas fa-chart-pie text-accent" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Reporting</div>
+                                        <div class="text-xs text-muted font-mono">Dashboards</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-chart-bar text-accent text-[10px]" aria-hidden="true"></i>
+                                        <span>Power BI</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-tachometer-alt text-accent text-[10px]" aria-hidden="true"></i>
+                                        <span>Model Performance</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-users text-accent text-[10px]" aria-hidden="true"></i>
+                                        <span>Business Insights</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Monitoring -->
+                            <div class="mlops-node light-card rounded-xl p-5 border border-border hover:border-accent transition-all group cursor-pointer" data-node="monitoring" role="button" tabindex="0" aria-expanded="false" aria-controls="node-detail">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                                        <i class="fas fa-heartbeat text-accent" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Monitoring</div>
+                                        <div class="text-xs text-muted font-mono">Quality & Ops</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 text-xs text-muted">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-fire text-accent text-[10px]" aria-hidden="true"></i>
+                                        <span>Prometheus</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-chart-line text-accent text-[10px]" aria-hidden="true"></i>
+                                        <span>Grafana Dashboards</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-exclamation-triangle text-accent text-[10px]" aria-hidden="true"></i>
+                                        <span>Data Drift Detection</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div id="panel-serve" class="stage-panel" role="tabpanel" aria-labelledby="tab-serve">
-                        <div class="grid md:grid-cols-3 gap-8 items-center">
-                            <div class="md:col-span-2">
-                                <h3 class="text-xl font-bold text-white mb-2">Serve query-ready marts</h3>
-                                <p class="text-muted text-sm font-mono leading-relaxed">Final marts are documented, access-controlled, and exposed to BI tools and stakeholders. I track freshness SLAs so business users always know how current a number is.</p>
-                                <div class="flex flex-wrap gap-2 mt-4">
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Power BI</span>
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Looker</span>
-                                    <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Snowflake</span>
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <i class="fas fa-chart-line text-5xl text-primary mb-2" aria-hidden="true"></i>
-                                <div class="text-xs text-muted font-mono">Optimizing for: trust & freshness</div>
-                            </div>
-                        </div>
+
+                    <!-- Detail Panel: reflects whichever node is currently selected -->
+                    <div id="node-detail" class="mt-8 p-6 rounded-xl bg-bg2 border border-border" role="region" aria-live="polite" aria-labelledby="detail-title">
+                        <h4 id="detail-title" class="text-lg font-bold text-white mb-1"></h4>
+                        <p id="detail-subtitle" class="text-xs font-mono text-primary mb-4"></p>
+                        <p id="detail-description" class="text-sm text-muted leading-relaxed mb-4"></p>
+                        <div id="detail-use-cases" class="space-y-2"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <script>
+    // This block's own reduced-motion check (kept local since this script
+    // runs before the consolidated script at the end of the page)
+    const pipelinePrefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // MLOps Node Data
+    const mlopsData = {
+        'sources': {
+            title: 'Data Sources',
+            subtitle: 'Multi-Format Data Ingestion Points',
+            description: 'I pull data from diverse sources including REST APIs, webhook events, streaming platforms like Kafka, and relational databases. Each source type requires different ingestion strategies.',
+            useCases: [
+                'Real-time event streams from Kafka topics',
+                'Batch data extraction from PostgreSQL/MySQL',
+                'API polling and webhook receivers',
+                'File-based ingestion from FTP/SFTP'
+            ]
+        },
+        'ingestion': {
+            title: 'Ingestion Layer',
+            subtitle: 'Python-Based Batch Processing',
+            description: 'Custom Python scripts handle data extraction, validation, and initial transformation. I implement retry logic, error handling, and data quality checks at this stage.',
+            useCases: [
+                'Scheduled batch jobs with cron/Airflow',
+                'Data validation and schema enforcement',
+                'Incremental loading with watermark tracking',
+                'Error handling and dead letter queues'
+            ]
+        },
+        'storage': {
+            title: 'Storage / Lakehouse',
+            subtitle: 'MinIO S3-Compatible Object Storage',
+            description: 'Raw and processed data lands in MinIO, organized in zones (raw, curated, feature). This provides cost-effective, scalable storage with S3 API compatibility.',
+            useCases: [
+                'Immutable raw data landing zone',
+                'Partitioned datasets for efficient queries',
+                'Version-controlled data artifacts',
+                'Cross-region replication for disaster recovery'
+            ]
+        },
+        'processing': {
+            title: 'Processing & Transformation',
+            subtitle: 'dbt Core SQL Framework',
+            description: 'dbt handles all SQL transformations with version control, testing, and documentation built-in. I model data through staging, intermediate, and mart layers.',
+            useCases: [
+                'SQL-based feature engineering',
+                'Automated data quality tests',
+                'Lineage tracking and documentation',
+                'Incremental model runs for efficiency'
+            ]
+        },
+        'feature-store': {
+            title: 'Feature Store & Experiment Tracking',
+            subtitle: 'MLflow Tracking (Standard)',
+            description: 'MLflow tracks every experiment: parameters, metrics, artifacts, and code versions. This enables reproducibility and comparison across model iterations.',
+            useCases: [
+                'Experiment parameter logging',
+                'Metric tracking (accuracy, F1, AUC)',
+                'Model artifact storage',
+                'Experiment comparison and analysis'
+            ]
+        },
+        'training': {
+            title: 'Model Training Pipeline',
+            subtitle: 'Automated ML Workflows',
+            description: 'Training pipelines orchestrate data preparation, model training, hyperparameter tuning, and evaluation. I use scikit-learn, XGBoost, and custom implementations.',
+            useCases: [
+                'Automated retraining schedules',
+                'Hyperparameter optimization',
+                'Cross-validation and evaluation',
+                'Model performance benchmarking'
+            ]
+        },
+        'registry': {
+            title: 'Model Registry',
+            subtitle: 'MLflow Registry (Standard)',
+            description: 'Centralized model versioning with stage transitions (Staging → Production). This provides governance, auditability, and controlled deployment.',
+            useCases: [
+                'Model versioning and lineage',
+                'Stage transitions with approval workflows',
+                'Model metadata and documentation',
+                'Rollback capabilities for production models'
+            ]
+        },
+        'serving': {
+            title: 'Model Serving',
+            subtitle: 'BentoML Packaging & Deployment',
+            description: 'BentoML packages models into production-ready containers with REST APIs. This enables scalable, low-latency inference with built-in monitoring.',
+            useCases: [
+                'REST API endpoints for predictions',
+                'Batch inference jobs',
+                'A/B testing with traffic splitting',
+                'Auto-scaling based on load'
+            ]
+        },
+        'orchestration': {
+            title: 'Orchestration',
+            subtitle: 'Apache Airflow DAG Scheduling',
+            description: 'Airflow orchestrates the entire MLOps pipeline: data ingestion, transformation, training, and deployment. I use it for scheduling, monitoring, and alerting.',
+            useCases: [
+                'DAG-based workflow scheduling',
+                'Dependency management between tasks',
+                'Alerting on failures and SLA breaches',
+                'Backfilling and retry logic'
+            ]
+        },
+        'reporting': {
+            title: 'Reporting & Dashboarding',
+            subtitle: 'Power BI Business Intelligence',
+            description: 'Power BI dashboards surface model performance, data quality metrics, and business KPIs to stakeholders. This closes the loop between ML and business outcomes.',
+            useCases: [
+                'Model performance dashboards',
+                'Data quality scorecards',
+                'Business impact metrics',
+                'Executive reporting and insights'
+            ]
+        },
+        'monitoring': {
+            title: 'Monitoring & Quality',
+            subtitle: 'Prometheus + Grafana Stack',
+            description: 'Comprehensive monitoring tracks infrastructure health, model performance, and data drift. Grafana dashboards provide real-time visibility into the entire pipeline.',
+            useCases: [
+                'Infrastructure metrics (CPU, memory, disk)',
+                'Model performance degradation alerts',
+                'Data drift and concept drift detection',
+                'SLA compliance monitoring'
+            ]
+        }
+    };
+
+    // Render the detail panel for a given node and mark it as the selected one
+    function selectMlopsNode(nodeId, { scroll = false } = {}) {
+        const data = mlopsData[nodeId];
+        if (!data) return;
+
+        document.getElementById('detail-title').textContent = data.title;
+        document.getElementById('detail-subtitle').textContent = data.subtitle;
+        document.getElementById('detail-description').textContent = data.description;
+
+        const useCasesContainer = document.getElementById('detail-use-cases');
+        useCasesContainer.innerHTML = '<div class="text-xs font-mono text-white mb-2">Key Use Cases:</div>';
+        data.useCases.forEach(useCase => {
+            const row = document.createElement('div');
+            row.className = 'flex items-start gap-2 text-xs text-muted';
+            row.innerHTML = '<i class="fas fa-check text-primary mt-0.5" aria-hidden="true"></i><span></span>';
+            row.querySelector('span').textContent = useCase;
+            useCasesContainer.appendChild(row);
+        });
+
+        document.querySelectorAll('.mlops-node').forEach(node => {
+            const isSelected = node.dataset.node === nodeId;
+            node.setAttribute('aria-expanded', String(isSelected));
+        });
+
+        if (scroll) {
+            document.getElementById('node-detail').scrollIntoView({ behavior: pipelinePrefersReducedMotion ? 'auto' : 'smooth', block: 'nearest' });
+        }
+    }
+
+    document.querySelectorAll('.mlops-node').forEach(node => {
+        node.addEventListener('click', () => selectMlopsNode(node.dataset.node, { scroll: true }));
+        node.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+                e.preventDefault();
+                selectMlopsNode(node.dataset.node, { scroll: false });
+            }
+        });
+    });
+
+    // Show the first node by default so the panel is never empty on load
+    selectMlopsNode('sources');
+    </script>
 
     <!-- Experience Section -->
     <section id="experience" class="py-24 border-t border-border">
@@ -665,7 +1323,7 @@
                 
                 <div class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-border before:to-transparent">
                     
-                    <!-- Job 1 -->
+                    <!-- Job 1: PT Astragraphia Tbk (Current) -->
                     <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
                         <div class="flex items-center justify-center w-10 h-10 rounded-full border border-border bg-bg group-hover:bg-primary group-hover:border-primary transition-all shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
                             <i class="fas fa-briefcase text-muted group-hover:text-bg text-sm"></i>
@@ -673,17 +1331,102 @@
                         <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-xl border border-border hover:border-primary/30 transition-all">
                             <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-2">
                                 <h3 class="font-bold text-white text-lg">Data Engineer</h3>
-                                <span class="text-xs font-mono text-primary bg-primary/10 px-2 py-1 rounded">2024 - Present</span>
+                                <span class="text-xs font-mono text-primary bg-primary/10 px-2 py-1 rounded">Nov 2025 - Present</span>
                             </div>
-                            <p class="text-muted text-sm mb-3 font-mono">PT Astra Graphia Info Tech</p>
-                            <ul class="space-y-2 text-sm text-muted list-disc list-inside marker:text-primary">
-                                <li>Architected high-volume batch pipelines using MS Synapse & Fabric.</li>
-                                <li>Implemented CDC with Debezium/Redpanda reducing latency to &lt; 5 mins.</li>
+                            <p class="text-muted text-sm mb-3 font-mono">PT Astragraphia Tbk</p>
+                            <ul class="space-y-2 text-sm text-muted list-disc list-inside marker:text-primary mb-4">
+                                <li>Built architecture and developed ELT pipelines using <span class="text-white font-medium">Python, SQL, and Airflow</span> to process warehouse tables into ML-ready datasets.</li>
+                                <li>Ensured data reliability, efficiency, and quality for machine learning workloads.</li>
                             </ul>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-2 py-1 rounded bg-primary/10 text-primary border border-primary/20">Python</span>
+                                <span class="text-xs px-2 py-1 rounded bg-primary/10 text-primary border border-primary/20">SQL</span>
+                                <span class="text-xs px-2 py-1 rounded bg-primary/10 text-primary border border-primary/20">Airflow</span>
+                                <span class="text-xs px-2 py-1 rounded bg-primary/10 text-primary border border-primary/20">ML Pipeline</span>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Job 2 -->
+                    <!-- Job 2: PT Telkom Indonesia International -->
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-full border border-border bg-bg group-hover:bg-secondary group-hover:border-secondary transition-all shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                            <i class="fas fa-briefcase text-muted group-hover:text-bg text-sm"></i>
+                        </div>
+                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-xl border border-border hover:border-secondary/30 transition-all">
+                            <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-2">
+                                <h3 class="font-bold text-white text-lg">Data Engineer</h3>
+                                <span class="text-xs font-mono text-secondary bg-secondary/10 px-2 py-1 rounded">Nov 2025 - Present</span>
+                            </div>
+                            <p class="text-muted text-sm mb-3 font-mono">PT Telekomunikasi Indonesia International</p>
+                            <ul class="space-y-2 text-sm text-muted list-disc list-inside marker:text-secondary mb-4">
+                                <li>Developed ELT pipelines to process warehouse tables and optimized <span class="text-white font-medium">SSAS tabular model measures</span>.</li>
+                                <li>Streamlined Power BI report development, enabling self-service analytics and <span class="text-secondary font-medium">reducing calculation complexity</span> for end users.</li>
+                            </ul>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-2 py-1 rounded bg-secondary/10 text-secondary border border-secondary/20">SSAS</span>
+                                <span class="text-xs px-2 py-1 rounded bg-secondary/10 text-secondary border border-secondary/20">Power BI</span>
+                                <span class="text-xs px-2 py-1 rounded bg-secondary/10 text-secondary border border-secondary/20">ELT</span>
+                                <span class="text-xs px-2 py-1 rounded bg-secondary/10 text-secondary border border-secondary/20">Data Warehouse</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Job 3: PT Toyota Astra Motor -->
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-full border border-border bg-bg group-hover:bg-accent group-hover:border-accent transition-all shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                            <i class="fas fa-briefcase text-muted group-hover:text-bg text-sm"></i>
+                        </div>
+                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-xl border border-border hover:border-accent/30 transition-all">
+                            <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-2">
+                                <h3 class="font-bold text-white text-lg">Data Engineer</h3>
+                                <span class="text-xs font-mono text-accent bg-accent/10 px-2 py-1 rounded">Jul 2025 - Nov 2025</span>
+                            </div>
+                            <p class="text-muted text-sm mb-3 font-mono">PT Toyota Astra Motor Tbk</p>
+                            <ul class="space-y-2 text-sm text-muted list-disc list-inside marker:text-accent mb-4">
+                                <li>Built end-to-end ETL workflows using <span class="text-white font-medium">Talend</span>, <span class="text-accent font-medium">reducing pipeline development time by 20%</span>.</li>
+                                <li>Enabled self-service monitoring via Talend's unified logging framework.</li>
+                                <li>Designed modular, reusable components and documented pipeline standards, accelerating team onboarding.</li>
+                            </ul>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-2 py-1 rounded bg-accent/10 text-accent border border-accent/20">Talend</span>
+                                <span class="text-xs px-2 py-1 rounded bg-accent/10 text-accent border border-accent/20">ETL</span>
+                                <span class="text-xs px-2 py-1 rounded bg-accent/10 text-accent border border-accent/20">Pipeline Optimization</span>
+                                <span class="text-xs px-2 py-1 rounded bg-accent/10 text-accent border border-accent/20">Documentation</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Job 4: PT Astra Internasional (with CDC & Snowflake) -->
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-full border border-border bg-bg group-hover:bg-primary group-hover:border-primary transition-all shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                            <i class="fas fa-briefcase text-muted group-hover:text-bg text-sm"></i>
+                        </div>
+                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-xl border border-border hover:border-primary/30 transition-all">
+                            <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-2">
+                                <h3 class="font-bold text-white text-lg">Data Engineer</h3>
+                                <span class="text-xs font-mono text-primary bg-primary/10 px-2 py-1 rounded">Jun 2024 - Nov 2025</span>
+                            </div>
+                            <p class="text-muted text-sm mb-3 font-mono">PT Astra Internasional Tbk</p>
+                            <ul class="space-y-2 text-sm text-muted list-disc list-inside marker:text-primary mb-4">
+                                <li>Designed high-volume batch pipelines using <span class="text-white font-medium">MS Synapse, Microsoft Fabric, GCP (Cloud Composer, BigQuery, GCS)</span>, SAP, DBT, and Airflow for Toyota Auto2000 & Astra Honda Motor.</li>
+                                <li>POC <span class="text-primary font-medium">CDC with Debezium & Redpanda</span> for real-time data ingestion.</li>
+                                <li>POC <span class="text-primary font-medium">Snowflake</span> for enterprise data warehousing.</li>
+                                <li>Developed enterprise data warehouse solutions optimized for analytical workloads using DBT.</li>
+                            </ul>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-2 py-1 rounded bg-primary/10 text-primary border border-primary/20">MS Synapse</span>
+                                <span class="text-xs px-2 py-1 rounded bg-primary/10 text-primary border border-primary/20">Microsoft Fabric</span>
+                                <span class="text-xs px-2 py-1 rounded bg-primary/10 text-primary border border-primary/20">GCP</span>
+                                <span class="text-xs px-2 py-1 rounded bg-primary/10 text-primary border border-primary/20">DBT</span>
+                                <span class="text-xs px-2 py-1 rounded bg-primary/10 text-primary border border-primary/20">Airflow</span>
+                                <span class="text-xs px-2 py-1 rounded bg-primary/10 text-primary border border-primary/20">Debezium</span>
+                                <span class="text-xs px-2 py-1 rounded bg-primary/10 text-primary border border-primary/20">Redpanda</span>
+                                <span class="text-xs px-2 py-1 rounded bg-primary/10 text-primary border border-primary/20">Snowflake</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Job 5: IYKRA - BNI Consultant -->
                     <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
                         <div class="flex items-center justify-center w-10 h-10 rounded-full border border-border bg-bg group-hover:bg-secondary group-hover:border-secondary transition-all shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
                             <i class="fas fa-briefcase text-muted group-hover:text-bg text-sm"></i>
@@ -691,13 +1434,95 @@
                         <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-xl border border-border hover:border-secondary/30 transition-all">
                             <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-2">
                                 <h3 class="font-bold text-white text-lg">Data Engineer Consultant</h3>
-                                <span class="text-xs font-mono text-secondary bg-secondary/10 px-2 py-1 rounded">2023 - 2024</span>
+                                <span class="text-xs font-mono text-secondary bg-secondary/10 px-2 py-1 rounded">Jul 2023 - Mar 2024</span>
                             </div>
-                            <p class="text-muted text-sm mb-3 font-mono">PT BNI Tbk (via IYKRA)</p>
-                            <ul class="space-y-2 text-sm text-muted list-disc list-inside marker:text-secondary">
-                                <li>Migrated ELT from Teradata to Cloudera using IBM DataStage.</li>
-                                <li>Optimized job runtimes by 20%.</li>
+                            <p class="text-muted text-sm mb-3 font-mono">PT Bank Negara Indonesia Tbk (via IYKRA)</p>
+                            <ul class="space-y-2 text-sm text-muted list-disc list-inside marker:text-secondary mb-4">
+                                <li>Developed ELT pipelines from <span class="text-white font-medium">Teradata to Cloudera (Hive)</span> using IBM DataStage.</li>
+                                <li><span class="text-secondary font-medium">Reduced ELT job running times by 20%</span> through optimization.</li>
+                                <li>Developed pipeline jobs for BNI Corporate Transformation business projects.</li>
+                                <li>Migrated raw, intermediate, and data mart layers from Teradata to HDFS.</li>
                             </ul>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-2 py-1 rounded bg-secondary/10 text-secondary border border-secondary/20">IBM DataStage</span>
+                                <span class="text-xs px-2 py-1 rounded bg-secondary/10 text-secondary border border-secondary/20">Cloudera</span>
+                                <span class="text-xs px-2 py-1 rounded bg-secondary/10 text-secondary border border-secondary/20">Hive</span>
+                                <span class="text-xs px-2 py-1 rounded bg-secondary/10 text-secondary border border-secondary/20">HDFS</span>
+                                <span class="text-xs px-2 py-1 rounded bg-secondary/10 text-secondary border border-secondary/20">Teradata</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Job 6: IYKRA - Mentor -->
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-full border border-border bg-bg group-hover:bg-accent group-hover:border-accent transition-all shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                            <i class="fas fa-chalkboard-teacher text-muted group-hover:text-bg text-sm"></i>
+                        </div>
+                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-xl border border-border hover:border-accent/30 transition-all">
+                            <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-2">
+                                <h3 class="font-bold text-white text-lg">Mentor & Trainer Assistant</h3>
+                                <span class="text-xs font-mono text-accent bg-accent/10 px-2 py-1 rounded">Sep 2023 - Dec 2023</span>
+                            </div>
+                            <p class="text-muted text-sm mb-3 font-mono">IYKRA - Komunitas Data Fellowship</p>
+                            <ul class="space-y-2 text-sm text-muted list-disc list-inside marker:text-accent mb-4">
+                                <li>Assisted participants in developing data skills and addressing technical questions.</li>
+                                <li>Shared knowledge and provided guidance to impact participants' professional growth.</li>
+                            </ul>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-2 py-1 rounded bg-accent/10 text-accent border border-accent/20">Mentoring</span>
+                                <span class="text-xs px-2 py-1 rounded bg-accent/10 text-accent border border-accent/20">Data Engineering</span>
+                                <span class="text-xs px-2 py-1 rounded bg-accent/10 text-accent border border-accent/20">Training</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Job 7: MIKTI - Trainer -->
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-full border border-border bg-bg group-hover:bg-primary group-hover:border-primary transition-all shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                            <i class="fas fa-chalkboard-teacher text-muted group-hover:text-bg text-sm"></i>
+                        </div>
+                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-xl border border-border hover:border-primary/30 transition-all">
+                            <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-2">
+                                <h3 class="font-bold text-white text-lg">Data Analyst Trainer</h3>
+                                <span class="text-xs font-mono text-primary bg-primary/10 px-2 py-1 rounded">Jan 2023 - May 2023</span>
+                            </div>
+                            <p class="text-muted text-sm mb-3 font-mono">MIKTI - MSIB Kampus Merdeka</p>
+                            <ul class="space-y-2 text-sm text-muted list-disc list-inside marker:text-primary mb-4">
+                                <li>Designed and developed training curriculum covering data analysis, machine learning, and data engineering.</li>
+                                <li>Taught various tools: <span class="text-white font-medium">Git, SQL, Python, Pandas, Matplotlib, Scikit-learn, Airflow</span>.</li>
+                            </ul>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-2 py-1 rounded bg-primary/10 text-primary border border-primary/20">Python</span>
+                                <span class="text-xs px-2 py-1 rounded bg-primary/10 text-primary border border-primary/20">SQL</span>
+                                <span class="text-xs px-2 py-1 rounded bg-primary/10 text-primary border border-primary/20">Pandas</span>
+                                <span class="text-xs px-2 py-1 rounded bg-primary/10 text-primary border border-primary/20">Scikit-learn</span>
+                                <span class="text-xs px-2 py-1 rounded bg-primary/10 text-primary border border-primary/20">Airflow</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Job 8: Rumah Zakat -->
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-full border border-border bg-bg group-hover:bg-secondary group-hover:border-secondary transition-all shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                            <i class="fas fa-briefcase text-muted group-hover:text-bg text-sm"></i>
+                        </div>
+                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-xl border border-border hover:border-secondary/30 transition-all">
+                            <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-2">
+                                <h3 class="font-bold text-white text-lg">Data Engineer</h3>
+                                <span class="text-xs font-mono text-secondary bg-secondary/10 px-2 py-1 rounded">Apr 2022 - May 2023</span>
+                            </div>
+                            <p class="text-muted text-sm mb-3 font-mono">Rumah Zakat</p>
+                            <ul class="space-y-2 text-sm text-muted list-disc list-inside marker:text-secondary mb-4">
+                                <li>Managed end-to-end data pipelines, ensuring seamless integration of diverse input/output formats.</li>
+                                <li>Constructed and monitored data warehouse infrastructure using <span class="text-white font-medium">SQL and BigQuery</span>.</li>
+                                <li>Crafted analytic dashboards using <span class="text-secondary font-medium">Looker Studio</span> for impactful analytics.</li>
+                            </ul>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-2 py-1 rounded bg-secondary/10 text-secondary border border-secondary/20">BigQuery</span>
+                                <span class="text-xs px-2 py-1 rounded bg-secondary/10 text-secondary border border-secondary/20">SQL</span>
+                                <span class="text-xs px-2 py-1 rounded bg-secondary/10 text-secondary border border-secondary/20">Looker Studio</span>
+                                <span class="text-xs px-2 py-1 rounded bg-secondary/10 text-secondary border border-secondary/20">Data Warehouse</span>
+                            </div>
                         </div>
                     </div>
 
@@ -706,7 +1531,7 @@
         </div>
     </section>
 
-    <!-- Projects Section -->
+    <!-- Featured Projects Section -->
     <section id="projects" class="py-24 border-t border-border bg-bg2/30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="reveal-up">
@@ -717,109 +1542,189 @@
 
                 <div class="grid md:grid-cols-2 gap-8">
                     
-                    <!-- Project 1 -->
+                    <!-- Project 1: Open-Source MLOps Platform -->
                     <div class="glass-card rounded-2xl overflow-hidden border border-border hover:border-primary/30 transition-all group reveal-up">
-                        <div class="p-8">
+                        <div class="p-8 h-full flex flex-col">
                             <div class="flex justify-between items-start mb-6">
                                 <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                                    <i class="fas fa-bolt text-2xl"></i>
+                                    <i class="fas fa-brain text-2xl"></i>
                                 </div>
                                 <div class="flex gap-4">
-                                    <a href="#" class="text-muted hover:text-white transition-colors" aria-label="View source code on GitHub (repository link coming soon)"><i class="fab fa-github text-xl" aria-hidden="true"></i></a>
+                                    <a href="#" aria-disabled="true" title="Repository link coming soon" class="text-muted hover:text-white transition-colors" aria-label="View source code on GitHub (repository link coming soon)"><i class="fab fa-github text-xl" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                             
-                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors">Real-Time CDC Pipeline</h3>
+                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors">End-to-End MLOps Platform</h3>
                             <p class="text-muted text-sm mb-6 font-mono">
-                                Architected a Change Data Capture solution synchronizing on-prem SAP data to Cloud Warehouse in near real-time.
+                                Architected a production-grade, open-source MLOps pipeline automating data ingestion, model training, and low-latency serving.
                             </p>
 
-                            <!-- Diagram -->
+                            <!-- Impact Metrics Bar -->
+                            <div class="grid grid-cols-3 gap-2 mb-6 p-4 rounded-xl bg-bg border border-border">
+                                <div class="text-center">
+                                    <div class="text-xl font-bold text-primary font-mono">&lt;50ms</div>
+                                    <div class="text-xs text-muted mt-1">Inference P95</div>
+                                </div>
+                                <div class="text-center border-x border-border">
+                                    <div class="text-xl font-bold text-secondary font-mono">5</div>
+                                    <div class="text-xs text-muted mt-1">Services</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-xl font-bold text-accent font-mono">100%</div>
+                                    <div class="text-xs text-muted mt-1">Open Source</div>
+                                </div>
+                            </div>
+
+                            <!-- Diagram MLOps -->
                             <div class="bg-bg border border-border rounded-xl p-4 mb-6 h-40 flex items-center justify-center overflow-hidden relative">
                                 <svg viewBox="0 0 400 150" class="w-full h-full">
                                     <defs>
-                                        <marker id="arrow" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-                                          <polygon points="0 0, 10 3.5, 0 7" fill="#FF9A5C" />
+                                        <marker id="arrow-mlops" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                        <polygon points="0 0, 10 3.5, 0 7" fill="#60A5FA" />
                                         </marker>
                                     </defs>
-                                    <rect x="20" y="55" width="70" height="40" rx="4" fill="#1F1828" stroke="#FF9A5C" stroke-width="2"/>
-                                    <text x="55" y="80" text-anchor="middle" fill="white" font-size="10" font-family="monospace">SAP</text>
                                     
-                                    <rect x="165" y="55" width="70" height="40" rx="4" fill="#1F1828" stroke="#FF6B6B" stroke-width="2"/>
-                                    <text x="200" y="80" text-anchor="middle" fill="white" font-size="10" font-family="monospace">Kafka</text>
+                                    <rect x="10" y="55" width="75" height="40" rx="6" fill="#1F1828" stroke="#60A5FA" stroke-width="2"/>
+                                    <text x="47.5" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">PostgreSQL</text>
                                     
-                                    <rect x="310" y="55" width="70" height="40" rx="4" fill="#1F1828" stroke="#C96FD8" stroke-width="2"/>
-                                    <text x="345" y="80" text-anchor="middle" fill="white" font-size="10" font-family="monospace">Snowflake</text>
+                                    <rect x="115" y="55" width="75" height="40" rx="6" fill="#1F1828" stroke="#34D399" stroke-width="2"/>
+                                    <text x="152.5" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">MinIO</text>
+                                    
+                                    <rect x="220" y="55" width="75" height="40" rx="6" fill="#1F1828" stroke="#FBBF24" stroke-width="2"/>
+                                    <text x="257.5" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">MLflow</text>
 
-                                    <circle r="3" fill="#FF9A5C">
-                                        <animateMotion dur="2s" repeatCount="indefinite" path="M 90 75 L 165 75" />
-                                    </circle>
-                                    <circle r="3" fill="#FF6B6B">
-                                        <animateMotion dur="2s" begin="1s" repeatCount="indefinite" path="M 235 75 L 310 75" />
-                                    </circle>
+                                    <rect x="325" y="55" width="75" height="40" rx="6" fill="#1F1828" stroke="#F472B6" stroke-width="2"/>
+                                    <text x="362.5" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">BentoML</text>
 
-                                    <line x1="90" y1="75" x2="165" y2="75" stroke="#332a33" stroke-width="2" marker-end="url(#arrow)" />
-                                    <line x1="235" y1="75" x2="310" y2="75" stroke="#332a33" stroke-width="2" marker-end="url(#arrow)" />
+                                    <line x1="85" y1="75" x2="110" y2="75" stroke="#332a33" stroke-width="2" marker-end="url(#arrow-mlops)" />
+                                    <line x1="190" y1="75" x2="215" y2="75" stroke="#332a33" stroke-width="2" marker-end="url(#arrow-mlops)" />
+                                    <line x1="295" y1="75" x2="320" y2="75" stroke="#332a33" stroke-width="2" marker-end="url(#arrow-mlops)" />
+
+                                    <circle r="3" fill="#60A5FA">
+                                        <animateMotion dur="2s" repeatCount="indefinite" path="M 85 75 L 115 75" />
+                                    </circle>
+                                    <circle r="3" fill="#34D399">
+                                        <animateMotion dur="2s" begin="0.6s" repeatCount="indefinite" path="M 190 75 L 220 75" />
+                                    </circle>
+                                    <circle r="3" fill="#FBBF24">
+                                        <animateMotion dur="2s" begin="1.2s" repeatCount="indefinite" path="M 295 75 L 325 75" />
+                                    </circle>
                                 </svg>
                             </div>
 
                             <div class="flex flex-wrap gap-2 mb-6">
-                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Debezium</span>
-                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Redpanda</span>
-                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Snowflake</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Python</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Airflow</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">dbt</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">MLflow</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">BentoML</span>
                             </div>
 
-                            <ul class="space-y-2">
+                            <ul class="space-y-2 mt-auto">
                                 <li class="flex items-start text-sm text-muted">
                                     <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
-                                    <span>Reduced latency from 24h to <strong class="text-white">&lt;5 mins</strong>.</span>
+                                    <span>Orchestrated full ML lifecycle from batch ingestion to <strong class="text-white">REST API serving</strong>.</span>
+                                </li>
+                                <li class="flex items-start text-sm text-muted">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Monitored data drift and model metrics via <strong class="text-white">Prometheus & Grafana</strong>.</span>
                                 </li>
                             </ul>
                         </div>
                     </div>
 
-                    <!-- Project 2 -->
+                    <!-- Project 2: ETL & Dimensional Modeling Pipeline (REPLACED) -->
                     <div class="glass-card rounded-2xl overflow-hidden border border-border hover:border-secondary/30 transition-all group reveal-up">
-                        <div class="p-8">
+                        <div class="p-8 h-full flex flex-col">
                             <div class="flex justify-between items-start mb-6">
                                 <div class="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary">
-                                    <i class="fas fa-layer-group text-2xl"></i>
+                                    <i class="fas fa-cubes text-2xl"></i>
                                 </div>
                                 <div class="flex gap-4">
-                                    <a href="#" class="text-muted hover:text-white transition-colors" aria-label="View source code on GitHub (repository link coming soon)"><i class="fab fa-github text-xl" aria-hidden="true"></i></a>
+                                    <a href="#" aria-disabled="true" title="Repository link coming soon" class="text-muted hover:text-white transition-colors" aria-label="View source code on GitHub (repository link coming soon)"><i class="fab fa-github text-xl" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                             
-                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-secondary transition-colors">Enterprise Data Warehouse</h3>
+                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-secondary transition-colors">Enterprise ETL & Dimensional Modeling</h3>
                             <p class="text-muted text-sm mb-6 font-mono">
-                                Designed a scalable dimensional model on Microsoft Fabric unifying 10+ sources for financial reporting.
+                                Engineered a scalable ELT pipeline transforming raw API and database records into a Kimball dimensional model, powering automated BI dashboards.
                             </p>
 
-                            <div class="bg-bg border border-border rounded-xl p-4 mb-6 h-40 flex items-center justify-center">
-                                <div class="grid grid-cols-3 gap-4 w-full px-4">
-                                    <div class="bg-bg2 p-2 rounded text-center border border-border">
-                                        <i class="fas fa-database text-blue-400 mb-1"></i>
-                                        <div class="text-[10px] text-muted">Sources</div>
-                                    </div>
-                                    <div class="flex items-center justify-center">
-                                        <i class="fas fa-arrow-right text-muted"></i>
-                                    </div>
-                                    <div class="bg-bg2 p-2 rounded text-center border border-secondary/50 shadow-[0_0_15px_rgba(255,107,107,0.2)]">
-                                        <i class="fas fa-cube text-secondary mb-1"></i>
-                                        <div class="text-[10px] text-white font-bold">Fabric DW</div>
-                                    </div>
+                            <!-- Impact Metrics Bar -->
+                            <div class="grid grid-cols-3 gap-2 mb-6 p-4 rounded-xl bg-bg border border-border">
+                                <div class="text-center">
+                                    <div class="text-xl font-bold text-secondary font-mono">40%</div>
+                                    <div class="text-xs text-muted mt-1">Less Manual Work</div>
+                                </div>
+                                <div class="text-center border-x border-border">
+                                    <div class="text-xl font-bold text-primary font-mono">Daily</div>
+                                    <div class="text-xs text-muted mt-1">Refresh Cadence</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-xl font-bold text-accent font-mono">Star</div>
+                                    <div class="text-xs text-muted mt-1">Schema Model</div>
                                 </div>
                             </div>
 
-                            <div class="flex flex-wrap gap-2 mb-6">
-                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">MS Fabric</span>
-                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">DBT</span>
+                            <!-- Diagram ETL & Dimensional Modeling -->
+                            <div class="bg-bg border border-border rounded-xl p-4 mb-6 h-40 flex items-center justify-center overflow-hidden relative">
+                                <svg viewBox="0 0 400 150" class="w-full h-full">
+                                    <defs>
+                                        <marker id="arrow-etl" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                        <polygon points="0 0, 10 3.5, 0 7" fill="#34D399" />
+                                        </marker>
+                                    </defs>
+                                    
+                                    <!-- Orchestrator Label (Airflow) -->
+                                    <rect x="130" y="15" width="140" height="24" rx="12" fill="#064E3B" stroke="#10B981" stroke-width="1" stroke-dasharray="3,3"/>
+                                    <text x="200" y="31" text-anchor="middle" fill="#34D399" font-size="10" font-family="monospace" font-weight="bold">Orchestrated by Airflow</text>
+                                    <line x1="200" y1="39" x2="200" y2="50" stroke="#10B981" stroke-width="1" stroke-dasharray="3,3"/>
+
+                                    <!-- Node 1: Sources -->
+                                    <rect x="15" y="60" width="90" height="45" rx="6" fill="#1F1828" stroke="#60A5FA" stroke-width="2"/>
+                                    <text x="60" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">API / DB</text>
+                                    <text x="60" y="95" text-anchor="middle" fill="#9CA3AF" font-size="9" font-family="monospace">Raw Sources</text>
+
+                                    <!-- Node 2: DW + dbt -->
+                                    <rect x="150" y="60" width="100" height="45" rx="6" fill="#1F1828" stroke="#34D399" stroke-width="2"/>
+                                    <text x="200" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">BigQuery</text>
+                                    <text x="200" y="95" text-anchor="middle" fill="#FBBF24" font-size="9" font-family="monospace">+ dbt (Star Schema)</text>
+
+                                    <!-- Node 3: Power BI -->
+                                    <rect x="295" y="60" width="90" height="45" rx="6" fill="#1F1828" stroke="#F59E0B" stroke-width="2"/>
+                                    <text x="340" y="80" text-anchor="middle" fill="white" font-size="11" font-family="monospace">Power BI</text>
+                                    <text x="340" y="95" text-anchor="middle" fill="#9CA3AF" font-size="9" font-family="monospace">Dashboards</text>
+
+                                    <!-- Lines & Arrows -->
+                                    <line x1="105" y1="82.5" x2="143" y2="82.5" stroke="#332a33" stroke-width="2" marker-end="url(#arrow-etl)" />
+                                    <line x1="250" y1="82.5" x2="288" y2="82.5" stroke="#332a33" stroke-width="2" marker-end="url(#arrow-etl)" />
+
+                                    <!-- Animated Dots -->
+                                    <circle r="3.5" fill="#60A5FA">
+                                        <animateMotion dur="2.5s" repeatCount="indefinite" path="M 105 82.5 L 150 82.5" />
+                                    </circle>
+                                    <circle r="3.5" fill="#34D399">
+                                        <animateMotion dur="2.5s" begin="1.2s" repeatCount="indefinite" path="M 250 82.5 L 295 82.5" />
+                                    </circle>
+                                </svg>
                             </div>
 
-                            <ul class="space-y-2">
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Apache Airflow</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">dbt</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Python</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">BigQuery</span>
+                                <span class="text-xs font-mono bg-bg2 text-muted px-2 py-1 rounded border border-border">Power BI</span>
+                            </div>
+
+                            <ul class="space-y-2 mt-auto">
                                 <li class="flex items-start text-sm text-muted">
                                     <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
-                                    <span>Reduced report generation time by <strong class="text-white">40%</strong>.</span>
+                                    <span>Designed <strong class="text-white">Kimball Star Schema</strong> (Fact & Dimension tables) using dbt, optimizing BI query speeds.</span>
+                                </li>
+                                <li class="flex items-start text-sm text-muted">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                    <span>Automated daily ELT workflows via Airflow, reducing manual reporting effort by <strong class="text-white">40%</strong>.</span>
                                 </li>
                             </ul>
                         </div>
@@ -837,15 +1742,28 @@
                 <p class="text-primary font-mono mb-4 text-sm">06. What's Next?</p>
                 <h2 class="text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight">Let's <span class="text-primary">talk.</span></h2>
                 <p class="text-muted text-lg mb-12 max-w-2xl mx-auto font-mono text-sm">
-                    Currently open to new opportunities in Data Engineering and Cloud Architecture. Whether you have a question or just want to say hi, I'll try my best to get back to you!
+                    I'm open to full-time roles, consulting projects, or just a good conversation about data infrastructure. Drop me a line — I usually reply within a day.
                 </p>
                 
-                <div class="flex flex-col sm:flex-row justify-center gap-6 mb-12">
-                    <a href="mailto:agusmahari@gmail.com" class="px-8 py-4 bg-primary hover:bg-orange-400 text-bg font-bold rounded-md transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2 font-mono text-sm uppercase">
-                        <i class="fas fa-envelope"></i> Say Hello
+                <!-- Topic selector with pre-filled mailto -->
+                <div class="max-w-xl mx-auto mb-10">
+                    <p class="text-xs font-mono text-muted mb-4 uppercase tracking-widest">What's this about?</p>
+                    <div class="flex flex-wrap justify-center gap-3 mb-8" id="topic-buttons">
+                        <button type="button" class="topic-btn px-4 py-2 rounded-full border border-border text-sm font-mono text-muted hover:border-primary hover:text-primary transition-all" data-subject="Job Opportunity - Data Engineer">💼 Job Opportunity</button>
+                        <button type="button" class="topic-btn px-4 py-2 rounded-full border border-border text-sm font-mono text-muted hover:border-primary hover:text-primary transition-all" data-subject="Data Engineering Consulting">🔧 Consulting Project</button>
+                        <button type="button" class="topic-btn px-4 py-2 rounded-full border border-border text-sm font-mono text-muted hover:border-primary hover:text-primary transition-all" data-subject="Collaboration / Open Source">🤝 Collaboration</button>
+                        <button type="button" class="topic-btn px-4 py-2 rounded-full border border-border text-sm font-mono text-muted hover:border-primary hover:text-primary transition-all" data-subject="Just Saying Hi">👋 Just Saying Hi</button>
+                    </div>
+                    <a id="mailto-btn" href="mailto:agusmahari@gmail.com?subject=Job%20Opportunity%20-%20Data%20Engineer" class="inline-flex items-center gap-2 px-10 py-4 bg-primary hover:bg-orange-400 text-bg font-bold rounded-md transition-all shadow-lg shadow-primary/25 font-mono text-sm uppercase tracking-wide">
+                        <i class="fas fa-envelope"></i> <span id="mailto-label">Send Message</span>
                     </a>
-                    <a href="https://linkedin.com/in/agus-mahari/" target="_blank" rel="noopener noreferrer" class="px-8 py-4 bg-transparent hover:bg-white/5 text-white border border-border rounded-md transition-all flex items-center justify-center gap-2 font-mono text-sm uppercase">
+                </div>
+                <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+                    <a href="https://linkedin.com/in/agus-mahari/" target="_blank" rel="noopener noreferrer" class="px-8 py-3 bg-transparent hover:bg-white/5 text-white border border-border rounded-md transition-all flex items-center justify-center gap-2 font-mono text-sm uppercase">
                         <i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn <span class="sr-only">(opens in new tab)</span>
+                    </a>
+                    <a href="https://github.com/agusmahari" target="_blank" rel="noopener noreferrer" class="px-8 py-3 bg-transparent hover:bg-white/5 text-white border border-border rounded-md transition-all flex items-center justify-center gap-2 font-mono text-sm uppercase">
+                        <i class="fab fa-github" aria-hidden="true"></i> GitHub <span class="sr-only">(opens in new tab)</span>
                     </a>
                 </div>
 
@@ -883,6 +1801,14 @@
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
+        // Tracks whether this tab is the one the user is actually looking at,
+        // so the cursor/particle animation loops can stop burning CPU/GPU
+        // (and battery, on laptops/phones) while the tab is in the background.
+        const ambientLoops = [];
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) ambientLoops.forEach(start => start());
+        });
+
         // --- CUSTOM CURSOR LOGIC (desktop mouse users only) ---
         if (hasFinePointer && !prefersReducedMotion) {
             document.body.classList.add('has-fine-pointer');
@@ -898,12 +1824,14 @@
             });
 
             function animateCursor() {
+                if (document.hidden) return; // resumes via the visibilitychange listener above
                 rx += (mx - rx) * 0.14;
                 ry += (my - ry) * 0.14;
                 ring.style.left = rx + 'px';
                 ring.style.top = ry + 'px';
                 requestAnimationFrame(animateCursor);
             }
+            ambientLoops.push(animateCursor);
             animateCursor();
 
             document.querySelectorAll('a, button').forEach(el => {
@@ -952,6 +1880,7 @@
             for (let i = 0; i < 80; i++) pts.push(new Particle());
 
             function drawParticles() {
+                if (document.hidden) return; // resumes via the visibilitychange listener above
                 ctx.clearRect(0, 0, W, H);
                 pts.forEach(p => {
                     ctx.beginPath();
@@ -967,6 +1896,7 @@
                 ctx.globalAlpha = 1;
                 requestAnimationFrame(drawParticles);
             }
+            ambientLoops.push(drawParticles);
             drawParticles();
         }
 
@@ -980,6 +1910,46 @@
         }, { threshold: 0.1 });
 
         document.querySelectorAll('.reveal-up').forEach(el => revealObs.observe(el));
+
+        // --- IMPROVEMENT 1: Animated typewriter terminal ---
+        (function() {
+            const output = document.getElementById('typewriter-output');
+            if (!output) return;
+            const lines = [
+                { delay: 0,    html: '<span class="block"><span class="text-primary">$ </span>cat profile.json</span><span class="block">&nbsp;</span>' },
+                { delay: 600,  html: '<span class="block"><span class="term-brace">{</span></span>' },
+                { delay: 800,  html: '<span class="block">&nbsp;&nbsp;<span class="term-key">"name"</span>: <span class="term-str">"Agus Mahari"</span>,</span>' },
+                { delay: 1000, html: '<span class="block">&nbsp;&nbsp;<span class="term-key">"role"</span>: <span class="term-str">"Data Engineer"</span>,</span>' },
+                { delay: 1200, html: '<span class="block">&nbsp;&nbsp;<span class="term-key">"location"</span>: <span class="term-str">"Jakarta, ID"</span>,</span>' },
+                { delay: 1400, html: '<span class="block">&nbsp;&nbsp;<span class="term-key">"stack"</span>: [<span class="term-str">"Python"</span>, <span class="term-str">"Airflow"</span>, <span class="term-str">"dbt"</span>, <span class="term-str">"GCP"</span>],</span>' },
+                { delay: 1650, html: '<span class="block">&nbsp;&nbsp;<span class="term-key">"openToWork"</span>: <span class="term-val">true</span></span>' },
+                { delay: 1850, html: '<span class="block"><span class="term-brace">}</span></span><span class="block">&nbsp;</span>' },
+                { delay: 2200, html: '<span class="block"><span class="text-primary">$ </span>airflow dags trigger etl_pipeline</span>' },
+                { delay: 2900, html: '<span class="block text-green-400">✓ DAG etl_pipeline triggered successfully.</span>' },
+                { delay: 3400, html: '<span class="block">&nbsp;</span><span class="block"><span class="text-primary">$ </span><span class="term-cursor"></span></span>' },
+            ];
+            if (prefersReducedMotion) { output.innerHTML = lines.map(l => l.html).join(''); return; }
+            lines.forEach(({ delay, html }) => {
+                setTimeout(() => {
+                    const old = output.querySelector('.term-cursor');
+                    if (old) old.parentElement.remove();
+                    output.insertAdjacentHTML('beforeend', html);
+                }, delay);
+            });
+        })();
+
+        // --- IMPROVEMENT 5: topic button mailto pre-fill ---
+        const topicBtns = document.querySelectorAll('.topic-btn');
+        const mailtoBtn = document.getElementById('mailto-btn');
+        if (topicBtns.length && mailtoBtn) {
+            topicBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    topicBtns.forEach(b => b.classList.remove('border-primary','text-primary'));
+                    btn.classList.add('border-primary','text-primary');
+                    mailtoBtn.href = 'mailto:agusmahari@gmail.com?subject=' + encodeURIComponent(btn.dataset.subject);
+                });
+            });
+        }
 
         // --- FOOTER YEAR ---
         document.getElementById('year').textContent = new Date().getFullYear();
@@ -1070,22 +2040,6 @@
                 window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
             });
         }
-
-        // --- PIPELINE ARCHITECTURE STAGE TABS ---
-        const stageBtns = document.querySelectorAll('.stage-btn');
-        stageBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const stage = btn.dataset.stage;
-                stageBtns.forEach(b => {
-                    const active = b === btn;
-                    b.setAttribute('aria-selected', active);
-                    b.setAttribute('aria-expanded', active);
-                });
-                document.querySelectorAll('.stage-panel').forEach(panel => {
-                    panel.classList.toggle('active', panel.id === `panel-${stage}`);
-                });
-            });
-        });
     </script>
 </body>
 </html>
